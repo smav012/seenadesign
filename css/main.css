@@ -1,0 +1,33 @@
+@charset "UTF-8";
+
+@font-face { font-family: 
+							Monument Extended Regular; src: url("../fonts/MonumentExtended-Regular.otf")
+							Monument Extended Ultrabold; src: url("/fonts/MonumentExtended-Ultrabold.otf")
+							Typestar OCR Pro; src: url("../fonts/Typestar-OCR.otf")
+							Typestar Normal; src: url("../fonts/Typestar-Normal.otf")
+							Avenir Next; src: url("../fonts/Avenir Next.ttc");
+} 
+
+body {
+	
+}
+
+.dropdown:hover>.dropdown-menu {
+  display: block;
+}
+
+
+/** navbar **/ 
+
+.logo {
+	margin-right: 63%;
+}
+
+.navbar-brand {
+	width: 20%;
+}
+
+.navbar {
+	font-family: Monument Extended Regular, TypestarOCRPro;
+}
+
