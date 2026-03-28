@@ -231,6 +231,17 @@
         /* Panel carousel images are clickable */
         .panel-carousel img { cursor: pointer; }
 
+        /* Nav hint below carousel */
+        .panel-nav-hint {
+            font-family: monospace;
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.25);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 28px;
+            user-select: none;
+        }
+
         /* Current page indicator */
         .header-link.current-page {
             color: var(--yellow);
@@ -375,6 +386,11 @@
         </svg>
     </div>
 
+    <!-- Art Portfolio Badge -->
+    <a class="art-badge" id="artBadge" href="https://seena.site" target="_blank">
+        <img src="img/artbutton.png" alt="View All Projects">
+    </a>
+
     <!-- ── Panel backdrop ── -->
     <div class="panel-backdrop" id="panelBackdrop"></div>
 
@@ -391,6 +407,7 @@
             <div class="panel-carousel-wrap" id="panelCarouselWrap">
                 <div class="panel-carousel" id="panelCarousel"></div>
             </div>
+            <div class="panel-nav-hint">← → navigate &nbsp;·&nbsp; esc close</div>
             <div class="panel-description" id="panelDescription"></div>
         </div>
     </div>
@@ -550,6 +567,7 @@
     const panelCarWrap = document.getElementById('panelCarouselWrap');
 
     let currentProjectImages = [];
+    let savedScrollY = 0;
 
     function openPanel(id) {
         const p = PROJECTS[id];
@@ -568,7 +586,9 @@
             (p.credits ? `<div class="panel-credits"><strong>CREDIT:</strong> ${p.credits}</div>` : '');
         panel.classList.add('active');
         backdrop.classList.add('active');
+        savedScrollY = window.scrollY;
         document.body.style.overflow = 'hidden';
+        window.scrollTo(0, savedScrollY);
         panelCarWrap.scrollLeft = 0;
         panel.querySelector('.panel-body').scrollTop = 0;
     }
@@ -577,6 +597,8 @@
         panel.classList.remove('active');
         backdrop.classList.remove('active');
         document.body.style.overflow = '';
+        window.scrollTo(0, savedScrollY);
+        isSectionScrolling = false;
     }
 
     panelClose.addEventListener('click', closePanel);
@@ -660,6 +682,10 @@
         currentSectionIndex = index;
         isSectionScrolling = true;
         window.scrollTo({ top: snapSections[index].offsetTop, behavior: 'smooth' });
+
+        const artBadge = document.getElementById('artBadge');
+        if (artBadge) artBadge.classList.toggle('visible', index === snapSections.length - 1);
+
         if (index > 0) {
             siteHeader.classList.add('visible');
             if (introCont) introCont.classList.add('scrolled-away');

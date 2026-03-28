@@ -1350,3 +1350,40 @@
                 padding: 10px 15px;
             }
         }
+
+/* ── Art Portfolio Badge ── */
+.art-badge {
+    position: fixed;
+    bottom: 36px;
+    right: 36px;
+    z-index: 700;
+    display: block;
+    width: 130px;
+    height: auto;
+    opacity: 0;
+    transform: scale(0.7) rotate(-8deg);
+    pointer-events: none;
+    transition: opacity 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+                transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.art-badge.visible {
+    opacity: 1;
+    transform: scale(1) rotate(-8deg);
+    pointer-events: auto;
+}
+.art-badge img {
+    width: 100%;
+    display: block;
+    transition: transform 1.2s ease;
+}
+.art-badge:hover img {
+    transform: rotate(360deg);
+}
+
+@media (max-width: 768px) {
+    .art-badge {
+        width: 90px;
+        bottom: 20px;
+        right: 20px;
+    }
+}
