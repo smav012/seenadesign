@@ -1,0 +1,10 @@
+# Source files (too large for git)
+*.psd
+*.ai
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Claude Code internals
+.claude/worktrees/

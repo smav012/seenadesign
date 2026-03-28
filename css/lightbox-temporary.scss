@@ -1,0 +1,290 @@
+/** * lightbox */
+.quick-view-background {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+/*! PhotoSwipe Default UI CSS by Dmitry Semenov | photoswipe.com | MIT license */
+.quick-view-has-mouse .quick-view-button--arrow--left, .quick-view-has-mouse .quick-view-button--arrow--right, .quick-view-ui {
+  visibility: visible;
+}
+
+.quick-view-minimal--dark .quick-view-top-menu-bar, .quick-view-button {
+  background: 0 0;
+}
+
+.quick-view, .quick-view-bg, .quick-view-container, .quick-view-item--placeholder, .quick-view-zoom-wrap {
+  -webkit-backface-visibility: hidden;
+}
+
+.quick-view-button {
+  cursor: pointer;
+  opacity: 1;
+  -webkit-appearance: none;
+  transition: opacity 0.2s;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+/*.quick-view {
+    overflow: hidden;
+}
+*/
+.quick-view-bg, .quick-view-scroll-wrap, .quick-view-zoom-wrap {
+  width: 100%;
+  position: absolute;
+}
+
+.quick-view-container, .quick-view-holder, .quick-view-zoom-wrap {
+  right: 0;
+  bottom: 0;
+  top: 0;
+  position: absolute;
+  left: 0;
+}
+
+.quick-view-element--disabled {
+  display: none !important;
+}
+
+/*! PhotoSwipe main CSS by Dmitry Semenov | photoswipe.com | MIT license */
+.quick-view {
+  position: fixed;
+  display: none;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  -ms-touch-action: none;
+  touch-action: none;
+  -webkit-text-size-adjust: 100%;
+  line-height: initial;
+  letter-spacing: initial;
+  outline: 0;
+}
+
+.quick-view img {
+  max-width: none;
+}
+
+.quick-view-zoom-disabled .quick-view-item {
+  cursor: default !important;
+}
+
+.quick-view-animate_opacity {
+  opacity: 0.001;
+  -webkit-transition: opacity 333ms cubic-bezier(0.4, 0, 0.22, 1);
+  transition: opacity 333ms cubic-bezier(0.4, 0, 0.22, 1);
+}
+
+.quick-view-open {
+  display: block;
+}
+
+.quick-view media-item {
+  max-width: unset;
+  min-width: unset;
+}
+
+.quick-view-zoom-allowed .quick-view-item {
+  cursor: -webkit-zoom-in;
+  cursor: -moz-zoom-in;
+  cursor: zoom-in;
+}
+
+.quick-view-zoomed-in .quick-view-item {
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+  cursor: grab;
+}
+
+.quick-view-dragging .quick-view-item {
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;
+  cursor: grabbing;
+}
+
+.quick-view-bg {
+  left: 0;
+  top: 0;
+  height: 100%;
+  opacity: 0;
+  transform: translateZ(0);
+  will-change: opacity;
+}
+
+.quick-view-scroll-wrap {
+  left: 0;
+  top: 0;
+  height: 100%;
+  /*overflow: hidden*/
+}
+
+.quick-view-container, .quick-view-zoom-wrap {
+  -ms-touch-action: none;
+  touch-action: none;
+}
+
+.quick-view-container, .quick-view-item {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+.quick-view-zoom-wrap {
+  -webkit-transform-origin: center center;
+  -ms-transform-origin: center center;
+  transform-origin: center center;
+}
+
+.quick-view-bg {
+  -webkit-transition: opacity 222ms cubic-bezier(0.4, 0, 0.22, 1);
+  transition: opacity 222ms cubic-bezier(0.4, 0, 0.22, 1);
+}
+
+.quick-view-animated-in .quick-view-bg, .quick-view-animated-in .quick-view-zoom-wrap {
+  -webkit-transition: none;
+  transition: none;
+}
+
+.quick-view-hide-overflow.quick-view, .quick-view-hide-overflow .quick-view-scroll-wrap {
+  overflow: hidden;
+}
+
+.quick-view-item {
+  position: absolute;
+  width: auto;
+  height: auto;
+  max-width: unset;
+  top: 0;
+  left: 0;
+}
+
+.quick-view-item--placeholder--blank {
+  background: #222;
+}
+
+.quick-view-ie .quick-view-item {
+  width: 100% !important;
+  height: auto !important;
+  left: 0;
+  top: 0;
+}
+
+.quick-view-error-msg {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  line-height: 16px;
+  margin-top: -8px;
+  color: #CCC;
+}
+
+.quick-view-error-msg a {
+  color: #CCC;
+  text-decoration: underline;
+}
+
+/* Lightbox error message */
+.quick-view-error-msg {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+/* prevent iframe from capturing mouse while dragging */
+.quick-view.mouse-down .iframe-item {
+  pointer-events: none !important;
+}
+
+/* Lightbox captions */
+.quick-view-caption-positioner {
+  position: absolute;
+  pointer-events: none;
+  inset: 0;
+}
+
+.quick-view-caption-wrapper {
+  margin: auto;
+  position: absolute;
+  inset: auto 0 0 0;
+}
+
+.quick-view-horizontal-align-left .quick-view-caption-wrapper {
+  margin-left: 0;
+}
+
+.quick-view-horizontal-align-right .quick-view-caption-wrapper {
+  margin-right: 0;
+}
+
+.quick-view-horizontal-align-left [data-quick-view-caption] {
+  text-align: left;
+}
+
+.quick-view-horizontal-align-right [data-quick-view-caption] {
+  text-align: right;
+}
+
+.quick-view .caption {
+  transition: 100ms opacity ease-in-out;
+}
+
+.quick-view .caption > * {
+  display: inline-block;
+}
+
+.quick-view .caption * {
+  pointer-events: auto;
+  color: inherit;
+}
+
+.quick-view .caption.hidden {
+  opacity: 0;
+}
+
+.quick-view .caption {
+  position: absolute;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.editor-overlay-active .quick-view * {
+  pointer-events: none;
+}
+
+.quick-view .left-arrow, .quick-view .right-arrow, .quick-view .close-button {
+  pointer-events: auto;
+}
+
+.quick-view .quick-view-bg {
+  pointer-events: auto;
+}
+
+.quick-view .quick-view-item {
+  pointer-events: auto;
+}
+
+.editor-overlay-active .quick-view .caption {
+  pointer-events: auto;
+}
+
+.quick-view .quick-view-placeholder > * {
+  background: rgb(239, 238, 236);
+  width: 100%;
+  height: 100%;
+}
+
+.quick-view .quick-view-placeholder svg {
+  background: #fff;
+}
+
+.quick-view .quick-view-placeholder svg line {
+  stroke: rgb(200, 200, 200);
+}
