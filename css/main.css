@@ -1352,38 +1352,55 @@
         }
 
 /* ── Art Portfolio Badge ── */
+@keyframes badge-spin-slow {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+@keyframes badge-float {
+    0%, 100% { translate: 0 0px; }
+    50%       { translate: 0 -6px; }
+}
+
 .art-badge {
     position: fixed;
     bottom: 36px;
-    right: 36px;
+    left: 36px;
     z-index: 700;
     display: block;
-    width: 130px;
+    width: 120px;
     height: auto;
     opacity: 0;
-    transform: scale(0.7) rotate(-8deg);
+    transform: scale(0.7);
     pointer-events: none;
     transition: opacity 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
                 transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: badge-float 3.5s ease-in-out infinite;
+    animation-play-state: paused;
 }
 .art-badge.visible {
     opacity: 1;
-    transform: scale(1) rotate(-8deg);
+    transform: scale(1);
     pointer-events: auto;
+    animation-play-state: running;
 }
 .art-badge img {
     width: 100%;
     display: block;
-    transition: transform 1.2s ease;
+    transition: transform 1s ease;
+    animation: badge-spin-slow 18s linear infinite;
+    animation-play-state: paused;
+}
+.art-badge.visible img {
+    animation-play-state: running;
 }
 .art-badge:hover img {
-    transform: rotate(360deg);
+    animation-duration: 0.6s;
 }
 
 @media (max-width: 768px) {
     .art-badge {
-        width: 90px;
+        width: 85px;
         bottom: 20px;
-        right: 20px;
+        left: 20px;
     }
 }

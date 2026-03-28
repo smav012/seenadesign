@@ -530,7 +530,7 @@
             window.scrollTo({ top: snapSections[index].offsetTop, behavior: 'smooth' });
 
             const artBadge = document.getElementById('artBadge');
-            if (artBadge) artBadge.classList.toggle('visible', index === snapSections.length - 1);
+            if (artBadge) artBadge.classList.toggle('visible', index > 0);
 
             if (index > 0) {
                 // Leaving intro: show sticky header, fade out intro logo
