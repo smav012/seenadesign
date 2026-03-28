@@ -1357,10 +1357,11 @@
     to   { transform: rotate(360deg); }
 }
 @keyframes badge-float {
-    0%, 100% { translate: 0 0px; }
-    50%       { translate: 0 -6px; }
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-7px); }
 }
 
+/* Outer: handles show/hide only */
 .art-badge {
     position: fixed;
     bottom: 36px;
@@ -1370,31 +1371,39 @@
     width: 120px;
     height: auto;
     opacity: 0;
-    transform: scale(0.7);
+    transform: scale(0.75);
     pointer-events: none;
-    transition: opacity 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
-                transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
-    animation: badge-float 3.5s ease-in-out infinite;
-    animation-play-state: paused;
+    transition: opacity 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .art-badge.visible {
     opacity: 1;
     transform: scale(1);
     pointer-events: auto;
+}
+
+/* Inner span: handles float — isolated from scale */
+.art-badge-inner {
+    display: block;
+    animation: badge-float 3.2s ease-in-out infinite;
+    animation-play-state: paused;
+}
+.art-badge.visible .art-badge-inner {
     animation-play-state: running;
 }
+
+/* Image: handles spin */
 .art-badge img {
     width: 100%;
     display: block;
-    transition: transform 1s ease;
-    animation: badge-spin-slow 18s linear infinite;
+    animation: badge-spin-slow 20s linear infinite;
     animation-play-state: paused;
 }
 .art-badge.visible img {
     animation-play-state: running;
 }
 .art-badge:hover img {
-    animation-duration: 0.6s;
+    animation-duration: 0.65s;
 }
 
 @media (max-width: 768px) {
