@@ -344,6 +344,11 @@
         </svg>
     </div>
     
+    <!-- Art Portfolio Badge -->
+    <a class="art-badge" id="artBadge" href="https://seena.site" target="_blank">
+        <img src="img/artbutton.png" alt="View All Projects">
+    </a>
+
     <!-- Lightbox Modal -->
     <div class="lightbox" id="lightbox">
         <button class="lightbox-nav lightbox-prev" id="lightboxPrev">‹</button>
@@ -523,6 +528,9 @@
             currentSectionIndex = index;
             isSectionScrolling = true;
             window.scrollTo({ top: snapSections[index].offsetTop, behavior: 'smooth' });
+
+            const artBadge = document.getElementById('artBadge');
+            if (artBadge) artBadge.classList.toggle('visible', index === snapSections.length - 1);
 
             if (index > 0) {
                 // Leaving intro: show sticky header, fade out intro logo
