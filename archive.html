@@ -684,13 +684,16 @@
         window.scrollTo({ top: snapSections[index].offsetTop, behavior: 'smooth' });
 
 
+        const artBadge = document.getElementById('artBadge');
         if (index > 0) {
             siteHeader.classList.add('visible');
+            if (artBadge) artBadge.classList.add('visible');
             if (introCont) introCont.classList.add('scrolled-away');
             const ind = document.getElementById('scrollIndicator');
             if (ind) ind.classList.add('hidden');
         } else {
             siteHeader.classList.remove('visible');
+            if (artBadge) artBadge.classList.remove('visible');
             if (introCont) introCont.classList.remove('scrolled-away');
             const ind = document.getElementById('scrollIndicator');
             if (ind) ind.classList.remove('hidden');
@@ -742,13 +745,6 @@
             ind.addEventListener('click', () => scrollToSection(1));
         }
 
-        // Art badge — show once intro scrolls out of view
-        const artBadge = document.getElementById('artBadge');
-        if (artBadge) {
-            new IntersectionObserver(([entry]) => {
-                artBadge.classList.toggle('visible', !entry.isIntersecting);
-            }, { threshold: 0.1 }).observe(document.querySelector('.snap-section.intro'));
-        }
     });
     </script>
 </body>
