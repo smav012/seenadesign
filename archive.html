@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seena's Design Archive</title>
+    <link rel="icon" type="image/png" href="img/favicon_new.png">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/responsive.css">
+    <style>
+        /* ── Archive grid section — fits inside snap section ── */
+        .archive-section {
+            overflow: hidden;
+        }
+
+        /* Container fills the section height (100vh minus snap-section's 80px padding) */
+        .archive-section .container {
+            height: calc(100vh - 80px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .archive-grid {
+            flex: 1;
+            min-height: 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        /* ── Cards ── */
+        .archive-card {
+            background: #1c1c1c;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.65), 0 2px 6px rgba(0,0,0,0.4);
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+        .archive-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 18px 48px rgba(0,0,0,0.85), 0 4px 12px rgba(0,0,0,0.5);
+        }
+
+        .archive-card-thumb {
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+            background: #222;
+            position: relative;
+        }
+        .archive-card-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.35s ease, opacity 0.25s ease;
+        }
+        .archive-card:hover .archive-card-thumb img {
+            transform: scale(1.05);
+            opacity: 0.88;
+        }
+        .archive-card-thumb::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 55%, rgba(0,0,0,0.45) 100%);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            pointer-events: none;
+        }
+        .archive-card:hover .archive-card-thumb::after {
+            opacity: 1;
+        }
+
+        .archive-card-info {
+            padding: 10px 13px 13px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .archive-card-title {
+            font-family: monospace;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+            color: #fff;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .archive-card-meta {
+            display: flex;
+            justify-content: space-between;
+            font-family: monospace;
+            font-size: 0.68rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        /* ── Project panel ── */
+        .panel-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            z-index: 800;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease;
+        }
+        .panel-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .project-panel {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 90vh;
+            background: #181818;
+            z-index: 900;
+            border-radius: 10px 10px 0 0;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .project-panel.active {
+            transform: translateY(0);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 28px 40px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            flex-shrink: 0;
+        }
+        .panel-title {
+            font-family: monospace;
+            font-size: clamp(1.6rem, 4vw, 3rem);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            line-height: 1;
+            margin: 0 0 8px;
+        }
+        .panel-meta-row {
+            display: flex;
+            gap: 28px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .panel-close {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            opacity: 0.35;
+            transition: opacity 0.2s;
+            padding: 0 0 0 20px;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+        .panel-close:hover { opacity: 1; }
+        .panel-close:focus { outline: none; }
+
+        .panel-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px 40px 50px;
+        }
+        .panel-body::-webkit-scrollbar { width: 3px; }
+        .panel-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 2px; }
+
+        .panel-carousel-wrap {
+            overflow-x: auto;
+            overflow-y: hidden;
+            margin-bottom: 28px;
+            cursor: grab;
+        }
+        .panel-carousel-wrap:active { cursor: grabbing; }
+        .panel-carousel-wrap::-webkit-scrollbar { height: 3px; }
+        .panel-carousel-wrap::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
+
+        .panel-carousel {
+            display: flex;
+            gap: 14px;
+            min-width: min-content;
+            padding-bottom: 4px;
+        }
+        .panel-carousel img {
+            height: 55vh;
+            width: auto;
+            object-fit: contain;
+            display: block;
+            border-radius: 4px;
+            background: #222;
+            flex-shrink: 0;
+            outline: none;
+        }
+
+        .panel-description {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.8);
+            max-width: 680px;
+        }
+        .panel-description p + p { margin-top: 1em; }
+        .panel-credits {
+            margin-top: 18px;
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        .panel-description a { color: inherit; text-decoration: none; }
+        .panel-description a:hover { color: var(--yellow); text-decoration: underline; }
+
+        /* Panel carousel images are clickable */
+        .panel-carousel img { cursor: pointer; }
+
+        /* Current page indicator */
+        .header-link.current-page {
+            color: var(--yellow);
+        }
+
+        /* ── Mobile ── */
+        @media (max-width: 768px) {
+            .archive-section .container { height: calc(100svh - 48px); }
+            .archive-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 1fr); gap: 10px; }
+            .archive-card-title { font-size: 0.75rem; }
+            .archive-card-meta { font-size: 0.6rem; }
+            .project-panel { height: 94vh; }
+            .panel-header { padding: 18px 20px 14px; }
+            .panel-body { padding: 20px 20px 40px; }
+            .panel-carousel img { height: 38vh; }
+            .panel-title { font-size: 1.3rem; }
+            .panel-meta-row { font-size: 0.75rem; gap: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Intro Section -->
+    <section class="snap-section intro">
+        <div class="container">
+            <div class="intro-grid">
+                <!-- Left Column: Logo -->
+                <div class="intro-left">
+                    <div class="logo-container">
+                        <a href="index.html"><img src="img/seenalogo_graf new.png" alt="Seena" class="logo-image"></a>
+                    </div>
+                </div>
+                
+                <!-- Right Column: Everything else -->
+                <div class="intro-right">
+                    <!-- Top Links -->
+                    <div class="intro-header-links">
+                        <a href="https://seena.site" target="_blank" class="header-link"><span class="arr">↗</span> Art Portfolio</a>
+                        <a href="archive.html" rel="history" class="header-link current-page"><span class="arr">↗</span> Archive</a>
+                    </div>
+                    
+                    <!-- Description -->
+                    <div class="intro-description">
+                        <p class="description">
+                            NYC-based visual designer specializing in visual identity, print design, and web design. 
+                            Multidisciplinary and detail-oriented, I create purposeful, engaging work that connects 
+                            audiences and communicates clear, compelling stories.
+                        </p>
+                    </div>
+                    
+                    <!-- Contact Links -->
+                    <div class="intro-contact">
+                        <a href="mailto:me@seena.design" class="contact-link"><span class="arr">↗</span> email</a>
+                        <a href="https://instagram.com/seena.d2a" target="_blank" class="contact-link"><span class="arr">↗</span> instagram</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Archive Grid Section ── -->
+    <section class="snap-section archive-section">
+        <div class="container">
+            <div class="archive-grid">
+
+                <div class="archive-card" data-project="poster">
+                    <div class="archive-card-thumb">
+                        <img src="img/archive photos/posters3.1.png" alt="posterthumbnail">
+                    </div>
+                    <div class="archive-card-info">
+                        <div class="archive-card-title">VARIOUS POSTERS/FLYERS</div>
+                        <div class="archive-card-meta"><span>PRINT</span><span>FOREVER</span></div>
+                    </div>
+                </div>
+
+                <div class="archive-card" data-project="updown">
+                    <div class="archive-card-thumb">
+                        <img src="img/archive photos/updown/udown_thumb.png" alt="Up&Down Thumbnail">
+                    </div>
+                    <div class="archive-card-info">
+                        <div class="archive-card-title">UP & DOWN</div>
+                        <div class="archive-card-meta"><span>IDENTITY, PRINT</span><span>2022</span></div>
+                    </div>
+                </div>
+
+                <div class="archive-card" data-project="rats">
+                    <div class="archive-card-thumb">
+                        <img src="/img/archive photos/ratsthumb.png" alt="Allston Rats">
+                    </div>
+                    <div class="archive-card-info">
+                        <div class="archive-card-title">Allston Rats</div>
+                        <div class="archive-card-meta"><span>IDENTITY, PRINT</span><span>2021</span></div>
+                    </div>
+                </div>
+
+                <div class="archive-card" data-project="mtl">
+                    <div class="archive-card-thumb">
+                        <img src="img/archive photos/metros_thumb.png" alt="Montreal Metros">
+                    </div>
+                    <div class="archive-card-info">
+                        <div class="archive-card-title">Montreal Metros</div>
+                        <div class="archive-card-meta"><span>IDENTITY</span><span>2021</span></div>
+                    </div>
+                </div>
+
+                <div class="archive-card" data-project="commpwr">
+                    <div class="archive-card-thumb">
+                        <img src="img/archive photos/cmpw/cmpwmockup.png" alt="commpw">
+                    </div>
+                    <div class="archive-card-info">
+                        <div class="archive-card-title">COMMUNITY POWER</div>
+                        <div class="archive-card-meta"><span>PRINT</span><span>2021</span></div>
+                    </div>
+                </div>
+
+                <div class="archive-card" data-project="massline">
+                    <div class="archive-card-thumb">
+                        <img src="img/archive photos/masslinemock/massline mockup01.jpg" alt="MassLine Mag">
+                    </div>
+                    <div class="archive-card-info">
+                        <div class="archive-card-title">MassLine Magazine</div>
+                        <div class="archive-card-meta"><span>PRINT</span><span>2019</span></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Sticky Nav ── -->
+    <header class="site-header" id="siteHeader">
+        <a href="#" id="headerLogoLink">
+            <img src="img/slogo_new.png" alt="Seena" class="header-logo">
+        </a>
+    </header>
+
+    <!-- ── Scroll Indicator ── -->
+    <div class="scroll-indicator" id="scrollIndicator">
+        ARCHIVE
+        <svg class="scroll-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="12" y1="3" x2="12" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <polyline points="6,14 12,20 18,14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+    </div>
+
+    <!-- ── Panel backdrop ── -->
+    <div class="panel-backdrop" id="panelBackdrop"></div>
+
+    <!-- ── Project Panel ── -->
+    <div class="project-panel" id="projectPanel">
+        <div class="panel-header">
+            <div>
+                <h2 class="panel-title" id="panelTitle"></h2>
+                <div class="panel-meta-row" id="panelMeta"></div>
+            </div>
+            <button class="panel-close" id="panelClose">×</button>
+        </div>
+        <div class="panel-body">
+            <div class="panel-carousel-wrap" id="panelCarouselWrap">
+                <div class="panel-carousel" id="panelCarousel"></div>
+            </div>
+            <div class="panel-description" id="panelDescription"></div>
+        </div>
+    </div>
+
+    <!-- ── Lightbox ── -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-nav lightbox-prev" id="lightboxPrev">‹</button>
+        <button class="lightbox-nav lightbox-next" id="lightboxNext">›</button>
+        <button class="lightbox-close" id="lightboxClose">&times;</button>
+        <div class="lightbox-content">
+            <img class="lightbox-image" id="lightboxImage" src="" alt="">
+            <div class="lightbox-caption" id="lightboxCaption"></div>
+            <div class="lightbox-hint">← → navigate &nbsp;·&nbsp; esc close</div>
+            <div class="lightbox-bottom-nav">
+                <button class="lightbox-bottom-prev" id="lightboxBottomPrev">← Previous</button>
+                <button class="lightbox-bottom-next" id="lightboxBottomNext">Next →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // ── Project data ──────────────────────────────────────────────────────────
+    const PROJECTS = {
+        updown: {
+            title: 'UP & DOWN',
+            tag: 'IDENTITY, PRINT',
+            year: '2022',
+            images: [
+                { src: 'img/archive photos/updown/Mockup 1_photos new.jpg', alt: 'Up&Down Logo' },
+                { src: 'img/archive photos/updown/Mockup 1.1_photos.jpg', alt: 'Dital Menu & Site' },
+                { src: 'img/archive photos/updown/Mockup 1.2_photos.jpg', alt: 'Assets' },
+                { src: 'img/archive photos/updown/Mockup 2_Menus.png', alt: 'Print Menu & Site' },
+                { src: 'img/archive photos/updown/Mockup 3_Photos.png', alt: 'Up & Down Imagery' },
+                { src: 'img/archive photos/updown/Mockup 5_shirts.png', alt: 'Apparel Design' },
+                { src: 'img/archive photos/updown/Mockup 6_bags.jpg', alt: 'Package Design' },
+                { src: 'img/archive photos/updown/Mockup 7_sams.jpg', alt: 'Sandwich Ads' },
+                { src: 'img/archive photos/updown/Mockup 8_photos.png', alt: 'Assets' },
+            ],
+            description: '<p>Identity for Up & Down restaurant, a new burger and chicken bar in Jamaica Plain, Boston. The brand features vibrant and distinct colors that set it apart from its adjacent brand, Mike & Pattys. I worked to create playful and energetic designs that match the smashburgers and spicy chicken that the restaurant offers. Worked to create packaging, menus, social media content, apparel, and digital display ads.</p>',
+        },
+
+        rats: {
+            title: 'Allston Rats',
+            tag: 'IDENTITY, PRINT',
+            year: '2021',
+            images: [
+                { src: 'img/archive photos/ratsmockup1.png', alt: 'Rats Jerseys & Logos' },
+                { src: 'img/archive photos/ratsmockup2.png', alt: 'Allston Wordmark' },
+                { src: 'img/archive photos/ratsmockup3.png', alt: 'Rat City Wordmark' },
+            ],
+            description: '<p>Helped design and create uniforms for local softball team, the Allston Rats. Collaborated with fellow designer Lou Whiting to create branding, social media design, and apparel design. Screenprinted each player jersey myself!</p>',
+            credits: '<a href="https://louwhiting.com/">Lou Whiting</a>.'
+        },
+        mtl: {
+            title: 'Montreal Metros',
+            tag: 'IDENTITY',
+            year: '2021',
+            images: [
+                { src: 'img/archive photos/metros_mockup0.png', alt: 'Montreal Metros Branding' },
+                { src: 'img/archive photos/metros_mockup1.png', alt: 'Metros Jerseys' },
+            ],
+            description: '<p>Identity, graphics, and jerseys for an imagined NBA team in Montréal.</p>',
+            credits: null
+        },
+        commpwr: {
+            title: 'Community Power',
+            tag: 'PRINT, IDENTITY',
+            year: '2021',
+            images: [
+                { src: 'img/archive photos/cmpw/cmp_01.jpg', alt: 'Community Power1' },
+                { src: 'img/archive photos/cmpw/cmp_02.jpg', alt: 'Community Power2' },
+                { src: 'img/archive photos/cmpw/cmp_03.jpg', alt: 'Community Power3' },
+                { src: 'img/archive photos/cmpw/cmp_04.jpg', alt: 'Community Power4' },
+            ],
+            description: '<p>Branding and print design created for my <i>Community Power</i> project. More info <a>here>/a>.</p>',
+            credits: null
+
+        },
+        massline: {
+            title: 'MASS LINE MAGAZINE',
+            tag: 'PRINT',
+            year: '2019',
+            images: [
+                { src: 'img/archive photos/masslinemock/massline mockup01.jpg', alt: 'MassLine Cover' },
+                { src: 'img/archive photos/masslinemock/massline mockup02.jpg', alt: 'MassLine Inside Pages' },
+                { src: 'img/archive photos/masslinemock/massline mockup03.jpg', alt: 'MassLine Inside Pages' },
+                { src: 'img/archive photos/masslinemock/massline mockup04.jpg', alt: 'MassLine Inside Pages' },
+                { src: 'img/archive photos/masslinemock/massline mockup05.jpg', alt: 'MassLine Inside Pages' },
+            ],
+            description: '<p>Print design for a magazine proposal.</p>',
+            credits: null
+        }
+    };
+
+    // ── Lightbox ──────────────────────────────────────────────────────────────
+    const lightbox        = document.getElementById('lightbox');
+    const lightboxImage   = document.getElementById('lightboxImage');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    const lightboxClose   = document.getElementById('lightboxClose');
+    const lightboxPrev    = document.getElementById('lightboxPrev');
+    const lightboxNext    = document.getElementById('lightboxNext');
+    const lightboxBotPrev = document.getElementById('lightboxBottomPrev');
+    const lightboxBotNext = document.getElementById('lightboxBottomNext');
+
+    let lbImages = [], lbIndex = 0;
+
+    function openLightbox(images, index) {
+        lbImages = images;
+        lbIndex  = index;
+        lightboxImage.src = lbImages[lbIndex].src;
+        lightboxCaption.textContent = lbImages[lbIndex].alt;
+        lightbox.classList.add('active');
+    }
+
+    function closeLightbox() {
+        lightbox.classList.remove('active');
+        lightboxImage.src = '';
+    }
+
+    function lbNext() {
+        lbIndex = (lbIndex + 1) % lbImages.length;
+        lightboxImage.src = lbImages[lbIndex].src;
+        lightboxCaption.textContent = lbImages[lbIndex].alt;
+    }
+
+    function lbPrev() {
+        lbIndex = (lbIndex - 1 + lbImages.length) % lbImages.length;
+        lightboxImage.src = lbImages[lbIndex].src;
+        lightboxCaption.textContent = lbImages[lbIndex].alt;
+    }
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxPrev.addEventListener('click', lbPrev);
+    lightboxNext.addEventListener('click', lbNext);
+    lightboxBotPrev.addEventListener('click', lbPrev);
+    lightboxBotNext.addEventListener('click', lbNext);
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+
+    // Lightbox touch swipe
+    let lbTouchX = 0;
+    lightbox.addEventListener('touchstart', e => { lbTouchX = e.touches[0].clientX; }, { passive: true });
+    lightbox.addEventListener('touchend', e => {
+        if (!lightbox.classList.contains('active')) return;
+        const dx = e.changedTouches[0].clientX - lbTouchX;
+        if (Math.abs(dx) < 40) return;
+        if (dx < 0) lbNext(); else lbPrev();
+    }, { passive: true });
+
+    // ── Panel ─────────────────────────────────────────────────────────────────
+    const panel        = document.getElementById('projectPanel');
+    const backdrop     = document.getElementById('panelBackdrop');
+    const panelClose   = document.getElementById('panelClose');
+    const panelTitle   = document.getElementById('panelTitle');
+    const panelMeta    = document.getElementById('panelMeta');
+    const panelCar     = document.getElementById('panelCarousel');
+    const panelDesc    = document.getElementById('panelDescription');
+    const panelCarWrap = document.getElementById('panelCarouselWrap');
+
+    let currentProjectImages = [];
+
+    function openPanel(id) {
+        const p = PROJECTS[id];
+        if (!p) return;
+        currentProjectImages = p.images;
+        panelTitle.textContent = p.title;
+        panelMeta.innerHTML = `<span>${p.tag}</span><span>${p.year}</span>`;
+        panelCar.innerHTML = p.images.map((img, i) =>
+            `<img src="${img.src}" alt="${img.alt}" loading="lazy" data-index="${i}">`
+        ).join('');
+        // Wire image clicks → lightbox
+        panelCar.querySelectorAll('img').forEach(img => {
+            img.addEventListener('click', () => openLightbox(currentProjectImages, +img.dataset.index));
+        });
+        panelDesc.innerHTML = p.description +
+            (p.credits ? `<div class="panel-credits"><strong>CREDIT:</strong> ${p.credits}</div>` : '');
+        panel.classList.add('active');
+        backdrop.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        panelCarWrap.scrollLeft = 0;
+        panel.querySelector('.panel-body').scrollTop = 0;
+    }
+
+    function closePanel() {
+        panel.classList.remove('active');
+        backdrop.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    panelClose.addEventListener('click', closePanel);
+    backdrop.addEventListener('click', closePanel);
+
+    document.querySelectorAll('.archive-card').forEach(card => {
+        card.addEventListener('click', () => openPanel(card.dataset.project));
+    });
+
+    // Panel carousel drag-scroll
+    let isDragging = false, dragStartX = 0, dragScrollLeft = 0;
+    panelCarWrap.addEventListener('mousedown', e => {
+        isDragging = true;
+        dragStartX = e.pageX - panelCarWrap.offsetLeft;
+        dragScrollLeft = panelCarWrap.scrollLeft;
+    });
+    document.addEventListener('mouseup', () => { isDragging = false; });
+    panelCarWrap.addEventListener('mousemove', e => {
+        if (!isDragging) return;
+        e.preventDefault();
+        panelCarWrap.scrollLeft = dragScrollLeft - (e.pageX - panelCarWrap.offsetLeft - dragStartX);
+    });
+
+    // Panel carousel touch swipe (horizontal)
+    let panelTouchX = 0;
+    panelCarWrap.addEventListener('touchstart', e => { panelTouchX = e.touches[0].clientX; }, { passive: true });
+
+    // ── Keyboard ──────────────────────────────────────────────────────────────
+    document.addEventListener('keydown', e => {
+        // Lightbox takes priority
+        if (lightbox.classList.contains('active')) {
+            if (e.key === 'Escape')      closeLightbox();
+            if (e.key === 'ArrowRight' || e.key === 'd') lbNext();
+            if (e.key === 'ArrowLeft'  || e.key === 'a') lbPrev();
+            e.preventDefault();
+            return;
+        }
+        // Panel open: left/right scroll carousel, Escape closes panel
+        if (panel.classList.contains('active')) {
+            if (e.key === 'Escape') { closePanel(); return; }
+            if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                const img = panelCar.querySelector('img');
+                const step = img ? img.offsetWidth + 14 : 300;
+                panelCarWrap.scrollBy({ left: step, behavior: 'smooth' });
+            }
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                const img = panelCar.querySelector('img');
+                const step = img ? img.offsetWidth + 14 : 300;
+                panelCarWrap.scrollBy({ left: -step, behavior: 'smooth' });
+            }
+            return;
+        }
+        // Section snap
+        if (e.key === 'ArrowDown') { e.preventDefault(); if (!isSectionScrolling) scrollToSection(getCurrentSectionIndex() + 1); }
+        if (e.key === 'ArrowUp')   { e.preventDefault(); if (!isSectionScrolling) scrollToSection(getCurrentSectionIndex() - 1); }
+    });
+
+    // ── Snap scroll ───────────────────────────────────────────────────────────
+    const siteHeader  = document.getElementById('siteHeader');
+    const introCont   = document.querySelector('.logo-container');
+    const snapSections = Array.from(document.querySelectorAll('.snap-section'));
+    let isSectionScrolling = false;
+    let currentSectionIndex = 0;
+
+    // Clear scroll lock when scrolling stops
+    let scrollEndTimer;
+    window.addEventListener('scroll', () => {
+        clearTimeout(scrollEndTimer);
+        scrollEndTimer = setTimeout(() => { isSectionScrolling = false; }, 80);
+    }, { passive: true });
+
+    function getCurrentSectionIndex() {
+        return currentSectionIndex;
+    }
+
+    function scrollToSection(index) {
+        if (index < 0 || index >= snapSections.length) return;
+        if (isSectionScrolling) return;
+        currentSectionIndex = index;
+        isSectionScrolling = true;
+        window.scrollTo({ top: snapSections[index].offsetTop, behavior: 'smooth' });
+        if (index > 0) {
+            siteHeader.classList.add('visible');
+            if (introCont) introCont.classList.add('scrolled-away');
+            const ind = document.getElementById('scrollIndicator');
+            if (ind) ind.classList.add('hidden');
+        } else {
+            siteHeader.classList.remove('visible');
+            if (introCont) introCont.classList.remove('scrolled-away');
+            const ind = document.getElementById('scrollIndicator');
+            if (ind) ind.classList.remove('hidden');
+        }
+    }
+
+    function handleWheel(e) {
+        if (lightbox.classList.contains('active') || panel.classList.contains('active')) return;
+        e.preventDefault();
+        if (isSectionScrolling) return;
+        if (e.deltaY > 0) scrollToSection(currentSectionIndex + 1);
+        else scrollToSection(currentSectionIndex - 1);
+    }
+
+    // Prevent native vertical scroll when snapping (allow inside panel/lightbox)
+    document.addEventListener('touchmove', (e) => {
+        if (lightbox.classList.contains('active')) return;
+        if (panel.classList.contains('active')) return;
+        e.preventDefault();
+    }, { passive: false });
+
+    // Touch snap
+    let touchStartX = 0, touchStartY = 0;
+    document.addEventListener('touchstart', e => {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    document.addEventListener('touchend', e => {
+        if (lightbox.classList.contains('active') || panel.classList.contains('active')) return;
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        const dy = e.changedTouches[0].clientY - touchStartY;
+        if (Math.abs(dy) < Math.abs(dx) || Math.abs(dy) < 40 || isSectionScrolling) return;
+        if (dy < 0) scrollToSection(currentSectionIndex + 1);
+        else scrollToSection(currentSectionIndex - 1);
+    }, { passive: true });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('wheel', handleWheel, { passive: false });
+
+        // Header logo → back to top
+        document.getElementById('headerLogoLink').addEventListener('click', e => {
+            e.preventDefault();
+            scrollToSection(0);
+        });
+
+        const ind = document.getElementById('scrollIndicator');
+        if (ind) {
+            ind.style.cursor = 'pointer';
+            ind.addEventListener('click', () => scrollToSection(1));
+        }
+    });
+    </script>
+</body>
+</html>
