@@ -1,6 +1,6 @@
 # Seena's Design Portfolio
 
-Modern, responsive portfolio website for Seena Mavaddat.
+Modern, responsive portfolio website
 
 ## What We've Added
 
