@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>seena — art</title>
+  <link rel="icon" type="image/png" href="../img/favicon_new.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Imbue:opsz,wght@10..100,100..900&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'TypestarOCR';
+      src: url('../fonts/Typestar-OCR.otf') format('opentype');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'TypestarNormal';
+      src: url('../fonts/Typestar-Normal.otf') format('opentype');
+      font-display: swap;
+    }
+
+    html { scroll-behavior: smooth; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: #3f3f9b;
+      color: rgba(240,236,224,.85);
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Blob background */
+    .bg-blobs {
+      position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+    }
+    .blob { position: absolute; border-radius: 50%; filter: blur(90px); }
+    .blob-1 { width: 60vw; height: 60vw; background: rgba(147,51,234,.35); top: -15%; left: -20%; animation: drift-1 18s ease-in-out infinite alternate; }
+    .blob-2 { width: 50vw; height: 50vw; background: rgba(251,146,60,.28); top: 25%; right: -15%; animation: drift-2 22s ease-in-out infinite alternate; }
+    .blob-3 { width: 45vw; height: 45vw; background: rgba(125,211,252,.22); bottom: -10%; left: 15%; animation: drift-3 16s ease-in-out infinite alternate; }
+    .blob-4 { width: 35vw; height: 35vw; background: rgba(192,38,211,.2); top: 50%; left: -5%; animation: drift-4 24s ease-in-out infinite alternate; }
+    @keyframes drift-1 { from { transform: translate(0,0) scale(1); } to { transform: translate(8vw,6vh) scale(1.1); } }
+    @keyframes drift-2 { from { transform: translate(0,0) scale(1); } to { transform: translate(-6vw,-8vh) scale(.95); } }
+    @keyframes drift-3 { from { transform: translate(0,0) scale(1); } to { transform: translate(5vw,-5vh) scale(1.08); } }
+    @keyframes drift-4 { from { transform: translate(0,0) scale(1); } to { transform: translate(7vw,4vh) scale(1.05); } }
+
+    /* Page content — 90% wide */
+    .page-content {
+      position: relative;
+      z-index: 1;
+      width: 90%;
+      margin: 0 auto;
+      padding: 48px 0 100px;
+    }
+
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 30%;
+      align-items: start;
+      gap: 48px;
+      margin-bottom: 56px;
+    }
+    .hero-logo img {
+      width: clamp(220px, 48vw, 520px);
+      display: block;
+      filter: drop-shadow(0 4px 24px rgba(0,0,0,.55));
+    }
+    .hero-text { display: flex; flex-direction: column; gap: 28px; }
+
+    /* Hero name/bio block */
+    .hero-name {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 1.05rem; font-weight: 700;
+      color: rgba(240,236,224,.9);
+      margin-bottom: 10px;
+    }
+    .hero-pronouns { font-weight: 400; color: rgba(240,236,224,.5); }
+    .hero-bio {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: .92rem; line-height: 1.5; font-weight: 400;
+      color: rgba(240,236,224,.55); letter-spacing: -.01em;
+    }
+    .hero-read-more {
+      font-family: 'TypestarOCR', monospace;
+      font-size: .8rem; letter-spacing: .04em;
+      color: rgba(240,236,224,.38); text-decoration: none;
+      display: inline-block; margin-top: 10px; transition: color .2s;
+    }
+    .hero-read-more:hover { color: #b57bee; }
+
+    /* Hero contact links */
+    .hero-contact { display: flex; flex-direction: column; gap: 4px; }
+    .hero-contact a {
+      font-family: 'TypestarOCR', monospace;
+      font-size: .95rem; letter-spacing: .04em;
+      color: #f0ece0; text-decoration: none; transition: color .2s;
+    }
+    .hero-contact a:hover { color: #b57bee; text-decoration: underline; }
+
+    /* Section label */
+    .section-label {
+      font-family: 'TypestarOCR', monospace; font-size: 11px;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: rgba(240,236,224,.35); margin-bottom: 16px;
+    }
+
+    /* Masonry grid */
+    .art-grid { columns: 3 220px; column-gap: 14px; }
+    .art-card {
+      break-inside: avoid; margin-bottom: 14px;
+      cursor: pointer; position: relative;
+      border-radius: 12px; overflow: hidden;
+    }
+    .art-card img { width: 100%; display: block; border-radius: 12px; transition: opacity .2s, transform .3s ease; }
+    .art-card:hover img { opacity: .82; transform: scale(1.015); }
+    .card-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,.72));
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 12px; font-weight: 600; padding: 24px 10px 9px;
+      border-radius: 0 0 12px 12px; opacity: 0; transition: opacity .2s; pointer-events: none;
+    }
+    .art-card:hover .card-label { opacity: 1; }
+
+    /* Panel backdrop */
+    .panel-backdrop {
+      position: fixed; inset: 0; background: rgba(10,8,18,.82);
+      z-index: 800; opacity: 0; pointer-events: none; transition: opacity .3s ease;
+    }
+    .panel-backdrop.active { opacity: 1; pointer-events: all; }
+
+    /* Project panel — centered popup, 97vw x 94vh */
+    .project-panel {
+      position: fixed; top: 50%; left: 50%;
+      transform: translate(-50%,-50%) scale(.95);
+      width: 97vw; max-width: 1400px; height: 94vh;
+      background: linear-gradient(180deg, #d6c4ff 0%, #220a52 100%);
+      border-radius: 18px; z-index: 900;
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s ease, transform .3s ease;
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+    .project-panel.active { opacity: 1; pointer-events: all; transform: translate(-50%,-50%) scale(1); }
+
+    /* Panel top strip — counter + close */
+    .panel-strip {
+      flex: 0 0 auto; display: flex; align-items: center;
+      justify-content: space-between; padding: 12px 18px 10px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .panel-counter {
+      font-family: 'TypestarOCR', monospace; font-size: 12px;
+      letter-spacing: .06em; color: rgba(240,236,255,.4);
+    }
+    .panel-close {
+      background: none; border: none; font-size: 26px; line-height: 1;
+      color: rgba(240,236,255,.4); cursor: pointer; padding: 0; transition: color .15s;
+    }
+    .panel-close:hover { color: #f0ecff; }
+
+    /* Panel content — side-by-side */
+    .panel-content {
+      flex: 1; display: flex; flex-direction: row; overflow: hidden;
+    }
+
+    /* Left column: images */
+    .panel-left {
+      flex: 0 0 55%; overflow-y: auto; padding: 24px;
+      display: flex; flex-direction: column; gap: 14px;
+      border-right: 1px solid rgba(255,255,255,.07);
+    }
+    .panel-left::-webkit-scrollbar { width: 3px; }
+    .panel-left::-webkit-scrollbar-thumb { background: rgba(200,180,255,.2); border-radius: 2px; }
+
+    .panel-left img {
+      width: 100%; display: block; border-radius: 8px;
+      cursor: zoom-in; transition: opacity .2s;
+    }
+    .panel-left img:hover { opacity: .88; }
+
+    /* Masonry on the left for postersflyers */
+    .panel-left.panel-left-masonry {
+      display: block; columns: 3 140px; column-gap: 8px;
+    }
+    .panel-left.panel-left-masonry img {
+      break-inside: avoid; margin-bottom: 8px; width: 100%; border-radius: 6px;
+    }
+
+    .panel-video { width: 100%; aspect-ratio: 16/9; border-radius: 8px; border: none; }
+
+    /* Right column: text */
+    .panel-right {
+      flex: 1; overflow-y: auto; padding: 28px 32px;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .panel-right::-webkit-scrollbar { width: 3px; }
+    .panel-right::-webkit-scrollbar-thumb { background: rgba(200,180,255,.2); border-radius: 2px; }
+
+    .panel-title-text {
+      font-family: 'Imbue', Georgia, serif; font-weight: 600;
+      font-size: clamp(28px, 4vw, 52px); color: #f0ecff;
+      line-height: 1.08; letter-spacing: -.02em;
+    }
+    .panel-subtitle-text {
+      font-family: 'Imbue', Georgia, serif; font-weight: 500;
+      font-size: clamp(18px, 2.5vw, 32px); color: rgba(240,236,255,.78);
+      line-height: 1.1; margin-top: -10px;
+    }
+    .panel-meta-text {
+      font-family: 'TypestarOCR', monospace; font-size: 13px;
+      letter-spacing: .06em; color: rgba(240,236,255,.45);
+    }
+    .panel-desc-text {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 15px; line-height: 1.75; color: rgba(240,236,255,.88);
+    }
+    .panel-desc-text a { color: #c4a0ff; text-decoration: underline; text-underline-offset: 2px; }
+    .panel-desc-text a:hover { color: #e0c4ff; }
+    .panel-desc-text blockquote { border-left: 3px solid rgba(200,160,255,.4); margin: 10px 0; padding-left: 12px; color: rgba(240,236,255,.65); }
+
+    /* Project page link */
+    .panel-page-link {
+      font-family: 'TypestarOCR', monospace; font-size: .92rem;
+      letter-spacing: .04em; color: #c4a0ff;
+      text-decoration: underline; text-underline-offset: 3px;
+      display: inline-block; transition: color .15s; margin-top: auto;
+    }
+    .panel-page-link:hover { color: #e0c4ff; }
+
+    /* Project panel nav arrows */
+    .panel-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,.1); border: none; color: rgba(240,236,255,.7);
+      font-size: 26px; width: 38px; height: 60px; border-radius: 8px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background .15s; z-index: 10;
+    }
+    .panel-nav:hover { background: rgba(255,255,255,.2); }
+    .panel-nav.prev { left: 8px; }
+    .panel-nav.next { right: 8px; }
+
+    /* Fixed nav hint — desktop only */
+    .nav-hint-fixed {
+      position: fixed; bottom: 30px; right: 30px;
+      font-family: 'TypestarOCR', monospace; font-size: 0.7rem;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: rgba(240,236,224,.45);
+      opacity: 0; transition: opacity 0.6s ease;
+      z-index: 950; pointer-events: none; user-select: none;
+    }
+    .nav-hint-fixed.visible { opacity: 1; }
+
+    /* Lightbox — inherited from design site */
+    .lightbox {
+      display: none; position: fixed; inset: 0;
+      background-color: rgba(0,0,0,.95);
+      z-index: 2000; opacity: 0; transition: opacity .3s ease;
+      align-items: center; justify-content: center;
+    }
+    .lightbox.active { display: flex; opacity: 1; }
+    .lightbox-content {
+      position: relative; max-width: 90%; max-height: 90%;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .lightbox-image { max-width: 100%; max-height: 80vh; object-fit: contain; display: block; }
+    .lightbox-hint {
+      color: #666; font-family: 'TypestarOCR', monospace; font-size: .7rem;
+      letter-spacing: 1px; text-align: center; margin-top: 12px; opacity: .6;
+    }
+    .lightbox-close {
+      position: absolute; top: 20px; right: 20px;
+      background: none; border: none; color: #fff;
+      font-size: 2rem; line-height: 1; cursor: pointer;
+      opacity: .25; transition: opacity .3s; padding: 8px; z-index: 2100;
+    }
+    .lightbox-close:hover { opacity: .85; }
+    .lightbox-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: none; border: none; color: #fff;
+      font-size: 3rem; cursor: pointer; opacity: .25;
+      transition: opacity .3s; padding: 20px; z-index: 2100;
+    }
+    .lightbox-nav:hover { opacity: .8; }
+    .lightbox-prev { left: 20px; }
+    .lightbox-next { right: 20px; }
+    .lightbox-bottom-nav {
+      display: none; position: fixed; bottom: 0; left: 0; right: 0;
+      background: rgba(0,0,0,.8); padding: 15px; z-index: 2100;
+      justify-content: space-between; gap: 10px;
+    }
+    .lightbox-bottom-prev, .lightbox-bottom-next {
+      flex: 1; background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.2); color: #fff;
+      font-family: 'TypestarOCR', monospace; font-size: 1rem;
+      padding: 12px 20px; border-radius: 6px; cursor: pointer; transition: background .3s;
+    }
+    .lightbox-bottom-prev:hover, .lightbox-bottom-next:hover { background: rgba(157,94,209,.3); }
+
+    /* Badge */
+    .badge-link { position: fixed; bottom: 20px; left: 20px; z-index: 700; }
+    .badge-wrap { animation: badge-float 3.2s ease-in-out infinite; }
+    .badge-wrap img { width: 88px; display: block; animation: badge-spin 20s linear infinite; }
+    @keyframes badge-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+    @keyframes badge-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    /* Mobile */
+    @media (max-width: 700px) {
+      .page-content { width: 94%; }
+      .hero { grid-template-columns: 1fr; gap: 24px; }
+      .hero-logo img { width: clamp(160px, 70vw, 300px); }
+      .hero-text { gap: 20px; }
+      .art-grid { columns: 2 140px; column-gap: 10px; }
+      .art-card { margin-bottom: 10px; }
+      .project-panel { width: 100vw; height: 100vh; border-radius: 0; }
+      .panel-content { flex-direction: column; }
+      .panel-left { flex: none; max-height: 45vh; border-right: none; border-bottom: 1px solid rgba(255,255,255,.07); padding: 16px; }
+      .panel-left.panel-left-masonry { max-height: 50vh; columns: 2 120px; }
+      .panel-right { padding: 16px 18px; }
+      .panel-nav { display: none; }
+      .nav-hint-fixed { display: none; }
+      .lightbox-nav { display: none; }
+      .lightbox-bottom-nav { display: flex; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+  </div>
+
+  <div class="page-content">
+
+    <header class="hero">
+      <div class="hero-logo">
+        <img src="img/seenalogo_graf new purple.png" alt="seena">
+      </div>
+      <div class="hero-text">
+        <div>
+          <div class="hero-name">Hi! I'm Seena. <span class="hero-pronouns">(they/them)</span></div>
+          <p class="hero-bio">Art, to me, is a tool for disruption, connection, and reimagination. My work exists at the intersection of printmaking, street art, and mixed media, combining traditional and digital techniques to explore themes of resistance, accessibility, and collective storytelling. I am drawn to art that challenges dominant narratives—art that is tactile, immediate, and communal.</p>
+          <a class="hero-read-more" href="#" target="_blank">read more &#8599;</a>
+        </div>
+        <div class="hero-contact">
+          <a href="https://seena.design" target="_blank">&#8599; design work</a>
+          <a href="https://instagram.com/seena.d2a" target="_blank">&#8599; instagram</a>
+          <a href="https://store.seena.site/" target="_blank">&#8599; shop</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="section-label">art</div>
+    <main class="art-grid" id="artGrid"></main>
+
+  </div>
+
+  <a href="https://seena.design" class="badge-link" title="seena.design">
+    <div class="badge-wrap">
+      <img src="img/designbutton.png" alt="seena.design">
+    </div>
+  </a>
+
+  <!-- Panel backdrop -->
+  <div class="panel-backdrop" id="panelBackdrop"></div>
+
+  <!-- Project panel -->
+  <div class="project-panel" id="projectPanel" role="dialog" aria-modal="true">
+    <div class="panel-strip">
+      <span class="panel-counter" id="panelCounter"></span>
+      <button class="panel-close" id="panelClose" aria-label="Close">&#215;</button>
+    </div>
+    <div class="panel-content" id="panelContent"></div>
+    <button class="panel-nav prev" id="panelPrev" aria-label="Previous">&#8249;</button>
+    <button class="panel-nav next" id="panelNext" aria-label="Next">&#8250;</button>
+  </div>
+
+  <!-- Fixed nav hint (desktop only) -->
+  <div class="nav-hint-fixed" id="navHintFixed">&#8592; &#8594; projects &nbsp;&middot;&nbsp; click image to zoom &nbsp;&middot;&nbsp; esc close</div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev">&#8249;</button>
+    <button class="lightbox-nav lightbox-next" id="lightboxNext">&#8250;</button>
+    <button class="lightbox-close" id="lightboxClose">&#215;</button>
+    <div class="lightbox-content">
+      <img class="lightbox-image" id="lightboxImage" src="" alt="">
+      <div class="lightbox-hint">&#8592; &#8594; navigate &nbsp;&middot;&nbsp; esc close</div>
+      <div class="lightbox-bottom-nav">
+        <button class="lightbox-bottom-prev" id="lightboxBotPrev">&#8592; Previous</button>
+        <button class="lightbox-bottom-next" id="lightboxBotNext">Next &#8594;</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="projects.js"></script>
+  <script>
+    var grid         = document.getElementById('artGrid');
+    var backdrop     = document.getElementById('panelBackdrop');
+    var panel        = document.getElementById('projectPanel');
+    var panelContent = document.getElementById('panelContent');
+    var elCounter    = document.getElementById('panelCounter');
+    var btnClose     = document.getElementById('panelClose');
+    var btnPrev      = document.getElementById('panelPrev');
+    var btnNext      = document.getElementById('panelNext');
+    var navHint      = document.getElementById('navHintFixed');
+
+    var currentIndex = -1;
+    var savedScroll  = 0;
+
+    /* ── Build grid ── */
+    PROJECTS.forEach(function(p, i) {
+      var card = document.createElement('div');
+      card.className = 'art-card';
+      card.innerHTML =
+        '<img src="' + p.thumb + '" alt="' + p.title + '" loading="lazy">' +
+        '<div class="card-label">' + p.title + (p.year ? ' \xb7 ' + p.year : '') + '</div>';
+      card.addEventListener('click', openPanel.bind(null, i));
+      grid.appendChild(card);
+    });
+
+    /* ── Open panel ── */
+    function openPanel(index) {
+      savedScroll = window.scrollY;
+      currentIndex = index;
+      renderPanel(index);
+      backdrop.classList.add('active');
+      panel.classList.add('active');
+      navHint.classList.add('visible');
+      document.body.style.overflow = 'hidden';
+      history.pushState({ panelIndex: index }, '', '#' + PROJECTS[index].id);
+    }
+
+    /* ── Render panel ── */
+    function renderPanel(index) {
+      var p = PROJECTS[index];
+      elCounter.textContent = (index + 1) + ' / ' + PROJECTS.length;
+      panelContent.innerHTML = '';
+
+      /* Left column */
+      var leftCol = document.createElement('div');
+      var isMasonry = p.layout === 'grid';
+      leftCol.className = 'panel-left' + (isMasonry ? ' panel-left-masonry' : '');
+
+      if (p.video) {
+        var fr = document.createElement('iframe');
+        fr.src = p.video;
+        fr.className = 'panel-video';
+        fr.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        fr.allowFullscreen = true;
+        leftCol.appendChild(fr);
+      }
+
+      var lbImages = p.images.map(function(src) { return { src: src, alt: p.title }; });
+
+      p.images.forEach(function(src, i) {
+        var img = document.createElement('img');
+        img.src = src; img.alt = p.title; img.loading = 'lazy';
+        img.addEventListener('click', function() { openLightbox(lbImages, i); });
+        leftCol.appendChild(img);
+      });
+
+      /* Right column */
+      var rightCol = document.createElement('div');
+      rightCol.className = 'panel-right';
+
+      var meta = [p.year, p.medium].filter(Boolean).join(' \xb7 ');
+      var html =
+        '<div class="panel-title-text">' + p.title + '</div>' +
+        (p.subtitle ? '<div class="panel-subtitle-text">' + p.subtitle + '</div>' : '') +
+        '<div class="panel-meta-text">' + meta + '</div>' +
+        (p.description ? '<div class="panel-desc-text">' + p.description + '</div>' : '') +
+        (p.pageUrl ? '<a class="panel-page-link" href="' + p.pageUrl + '" target="_blank">view project page &#8599;</a>' : '');
+      rightCol.innerHTML = html;
+
+      panelContent.appendChild(leftCol);
+      panelContent.appendChild(rightCol);
+      leftCol.scrollTop = 0;
+      rightCol.scrollTop = 0;
+    }
+
+    /* ── Navigate between projects ── */
+    function navigate(dir) {
+      currentIndex = (currentIndex + dir + PROJECTS.length) % PROJECTS.length;
+      renderPanel(currentIndex);
+      history.replaceState({ panelIndex: currentIndex }, '', '#' + PROJECTS[currentIndex].id);
+    }
+
+    /* ── Close panel ── */
+    function closePanel() {
+      panel.classList.remove('active');
+      backdrop.classList.remove('active');
+      navHint.classList.remove('visible');
+      document.body.style.overflow = '';
+      setTimeout(function() { window.scrollTo(0, savedScroll); }, 10);
+      history.replaceState(null, '', window.location.pathname);
+    }
+
+    btnClose.addEventListener('click', closePanel);
+    backdrop.addEventListener('click', closePanel);
+    btnPrev.addEventListener('click', function() { navigate(-1); });
+    btnNext.addEventListener('click', function() { navigate(1); });
+
+    var touchStartX = 0;
+    panel.addEventListener('touchstart', function(e) { touchStartX = e.touches[0].clientX; }, { passive: true });
+    panel.addEventListener('touchend', function(e) {
+      var dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 44) navigate(dx < 0 ? 1 : -1);
+    });
+
+    /* ── Lightbox ── */
+    var lightbox    = document.getElementById('lightbox');
+    var lbImg       = document.getElementById('lightboxImage');
+    var lbClose     = document.getElementById('lightboxClose');
+    var lbPrev      = document.getElementById('lightboxPrev');
+    var lbNext      = document.getElementById('lightboxNext');
+    var lbBotPrev   = document.getElementById('lightboxBotPrev');
+    var lbBotNext   = document.getElementById('lightboxBotNext');
+    var lbImages    = [];
+    var lbIndex     = 0;
+
+    function openLightbox(images, index) {
+      lbImages = images; lbIndex = index;
+      lbImg.src = lbImages[lbIndex].src;
+      lightbox.classList.add('active');
+    }
+    function closeLightbox() { lightbox.classList.remove('active'); lbImg.src = ''; }
+    function lbGoNext() { lbIndex = (lbIndex + 1) % lbImages.length; lbImg.src = lbImages[lbIndex].src; }
+    function lbGoPrev() { lbIndex = (lbIndex - 1 + lbImages.length) % lbImages.length; lbImg.src = lbImages[lbIndex].src; }
+
+    lbClose.addEventListener('click', closeLightbox);
+    lbPrev.addEventListener('click', lbGoPrev);
+    lbNext.addEventListener('click', lbGoNext);
+    lbBotPrev.addEventListener('click', lbGoPrev);
+    lbBotNext.addEventListener('click', lbGoNext);
+    lightbox.addEventListener('click', function(e) { if (e.target === lightbox) closeLightbox(); });
+
+    var lbTouchX = 0;
+    lightbox.addEventListener('touchstart', function(e) { lbTouchX = e.touches[0].clientX; }, { passive: true });
+    lightbox.addEventListener('touchend', function(e) {
+      var dx = e.changedTouches[0].clientX - lbTouchX;
+      if (Math.abs(dx) < 40) return;
+      if (dx < 0) lbGoNext(); else lbGoPrev();
+    }, { passive: true });
+
+    /* ── Keyboard ── */
+    document.addEventListener('keydown', function(e) {
+      if (lightbox.classList.contains('active')) {
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') lbGoNext();
+        if (e.key === 'ArrowLeft') lbGoPrev();
+        return;
+      }
+      if (panel.classList.contains('active')) {
+        if (e.key === 'Escape') closePanel();
+        if (e.key === 'ArrowRight') navigate(1);
+        if (e.key === 'ArrowLeft') navigate(-1);
+      }
+    });
+
+    /* ── Deep link on load ── */
+    var hash = window.location.hash.slice(1);
+    if (hash) {
+      var idx = PROJECTS.findIndex(function(p) { return p.id === hash; });
+      if (idx !== -1) openPanel(idx);
+    }
+  </script>
+
+</body>
+</html>

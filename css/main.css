@@ -1,4 +1,10 @@
- /* CSS Variables */
+ @font-face {
+            font-family: 'TypestarOCR';
+            src: url('../fonts/Typestar-OCR.otf') format('opentype');
+            font-display: swap;
+        }
+
+        /* CSS Variables */
         :root {
             --black: #171717;
             --white: #ffffff;
@@ -465,6 +471,7 @@
         }
         
         .project-credits {
+            font-family: 'TypestarOCR', 'Courier New', monospace;
             font-size: 0.9rem;
             color: var(--gray);
             line-height: 1.4;
