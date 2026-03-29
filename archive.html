@@ -386,10 +386,12 @@
         </svg>
     </div>
 
-    <!-- Art Portfolio Badge -->
-    <a class="art-badge hidden" id="artBadge" href="https://seena.site" target="_blank">
-        <span class="art-badge-inner"><img src="img/artbutton.png" alt="View All Projects"></span>
-    </a>
+    <!-- Art Footer -->
+    <footer class="site-footer" id="siteFooter">
+        <a href="https://seena.site" target="_blank" class="footer-badge">
+            <img src="img/artbutton.png" alt="View Art Portfolio">
+        </a>
+    </footer>
 
     <!-- ── Panel backdrop ── -->
     <div class="panel-backdrop" id="panelBackdrop"></div>
@@ -684,16 +686,16 @@
         window.scrollTo({ top: snapSections[index].offsetTop, behavior: 'smooth' });
 
 
-        const artBadge = document.getElementById('artBadge');
+        const siteFooter = document.getElementById('siteFooter');
         if (index > 0) {
             siteHeader.classList.add('visible');
-            if (artBadge) artBadge.classList.remove('hidden');
+            if (siteFooter) siteFooter.classList.add('visible');
             if (introCont) introCont.classList.add('scrolled-away');
             const ind = document.getElementById('scrollIndicator');
             if (ind) ind.classList.add('hidden');
         } else {
             siteHeader.classList.remove('visible');
-            if (artBadge) artBadge.classList.add('hidden');
+            if (siteFooter) siteFooter.classList.remove('visible');
             if (introCont) introCont.classList.remove('scrolled-away');
             const ind = document.getElementById('scrollIndicator');
             if (ind) ind.classList.remove('hidden');
