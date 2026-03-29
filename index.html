@@ -345,7 +345,7 @@
     </div>
     
     <!-- Art Portfolio Badge -->
-    <a class="art-badge" id="artBadge" href="https://seena.site" target="_blank">
+    <a class="art-badge hidden" id="artBadge" href="https://seena.site" target="_blank">
         <span class="art-badge-inner"><img src="img/artbutton.png" alt="View All Projects"></span>
     </a>
 
@@ -534,7 +534,7 @@
             if (index > 0) {
                 // Leaving intro: show sticky header, fade out intro logo
                 siteHeader.classList.add('visible');
-                if (artBadge) artBadge.classList.add('visible');
+                if (artBadge) artBadge.classList.remove('hidden');
                 if (introCont) introCont.classList.add('scrolled-away');
                 // Swap scroll indicator for key hint
                 const indicator = document.querySelector('.scroll-indicator');
@@ -544,7 +544,7 @@
             } else {
                 // Back to intro: hide header, restore intro logo, scroll indicator, hide key hint
                 siteHeader.classList.remove('visible');
-                if (artBadge) artBadge.classList.remove('visible');
+                if (artBadge) artBadge.classList.add('hidden');
                 if (introCont) introCont.classList.remove('scrolled-away');
                 const indicator = document.querySelector('.scroll-indicator');
                 const keyHint = document.getElementById('keyHint');
