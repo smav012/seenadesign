@@ -1,7 +1,20 @@
 {
   "permissions": {
     "allow": [
-      "WebSearch"
+      "WebSearch",
+      "Bash(grep -E \"\\\\.\\(html|css|js\\)$|^d\")",
+      "Bash(python3:*)",
+      "Bash(grep -oE 'https://freight\\\\.cargo\\\\.site/[^\"\"\"\"]+\\\\.\\(jpg|jpeg|png|webp\\)' art/index.html art/project_pages/*.html)",
+      "Read(//tmp/**)",
+      "Read(//Users/seena/Documents/Personal/Seena/WEBSITE/seenadesign file art/img/**)",
+      "Read(//private/tmp/cargo_pages/**)",
+      "Read(//private/tmp/**)",
+      "Bash(node --check /Users/seena/Documents/Personal/Seena/WEBSITE/seenadesign/art/projects.js)",
+      "Bash(/usr/local/bin/node --version)",
+      "Bash(/opt/homebrew/bin/node --version)"
+    ],
+    "additionalDirectories": [
+      "/private/tmp"
     ]
   }
 }
