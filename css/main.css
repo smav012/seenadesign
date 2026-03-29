@@ -1369,32 +1369,24 @@
     display: block;
     width: 110px;
     height: auto;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.5s ease;
-}
-.art-badge.visible {
     opacity: 1;
     pointer-events: auto;
+    transition: opacity 0.5s ease;
+}
+.art-badge.hidden {
+    opacity: 0;
+    pointer-events: none;
 }
 
 .art-badge-inner {
     display: block;
     animation: badge-float 3.2s ease-in-out infinite;
-    animation-play-state: paused;
-}
-.art-badge.visible .art-badge-inner {
-    animation-play-state: running;
 }
 
 .art-badge img {
     width: 100%;
     display: block;
     animation: badge-spin-slow 20s linear infinite;
-    animation-play-state: paused;
-}
-.art-badge.visible img {
-    animation-play-state: running;
 }
 .art-badge:hover img {
     animation-duration: 0.65s;
