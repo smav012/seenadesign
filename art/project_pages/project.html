@@ -20,12 +20,12 @@
     body {
       background-color: #3f3f9b;
       color: rgba(240,236,224,.85);
-      min-height: 100vh;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      height: 100vh;
       overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
-    /* Blob background — same as index */
+    /* Blob background */
     .bg-blobs { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
     .blob { position: absolute; border-radius: 50%; filter: blur(90px); }
     .blob-1 { width: 60vw; height: 60vw; background: rgba(51,133,234,.591); top: -15%; left: -20%; animation: drift-1 18s ease-in-out infinite alternate; }
@@ -37,30 +37,33 @@
     @keyframes drift-3 { from { transform: translate(0,0) scale(1); } to { transform: translate(5vw,-5vh) scale(1.08); } }
     @keyframes drift-4 { from { transform: translate(0,0) scale(1); } to { transform: translate(7vw,4vh) scale(1.05); } }
 
-    /* Full-height layout */
+    /* 4-cell grid: columns align header ↔ body */
     .proj-page {
       position: relative; z-index: 1;
       width: 90%; margin: 0 auto;
       height: 100vh;
-      display: flex; flex-direction: column;
+      display: grid;
+      grid-template-columns: 1fr 36%;
+      grid-template-rows: auto 1fr;
+      column-gap: 48px;
+      overflow: hidden;
     }
 
-    /* Top row: logo left (1fr), meta right (30%) — matches homepage hero */
-    .proj-header {
-      flex-shrink: 0;
-      display: grid; grid-template-columns: 1fr 30%;
-      align-items: start; gap: 48px;
-      padding: 32px 0 24px;
-      border-bottom: 1px solid rgba(255,255,255,.07);
-    }
-
+    /* Top-left: logo */
+    .proj-logo { grid-column: 1; grid-row: 1; padding: 32px 0 24px; }
     .proj-logo a { display: inline-block; }
     .proj-logo img {
       width: clamp(220px, 48vw, 520px); display: block;
       filter: drop-shadow(0 4px 24px rgba(0,0,0,.55));
     }
 
-    .proj-header-meta { display: flex; flex-direction: column; gap: 8px; padding-top: 4px; }
+    /* Top-right: title + meta */
+    .proj-header-meta {
+      grid-column: 2; grid-row: 1;
+      padding: 32px 0 24px;
+      display: flex; flex-direction: column; gap: 8px;
+      justify-content: flex-end;
+    }
     .proj-title-text {
       font-family: 'Imbue', Georgia, serif; font-weight: 600;
       font-size: clamp(22px, 3vw, 42px); color: #f0ecff;
@@ -76,16 +79,11 @@
       letter-spacing: .06em; color: rgba(240,236,224,.4);
     }
 
-    /* Body: images left, description right */
-    .proj-body {
-      flex: 1; display: flex; flex-direction: row; overflow: hidden;
-    }
-
-    /* Left: images */
+    /* Bottom-left: images */
     .proj-images {
-      flex: 0 0 57%; overflow-y: auto; padding: 24px 24px 32px 0;
+      grid-column: 1; grid-row: 2;
+      overflow-y: auto; padding: 0 0 32px;
       display: flex; flex-direction: column; gap: 14px;
-      border-right: 1px solid rgba(255,255,255,.06);
     }
     .proj-images::-webkit-scrollbar { width: 3px; }
     .proj-images::-webkit-scrollbar-thumb { background: rgba(255,255,255,.12); border-radius: 2px; }
@@ -100,17 +98,16 @@
     .proj-images img:hover { opacity: .88; }
     .proj-video { width: 100%; aspect-ratio: 16/9; border-radius: 8px; border: none; }
 
-    /* Right: description + footer */
-    .proj-right { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    /* Bottom-right: description scroll + pinned footer */
+    .proj-right { grid-column: 2; grid-row: 2; display: flex; flex-direction: column; overflow: hidden; }
     .proj-right-scroll {
-      flex: 1; overflow-y: auto; padding: 24px 0 12px 28px;
+      flex: 1; overflow-y: auto; padding: 0 0 12px;
       display: flex; flex-direction: column; gap: 14px;
     }
     .proj-right-scroll::-webkit-scrollbar { width: 3px; }
     .proj-right-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,.12); border-radius: 2px; }
     .proj-right-footer {
-      flex-shrink: 0; padding: 14px 0 20px 28px;
-      border-top: 1px solid rgba(255,255,255,.06);
+      flex-shrink: 0; padding: 14px 0 20px;
       display: flex; flex-direction: column; align-items: flex-start; gap: 14px;
     }
 
@@ -119,24 +116,23 @@
     .proj-desc-text a:hover { color: #e0c4ff; }
     .proj-desc-text blockquote { border-left: 3px solid rgba(200,160,255,.3); margin: 12px 0; padding-left: 14px; color: rgba(240,236,224,.6); }
 
-    /* Footer: prev/next + hint */
+    /* Prev/next nav */
     .proj-footer-nav {
       display: flex; align-items: center; justify-content: space-between;
-      width: 100%; padding-right: 28px; gap: 12px;
+      width: 100%; gap: 12px;
     }
     .proj-nav-link {
       font-family: 'TypestarOCR', monospace; font-size: .78rem;
       letter-spacing: .04em; color: rgba(240,236,224,.45);
       text-decoration: none; transition: color .2s;
-      max-width: 42%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      max-width: 48%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }
     .proj-nav-link:hover { color: #f0ecff; }
     .proj-nav-link.hidden { visibility: hidden; pointer-events: none; }
     .proj-footer-hint {
       font-family: 'TypestarOCR', monospace; font-size: .58rem;
       letter-spacing: .1em; text-transform: uppercase;
-      color: rgba(240,236,224,.2); user-select: none;
-      width: 100%; padding-right: 28px;
+      color: rgba(240,236,224,.35); user-select: none;
     }
 
     /* Badge */
@@ -167,17 +163,16 @@
 
     /* Mobile */
     @media (max-width: 700px) {
-      body { overflow: auto; }
-      .proj-page { height: auto; }
-      .proj-header { grid-template-columns: 1fr; gap: 20px; padding: 20px 0 18px; }
+      body { height: auto; overflow: auto; }
+      .proj-page { height: auto; grid-template-columns: 1fr; grid-template-rows: auto auto auto auto; column-gap: 0; }
+      .proj-logo { grid-column: 1; grid-row: 1; padding: 20px 0 16px; }
       .proj-logo img { width: clamp(160px, 60vw, 280px); }
-      .proj-body { flex-direction: column; height: auto; }
-      .proj-images { flex: none; max-height: 50vh; overflow-y: auto; padding: 16px 0; border-right: none; border-bottom: 1px solid rgba(255,255,255,.06); }
+      .proj-header-meta { grid-column: 1; grid-row: 2; padding: 0 0 16px; justify-content: flex-start; }
+      .proj-images { grid-column: 1; grid-row: 3; max-height: 50vh; overflow-y: auto; padding: 0 0 16px; }
       .proj-images.proj-images-masonry { grid-template-columns: repeat(3, 1fr); }
-      .proj-right-scroll { padding: 16px 0; max-height: none; }
+      .proj-right { grid-column: 1; grid-row: 4; }
+      .proj-right-scroll { max-height: none; padding: 16px 0; }
       .proj-right-footer { padding: 14px 0 24px; }
-      .proj-footer-nav { padding-right: 0; }
-      .proj-footer-hint { padding-right: 0; }
       .lightbox-nav { display: none; }
       .lightbox-bottom-nav { display: flex; }
     }
@@ -194,32 +189,30 @@
 
   <div class="proj-page" id="projPage">
 
-    <div class="proj-header">
-      <div class="proj-logo">
-        <a href="../">
-          <img src="../img/seenalogo_graf new purple.png" alt="seena">
-        </a>
-      </div>
-      <div class="proj-header-meta">
-        <div class="proj-title-text" id="projTitle"></div>
-        <div class="proj-subtitle-text" id="projSubtitle" style="display:none"></div>
-        <div class="proj-meta-text" id="projInfo"></div>
-      </div>
+    <div class="proj-logo">
+      <a href="../index.html">
+        <img src="../img/seenalogo_graf new purple.png" alt="seena">
+      </a>
     </div>
 
-    <div class="proj-body">
-      <div id="projImages" class="proj-images"></div>
-      <div class="proj-right">
-        <div class="proj-right-scroll">
-          <div class="proj-desc-text" id="projDesc"></div>
+    <div class="proj-header-meta">
+      <div class="proj-title-text" id="projTitle"></div>
+      <div class="proj-subtitle-text" id="projSubtitle" style="display:none"></div>
+      <div class="proj-meta-text" id="projInfo"></div>
+    </div>
+
+    <div id="projImages" class="proj-images"></div>
+
+    <div class="proj-right">
+      <div class="proj-right-scroll">
+        <div class="proj-desc-text" id="projDesc"></div>
+      </div>
+      <div class="proj-right-footer">
+        <div class="proj-footer-nav">
+          <a class="proj-nav-link hidden" id="projPrev" href="#">← prev</a>
+          <a class="proj-nav-link hidden" id="projNext" href="#">next →</a>
         </div>
-        <div class="proj-right-footer">
-          <div class="proj-footer-nav">
-            <a class="proj-nav-link hidden" id="projPrev" href="#">← prev</a>
-            <a class="proj-nav-link hidden" id="projNext" href="#">next →</a>
-          </div>
-          <div class="proj-footer-hint">click image to zoom &nbsp;&middot;&nbsp; esc close</div>
-        </div>
+        <div class="proj-footer-hint">click image to zoom &nbsp;&middot;&nbsp; esc close</div>
       </div>
     </div>
 
@@ -279,9 +272,8 @@
         imagesEl.classList.add('proj-images-masonry');
       }
 
-      /* Use distinct name to avoid conflict with lightbox lbImages state var */
       var projectLbImages = project.images.map(function(src) {
-        return { src: src, alt: project.title };
+        return { src: '../' + src, alt: project.title };
       });
 
       if (project.video) {
@@ -295,7 +287,7 @@
 
       project.images.forEach(function(src, i) {
         var img = document.createElement('img');
-        img.src = src; img.alt = project.title; img.loading = 'lazy';
+        img.src = '../' + src; img.alt = project.title; img.loading = 'lazy';
         img.addEventListener('click', (function(idx) {
           return function() { openLightbox(projectLbImages, idx); };
         })(i));
