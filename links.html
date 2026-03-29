@@ -37,7 +37,7 @@
             background: #0f0f14;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
+            align-items: stretch;
             padding: 24px 16px;
             position: relative;
         }
@@ -113,9 +113,9 @@
             position: relative;
             z-index: 1;
             width: 100%;
-            height: 100%;
             display: flex;
             justify-content: center;
+            align-items: stretch;
         }
 
         /* ── Card ── */
@@ -130,6 +130,7 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            flex: 1;
         }
 
         /* ── Header ── */
@@ -145,12 +146,13 @@
         /* ── Collage image ── */
         .collage-img {
             width: 100%;
-            border-radius: 8px;
+            border-radius: 20px;
             display: block;
             margin-bottom: 14px;
             flex: 1 1 0;
             min-height: 0;
-            object-fit: contain;
+            object-fit: cover;
+            object-position: top center;
         }
 
         /* ── Nav links ── */
@@ -270,7 +272,7 @@
 
         /* ── Desktop ── */
         @media (min-width: 600px) {
-            body { padding: 37px 47px 91px; }
+            body { padding: 37px 47px 40px; }
         }
     </style>
 </head>
