@@ -1352,6 +1352,15 @@
         }
 
 /* ── Art Footer (badge) ── */
+@keyframes badge-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+@keyframes badge-float {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-7px); }
+}
+
 .site-footer {
     position: fixed;
     bottom: 0;
@@ -1371,10 +1380,15 @@
     width: 110px;
     height: auto;
     pointer-events: auto;
+    animation: badge-float 3.2s ease-in-out infinite;
 }
 .footer-badge img {
     width: 100%;
     display: block;
+    animation: badge-spin 20s linear infinite;
+}
+.footer-badge:hover img {
+    animation-duration: 0.65s;
 }
 @media (max-width: 768px) {
     .site-footer { padding: 14px 18px; }
