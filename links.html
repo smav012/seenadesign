@@ -30,6 +30,7 @@
 
         html, body {
             height: 100%;
+            overflow: hidden;
         }
 
         body {
@@ -39,7 +40,6 @@
             align-items: flex-start;
             padding: 24px 16px;
             position: relative;
-            overflow-x: hidden;
         }
 
         /* ── Ambient blob background ── */
@@ -127,7 +127,9 @@
             width: 100%;
             max-width: 374px;
             text-align: center;
-            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
         /* ── Header ── */
@@ -146,6 +148,9 @@
             border-radius: 8px;
             display: block;
             margin-bottom: 14px;
+            flex: 1 1 0;
+            min-height: 0;
+            object-fit: contain;
         }
 
         /* ── Nav links ── */
@@ -327,7 +332,7 @@
 
             <hr class="social-hr">
             <div class="social-row">
-                <a href="mailto:me@seena.design" title="Email">
+                <a href="mailto:other@seena.design?subject=Contact Req from Site" title="Email">
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
                     </svg>
