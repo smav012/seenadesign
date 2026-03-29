@@ -157,7 +157,7 @@
 
         .nav-link-item a {
             display: block;
-            font-family: 'AvenirNext', 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'TypestarNormal', 'Helvetica Neue', sans-serif;
             font-size: 32px;
             font-weight: 700;
             color: rgba(0, 0, 0, 0.85);
@@ -170,7 +170,18 @@
 
         .nav-link-item a:hover { opacity: 0.6; }
 
-        .link-icon { margin-right: 8px; }
+        .link-icon {
+            display: inline-flex;
+            align-items: center;
+            margin-right: 8px;
+            vertical-align: middle;
+            position: relative;
+            top: -2px;
+        }
+        .link-icon svg {
+            width: 26px;
+            height: 26px;
+        }
 
         /* ── Bird section ── */
         .bird-section {
@@ -204,8 +215,16 @@
         .bird-links a:hover { text-decoration: underline; }
 
         .cloud-icon {
-            color: rgb(61, 218, 21);
-            margin: 0 4px;
+            display: inline-flex;
+            align-items: center;
+            margin: 0 6px;
+            vertical-align: middle;
+            position: relative;
+            top: -1px;
+        }
+        .cloud-icon svg {
+            width: 22px;
+            height: 22px;
         }
 
         /* ── Social row ── */
@@ -266,19 +285,25 @@
             <ul class="nav-links">
                 <li class="nav-link-item">
                     <a href="https://seena.design">
-                        <span class="link-icon" style="color: rgba(50,183,46,0.85)">✏</span>DESIGN
+                        <span class="link-icon">
+                            <svg viewBox="0 0 24 24" fill="rgba(50,183,46,0.85)" xmlns="http://www.w3.org/2000/svg"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                        </span>DESIGN
                     </a>
                 </li>
                 <hr>
                 <li class="nav-link-item">
                     <a href="https://seena.site">
-                        <span class="link-icon" style="color: rgba(255,136,0,0.85)">🌐</span>ART
+                        <span class="link-icon">
+                            <svg viewBox="0 0 24 24" fill="rgba(255,136,0,0.85)" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c1.1 0 2-.9 2-2 0-.57-.21-1.08-.54-1.48-.35-.41-.56-.95-.56-1.52 0-1.1.9-2 2-2h2.36c3.1 0 5.74-2.53 5.74-5.64C22.99 6.01 17.95 2 12 2zm-5 9c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm2-4c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm2 4c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>
+                        </span>ART
                     </a>
                 </li>
                 <hr>
                 <li class="nav-link-item">
                     <a href="https://store.seena.site">
-                        <span class="link-icon" style="color: rgba(210,82,220,0.85)">🛍</span>SHOP
+                        <span class="link-icon">
+                            <svg viewBox="0 0 24 24" fill="rgba(210,82,220,0.85)" xmlns="http://www.w3.org/2000/svg"><path d="M18 6h-2c0-2.21-1.79-4-4-4S8 3.79 8 6H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-8 4c0 .55-.45 1-1 1s-1-.45-1-1V8h2v2zm2-6c1.1 0 2 .9 2 2h-4c0-1.1.9-2 2-2zm4 6c0 .55-.45 1-1 1s-1-.45-1-1V8h2v2z"/></svg>
+                        </span>SHOP
                     </a>
                 </li>
             </ul>
@@ -287,7 +312,9 @@
                 <span class="bird-label">Check out some of my bird photography:</span>
                 <div class="bird-links">
                     <a href="#" target="_blank">eBird</a>
-                    <span class="cloud-icon">☁</span>
+                    <span class="cloud-icon">
+                        <svg viewBox="0 0 24 24" fill="rgb(61,218,21)" xmlns="http://www.w3.org/2000/svg"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
+                    </span>
                     <a href="#" target="_blank">iNaturalist</a>
                 </div>
             </div>
