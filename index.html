@@ -344,10 +344,12 @@
         </svg>
     </div>
     
-    <!-- Art Portfolio Badge -->
-    <a class="art-badge hidden" id="artBadge" href="https://seena.site" target="_blank">
-        <span class="art-badge-inner"><img src="img/artbutton.png" alt="View All Projects"></span>
-    </a>
+    <!-- Art Footer -->
+    <footer class="site-footer" id="siteFooter">
+        <a href="https://seena.site" target="_blank" class="footer-badge">
+            <img src="img/artbutton.png" alt="View Art Portfolio">
+        </a>
+    </footer>
 
     <!-- Lightbox Modal -->
     <div class="lightbox" id="lightbox">
@@ -530,11 +532,11 @@
             window.scrollTo({ top: snapSections[index].offsetTop, behavior: 'smooth' });
 
 
-            const artBadge = document.getElementById('artBadge');
+            const siteFooter = document.getElementById('siteFooter');
             if (index > 0) {
                 // Leaving intro: show sticky header, fade out intro logo
                 siteHeader.classList.add('visible');
-                if (artBadge) artBadge.classList.remove('hidden');
+                if (siteFooter) siteFooter.classList.add('visible');
                 if (introCont) introCont.classList.add('scrolled-away');
                 // Swap scroll indicator for key hint
                 const indicator = document.querySelector('.scroll-indicator');
@@ -544,7 +546,7 @@
             } else {
                 // Back to intro: hide header, restore intro logo, scroll indicator, hide key hint
                 siteHeader.classList.remove('visible');
-                if (artBadge) artBadge.classList.add('hidden');
+                if (siteFooter) siteFooter.classList.remove('visible');
                 if (introCont) introCont.classList.remove('scrolled-away');
                 const indicator = document.querySelector('.scroll-indicator');
                 const keyHint = document.getElementById('keyHint');

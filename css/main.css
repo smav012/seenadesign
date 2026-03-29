@@ -1351,51 +1351,32 @@
             }
         }
 
-/* ── Art Portfolio Badge ── */
-@keyframes badge-spin-slow {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
-}
-@keyframes badge-float {
-    0%, 100% { transform: translateY(0); }
-    50%       { transform: translateY(-7px); }
-}
-
-.art-badge {
+/* ── Art Footer (badge) ── */
+.site-footer {
     position: fixed;
-    bottom: 20px;
-    left: 28px;
+    bottom: 0;
+    left: 0;
     z-index: 500;
+    padding: 20px 28px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+.site-footer.visible {
+    opacity: 1;
+    pointer-events: none;
+}
+.footer-badge {
     display: block;
     width: 110px;
     height: auto;
-    opacity: 1;
     pointer-events: auto;
-    transition: opacity 0.5s ease;
 }
-.art-badge.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.art-badge-inner {
-    display: block;
-    animation: badge-float 3.2s ease-in-out infinite;
-}
-
-.art-badge img {
+.footer-badge img {
     width: 100%;
     display: block;
-    animation: badge-spin-slow 20s linear infinite;
 }
-.art-badge:hover img {
-    animation-duration: 0.65s;
-}
-
 @media (max-width: 768px) {
-    .art-badge {
-        width: 80px;
-        bottom: 16px;
-        left: 16px;
-    }
+    .site-footer { padding: 14px 18px; }
+    .footer-badge { width: 80px; }
 }
