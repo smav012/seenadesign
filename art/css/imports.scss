@@ -1,0 +1,232 @@
+body,
+.light-mode {
+  --height-row-numeric: 40;
+  --height-row: calc(1px * var(--height-row-numeric));
+  --height-row-quarter: calc(var(--height-row) * 0.25);
+  --height-row-half: calc(var(--height-row) * 0.5);
+  --height-row-2: calc(var(--height-row) * 2);
+  --height-row-3: calc(var(--height-row) * 3);
+  /* Text Styles */
+  --fontFamily-default: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  --fontSize-default: 14.5px;
+  --lineHeight-default: 1.65;
+  --fontFamily-CargoDiatype: "CargoDiatypeVariable", sans-serif;
+  --lineHeight-CargoDiatype: 16px;
+  --fontWeight-CargoDiatype: 400;
+  --fontFamily-mono: "CargoMonumentGrot", monospace;
+  --fontFamily-code: Menlo, Lucida Console, monospace, sans-serif;
+  --fontSize-header: 17px;
+  --fontSize-secondary: 13.5px;
+  --fontSize-small: 12px;
+  --fontSize-large: 22px;
+  --line-height-vertical-offset: -.2em;
+  --row-rule-offset: calc(-1 * var(--spacing-1));
+  --width-leftMenuBar: calc( var(--uiPane-width) + var(--spacing-1) - 1px );
+  --slimming-factor-leftMenuBar: 0.615;
+  --slimming-width-leftMenuBar: calc( var(--width-leftMenuBar) * var(--slimming-factor-leftMenuBar) );
+  --topAlignment: calc(var(--height-row) + var(--height-row));
+  --borderRadius-small: 5px;
+  --uiPane-width: 270px;
+  --scroll-shadow: var(--background-2);
+  --scroll-shadow-context-menu: rgba(0, 0, 0, 0.025);
+  --scroll-shadow-height: calc(var(--spacing-1) - var(--spacing-exp-half));
+  --color-interface-element-default: var(--base-color-text-default);
+  --color-interface-element-checked: #ffffff;
+  --element-gap: 1px;
+  --ui-width-uiWindow: 342px;
+  --ui-width-colorpicker: 244px;
+  --ui-width-uiWidnow-numeric: 342;
+  --spacing-1: 15px;
+  --spacing-half: calc(var(--spacing-1) * 0.5);
+  --spacing-2: calc(var(--spacing-1) * 2);
+  --spacing-3: calc(var(--spacing-1) * 3);
+  --spacing-4: calc(var(--spacing-1) * 4);
+  --spacing-exp-1: 5px;
+  --spacing-exp-half: calc(var(--spacing-exp-1) * 0.5);
+  --spacing-exp-2: calc(var(--spacing-exp-1) * 2);
+  --spacing-exp-3: calc(var(--spacing-exp-1) * 3);
+  --spacing-exp-4: calc(var(--spacing-exp-1) * 5);
+  --spacing-exp-5: calc(var(--spacing-exp-1) * 8);
+  --spacing-exp-6: calc(var(--spacing-exp-1) * 13);
+  --spacing-exp-7: calc(var(--spacing-exp-1) * 21);
+  --spacing-exp-8: calc(var(--spacing-exp-1) * 34);
+  --ui-padding-uiWindow: var(--spacing-1);
+  --ui-padding-default-horizontal: calc(var(--spacing-1) * 4 / 5);
+  --ui-padding-default-vertical: calc(var(--spacing-1) * 0.5);
+  --ui-padding-default: var(--ui-padding-default-vertical) var(--ui-padding-default-horizontal);
+  --ui-button-border-radius: 100px;
+  --ui-lineHeight-default: var(--lineHeight-default);
+  --ui-window-border-background: rgba(var(--baseColor-default-reverse-rgb), .2);
+  --ui-details-background: #d1d1d1;
+  --ui-maxWidth-mobile: 95vw;
+  --outline-uiWindow-default: var(--element-gap) solid var(--baseColor-border);
+  --window-boxShadow-default: 2px 2px 19px rgba(0, 0, 0, 0.15);
+  --window-boxShadow-heavy: 4px 4px 40px rgba(0, 0, 0, 0.25);
+  --opacity-downstate-default: .7;
+  --opacity-icon-default: .75;
+  --ui-background-default: var(--baseColor-default);
+  --ui-background-overlayer: var(--baseColor-overlayer);
+  --ui-background-overlayer-active: var(--baseColor-overlayer-active);
+  --ui-background-confirm: var(--baseColor-confirm);
+  --ui-background-accent: var(--baseColor-accent);
+  --ui-background-container: var(--baseColor-container);
+  --ui-background-accent-reverse: var(--baseColor-accent-reverse);
+  --ui-background-subLayer: var(--baseColor-subLayer);
+  /* Interface Colors */
+  --ui-color-default: rgba(var(--baseColor-default-reverse-rgb), .85);
+  --ui-color-accent: var(--baseColor-accent);
+  --ui-color-accent-reverse: var(--baseColor-accent-reverse);
+  --ui-color-confirm: var(--baseColor-confirm);
+  --ui-color-error: var(--baseColor-alert);
+  --ui-hint-background: #B7C9FF;
+  --ui-message-background: #FFE600;
+  --color-default: rgba(var(--baseColor-default-reverse-rgb), .75);
+  --color-default-secondary: rgba(var(--baseColor-default-reverse-rgb), .4);
+  --color-default-hex: #3f3f3f;
+  --background-1: #fff;
+  --background-2: var(--baseColor-default);
+  --background-3: #fcfcfc;
+  --background-force-dark: #111111;
+  --background-blur-rgba: rgba(252, 252, 252, 0.6);
+  --ui-border-bars: rgba(var(--baseColor-default-reverse-rgb), 0.12);
+  --ui-border-bars-solid: #e0e0e0;
+  --ui-color-flat: rgb(var(--baseColor-default-rgb));
+  --ui-color-flat-reverse: rgb(var(--baseColor-default-reverse-rgb));
+  --ui-color-soften: rgb(var(--baseColor-default-rgb));
+  --color-shadow-rgb: 0, 0, 0;
+  --ui-list-block-active: #f9f9f9;
+  --ui-checkers-bg: #FFFFFF;
+  --ui-arrow-opacity: .4;
+  --inputAfter-opacity: .4;
+  --ui-noFiles-fill: #CECECE;
+  --ui-files-background: #F2F2F2;
+  --ui-fileName-background: #F1F1F1;
+  --ui-fileType-outline: 1px solid #DDDDDD;
+  --ui-svg-shade: #242424;
+  --ui-load-spinner-large-speed: 1.2s;
+  --ui-load-spinner-large-background-radius: 24px;
+  --ui-load-spinner-large-background-color: rgba(120,115,115,.75);
+  --ui-hint-background: #B7C9FF;
+  --ui-message-background: #FFE600;
+  --ui-close-circle-opacity: .25;
+  --ui-checkbox-inactive-opacity: 0.12;
+  --border-outer: 11px;
+  --border-inner: calc( var(--border-outer ) - 1px );
+  --layer-0: 10;
+  --layer-1: 100;
+  --layer-2: 200;
+  --layer-3: 300;
+  --layer-4: 400;
+  --layer-5: 500;
+  --layer-6: 600;
+  --layer-7: 700;
+  --layer-8: 800;
+  --layer-9: 900;
+  --layer-10: 1000;
+  font-family: var(--fontFamily-default);
+  font-size: var(--fontSize-default);
+  line-height: var(--lineHeight-default);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -moz-font-feature-settings: "liga" on;
+  text-align: left;
+  --windowRadiusLarge: 11px;
+  --windowRadiusLarge-inner: calc(var(--windowRadiusLarge) - 1px);
+  --windowRadiusSmall: 11px;
+  --windowRadiusSmall-inner: calc(var(--windowRadiusSmall) - 1px);
+  --modalRadiusLarge: 15px;
+  --modalRadiusLarge-inner: calc(var(--modalRadiusLarge) - 1px);
+  --modalRadiusSmall: 15px;
+  --modalRadiusSmall-inner: calc(var(--modalRadiusSmall) - 1px);
+}
+body.mobile,
+.light-mode.mobile {
+  --fontSize-default: 16px;
+  --lineHeight-default: 1.5;
+  --fontSize-header: 18px;
+}
+body.f-f,
+.light-mode.f-f {
+  --fontFamily-default: "Inter", sans-serif;
+}
+body.dark,
+.light-mode.dark {
+  --ui-window-border-background: rgb(var(--darkBorder-rgb));
+  --ui-details-background: #444444;
+  --color-default-hex: #c4c4c4;
+  --background-1: #141414;
+  --background-3: #111111;
+  --background-blur-rgba: rgba(3, 3, 3, 0.6);
+  --ui-border-bars: var(--baseColor-border);
+  --ui-border-bars-solid: var(--baseColor-border);
+  --ui-color-flat: rgba(var(--baseColor-default-rgb), .85);
+  --ui-color-flat-reverse: rgba(var(--baseColor-default-reverse-rgb), .85);
+  --ui-color-soften: rgba(var(--baseColor-default-reverse-rgb), .85);
+  --color-shadow-rgb: 11, 10, 12;
+  --ui-list-block-active: var(--ui-background-container);
+  --ui-arrow-opacity: .47;
+  --inputAfter-opacity: .6;
+  --ui-noFiles-fill: #676767;
+  --ui-files-background: #0A0A0A;
+  --ui-fileName-background: #0C0C0C;
+  --ui-fileType-outline: 1px solid #4A4A4A;
+  --ui-svg-shade: #CCCCCC;
+  --ui-hint-background: var(--baseColor-accent);
+  --ui-message-background: #00B46E;
+  --ui-close-circle-opacity: .615;
+  --ui-checkbox-inactive-opacity: 0.14;
+  --scroll-shadow: var(--background-2);
+  --scroll-shadow-context-menu: rgba(0, 0, 0, 0.12);
+}
+
+body,
+.light-mode {
+  --baseColor-accent: #0064E1;
+  --baseColor-accent-rgb: 0, 100, 225;
+  --baseColor-accent-reverse-rgb: 255, 255, 255;
+  --baseColor-accent-reverse: #ffffff;
+  --baseColor-accent-mobile: #F68219;
+  --baseColor-accent-mobile-rgb: 246, 130, 25;
+  --baseColor-accent-alt1: #FFFFC8;
+  --baseColor-accent-alt1-rgb: 255, 255, 200;
+  --baseColor-container: #eeeeee;
+  --baseColor-overlayer: #f7f7f7;
+  --baseColor-overlayer-active: #EAEAEA;
+  --baseColor-border: #DBDCE0;
+  --baseColor-confirm: #0FCE83;
+  --baseColor-alert: #FF0000;
+  --baseColor-attention: #F68219;
+  --baseColor-attention-rgb: 246, 130, 25;
+  --baseColor-default: #ffffff;
+  --baseColor-default-rgb: 255,255,255;
+  --baseColor-default-reverse-rgb: 0,0,0;
+  --legacyColor-grayscale: #f2f2f2;
+  --legacyColor-grayscale-darker: #ccc;
+  --baseColor-subLayer: rgba(var(--baseColor-default-reverse-rgb), .05);
+  --baseColor-sa: #25af3c;
+  --baseColor-sa-rgb: 37, 175, 60;
+}
+
+body.dark,
+#editor-overlay.dark {
+  --baseColor-accent: #007AFF;
+  --baseColor-accent-rgb: 0, 122, 255;
+  --baseColor-accent-reverse-rgb: 255, 255, 255;
+  --baseColor-accent-reverse: #ffffff;
+  --baseColor-default: #202020;
+  --baseColor-container: #2d2d2d;
+  --baseColor-border: #474747;
+  --baseColor-subLayer: #cccccc;
+  --baseColor-confirm: #0FCE83;
+  --baseColor-default-rgb: 0, 0, 0;
+  --baseColor-default-reverse-rgb: 255,255,255;
+  --baseColor-default-reverse: rgba(var(--baseColor-default-reverse-rgb), .85);
+  --baseColor-default-reverse-soft: rgba(var(--baseColor-default-reverse-rgb), .6);
+  --baseColor-default-reverse-softer: rgba(var(--baseColor-default-reverse-rgb), .4);
+  --darkBorder-rgb: 80, 80, 80;
+  --legacyColor-grayscale: #f2f2f2;
+  --legacyColor-grayscale-darker: rgba(var(--baseColor-default-reverse-rgb),.1);
+  --baseColor-sa: #25af3c;
+  --baseColor-sa-rgb: 37, 175, 60;
+}
