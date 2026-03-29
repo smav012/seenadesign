@@ -15,19 +15,17 @@
       font-display: swap;
     }
 
-    html { scroll-behavior: smooth; }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background-color: #3f3f9b;
       color: rgba(240,236,224,.85);
-      min-height: 100vh;
+      height: 100vh;
+      overflow: hidden;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      position: relative;
-      overflow-x: hidden;
     }
 
-    /* Blob background — same as index */
+    /* Blob background */
     .bg-blobs { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
     .blob { position: absolute; border-radius: 50%; filter: blur(90px); }
     .blob-1 { width: 60vw; height: 60vw; background: rgba(51,133,234,.591); top: -15%; left: -20%; animation: drift-1 18s ease-in-out infinite alternate; }
@@ -39,48 +37,60 @@
     @keyframes drift-3 { from { transform: translate(0,0) scale(1); } to { transform: translate(5vw,-5vh) scale(1.08); } }
     @keyframes drift-4 { from { transform: translate(0,0) scale(1); } to { transform: translate(7vw,4vh) scale(1.05); } }
 
-    /* Page content */
-    .page-content {
+    /* 4-cell grid layout — same as project pages */
+    .proj-page {
       position: relative; z-index: 1;
-      width: 90%; margin: 0 auto; padding: 48px 0 100px;
+      width: 90%; margin: 0 auto;
+      height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 36%;
+      grid-template-rows: auto 1fr;
+      column-gap: 48px;
+      overflow: hidden;
     }
 
-    /* Header row: logo + title */
-    .about-header {
-      display: flex; align-items: center;
-      gap: 28px; margin-bottom: 52px;
+    /* Top-left: logo */
+    .proj-logo { grid-column: 1; grid-row: 1; padding: 32px 0 24px; }
+    .proj-logo a { display: inline-block; }
+    .proj-logo img {
+      width: clamp(220px, 48vw, 520px); display: block;
+      filter: drop-shadow(0 4px 24px rgba(0,0,0,.55));
     }
-    .about-logo-link { display: block; flex-shrink: 0; }
-    .about-logo-img {
-      height: 38px; display: block;
-      filter: drop-shadow(0 2px 12px rgba(0,0,0,.55));
+
+    /* Top-right: "about me" title */
+    .proj-header-meta {
+      grid-column: 2; grid-row: 1;
+      padding: 32px 0 24px;
+      display: flex; flex-direction: column;
+      justify-content: flex-end;
     }
     .about-title {
       font-family: 'Imbue', Georgia, serif; font-weight: 700;
-      font-size: clamp(28px, 5vw, 60px); color: #f0ecff;
+      font-size: clamp(22px, 3vw, 42px); color: #f0ecff;
       letter-spacing: -.02em; line-height: 1;
     }
     .about-star { color: rgba(240,236,255,.5); }
 
-    /* 2-col layout */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 36% 1fr;
-      gap: 56px;
-      align-items: start;
+    /* Bottom-left: collage */
+    .proj-images {
+      grid-column: 1; grid-row: 2;
+      overflow-y: auto; padding: 0 0 32px;
     }
+    .proj-images::-webkit-scrollbar { width: 3px; }
+    .proj-images::-webkit-scrollbar-thumb { background: rgba(255,255,255,.12); border-radius: 2px; }
+    .about-collage { width: 100%; display: block; border-radius: 12px; }
 
-    /* Left: collage image */
-    .about-collage {
-      width: 100%; display: block;
-      border-radius: 20px;
+    /* Bottom-right: bio + shows */
+    .proj-right { grid-column: 2; grid-row: 2; display: flex; flex-direction: column; overflow: hidden; }
+    .proj-right-scroll {
+      flex: 1; overflow-y: auto; padding: 0 0 32px;
+      display: flex; flex-direction: column; gap: 28px;
     }
-
-    /* Right: bio + shows */
-    .about-right { display: flex; flex-direction: column; gap: 36px; }
+    .proj-right-scroll::-webkit-scrollbar { width: 3px; }
+    .proj-right-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,.12); border-radius: 2px; }
 
     .about-bio {
-      font-size: 1rem; line-height: 1.65; font-weight: 400;
+      font-size: 1rem; line-height: 1.65;
       color: rgba(240,236,224,.7);
     }
 
@@ -115,11 +125,15 @@
 
     /* Mobile */
     @media (max-width: 700px) {
-      .page-content { width: 94%; padding: 32px 0 80px; }
-      .about-header { gap: 16px; margin-bottom: 32px; }
-      .about-logo-img { height: 28px; }
-      .about-grid { grid-template-columns: 1fr; gap: 32px; }
+      body { height: auto; overflow: auto; }
+      .proj-page { height: auto; grid-template-columns: 1fr; grid-template-rows: auto auto auto auto; column-gap: 0; }
+      .proj-logo { grid-column: 1; grid-row: 1; padding: 20px 0 16px; }
+      .proj-logo img { width: clamp(160px, 60vw, 280px); }
+      .proj-header-meta { grid-column: 1; grid-row: 2; padding: 0 0 16px; justify-content: flex-start; }
+      .proj-images { grid-column: 1; grid-row: 3; padding: 0 0 16px; }
       .about-collage { max-width: 320px; margin: 0 auto; }
+      .proj-right { grid-column: 1; grid-row: 4; }
+      .proj-right-scroll { padding: 16px 0 32px; }
     }
   </style>
 </head>
@@ -132,24 +146,26 @@
     <div class="blob blob-4"></div>
   </div>
 
-  <div class="page-content">
+  <div class="proj-page">
 
-    <header class="about-header">
-      <a href="./" class="about-logo-link">
-        <img src="img/seenalogo_graf new purple.png" alt="seena" class="about-logo-img">
+    <div class="proj-logo">
+      <a href="index.html">
+        <img src="img/seenalogo_graf new purple.png" alt="seena">
       </a>
+    </div>
+
+    <div class="proj-header-meta">
       <div class="about-title">
         <span class="about-star">★</span> about me <span class="about-star">★</span>
       </div>
-    </header>
+    </div>
 
-    <div class="about-grid">
+    <div class="proj-images">
+      <img src="../img/links-collage.png" alt="seena" class="about-collage">
+    </div>
 
-      <div class="about-left">
-        <img src="../img/links-collage.png" alt="seena" class="about-collage">
-      </div>
-
-      <div class="about-right">
+    <div class="proj-right">
+      <div class="proj-right-scroll">
 
         <p class="about-bio">Art, to me, is a tool for disruption, connection, and reimagination. My work exists at the intersection of printmaking, street art, and mixed media, combining traditional and digital techniques to explore themes of resistance, accessibility, and collective storytelling. I am drawn to art that challenges dominant narratives—art that is tactile, immediate, and communal.</p>
 

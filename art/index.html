@@ -87,11 +87,11 @@
       color: rgba(240,236,224,.35); margin-bottom: 16px;
     }
 
-    /* Art grid — Z-flow CSS Grid */
+    /* Art grid — 4-col, row-by-row (date order) */
     .art-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
       align-items: start;
     }
     .art-card { cursor: pointer; position: relative; overflow: hidden; }
@@ -105,7 +105,6 @@
       opacity: 0; transition: opacity .2s; pointer-events: none;
     }
     .art-card:hover .card-label { opacity: 1; }
-    .art-card[data-id="postersflyers"] { position: relative; margin-top: -32px; z-index: 2; }
 
     /* Panel backdrop */
     .panel-backdrop {
@@ -166,9 +165,9 @@
     .panel-right-scroll::-webkit-scrollbar { width: 3px; }
     .panel-right-scroll::-webkit-scrollbar-thumb { background: rgba(26,10,46,.12); border-radius: 2px; }
     .panel-right-footer {
-      flex-shrink: 0; padding: 14px 32px 18px;
+      flex-shrink: 0; padding: 20px 32px 24px;
       border-top: 1px solid rgba(26,10,46,.07);
-      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      display: flex; flex-direction: column; align-items: center; gap: 16px;
     }
 
     .panel-title-text {
@@ -200,7 +199,7 @@
     .panel-footer-hint {
       font-family: 'TypestarOCR', monospace; font-size: .6rem;
       letter-spacing: .1em; text-transform: uppercase;
-      color: rgba(26,10,46,.2); user-select: none; align-self: flex-end;
+      color: rgba(26,10,46,.5); user-select: none; align-self: flex-end;
     }
 
     /* Panel nav arrows */
@@ -247,8 +246,7 @@
       .hero { grid-template-columns: 1fr; gap: 24px; }
       .hero-logo img { width: clamp(160px, 70vw, 300px); }
       .hero-text { gap: 20px; }
-      .art-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; }
-      .art-card[data-id="postersflyers"] { margin-top: 0; }
+      .art-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
       .project-panel { width: 100vw; height: 100vh; border-radius: 0; }
       .panel-content { flex-direction: column; }
       .panel-left { flex: none; max-height: 45vh; border-right: none; border-bottom: 1px solid rgba(26,10,46,.07); padding: 16px; }
