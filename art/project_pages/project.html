@@ -334,9 +334,10 @@
         var fr = document.createElement('iframe');
         fr.src = src;
         fr.className = 'proj-video';
+        fr.title = 'YouTube video player';
         fr.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
         fr.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-        fr.allowFullscreen = true;
+        fr.setAttribute('allowfullscreen', '');
         return fr;
       }
 

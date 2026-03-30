@@ -467,14 +467,17 @@
       var isMasonry = p.layout === 'grid';
       leftCol.className = 'panel-left' + (isMasonry ? ' panel-left-masonry' : '');
 
-      if (p.video) {
+      function makePanelEmbed(src) {
         var fr = document.createElement('iframe');
-        fr.src = p.video;
+        fr.src = src;
         fr.className = 'panel-video';
-        fr.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-        fr.allowFullscreen = true;
-        leftCol.appendChild(fr);
+        fr.title = 'YouTube video player';
+        fr.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        fr.setAttribute('allowfullscreen', '');
+        return fr;
       }
+
+      if (p.video) { leftCol.appendChild(makePanelEmbed(p.video)); }
 
       var panelLbImages = p.images.map(function(src) { return { src: src, alt: p.title }; });
       p.images.forEach(function(src, imgIdx) {
@@ -486,6 +489,8 @@
         })(imgIdx));
         leftCol.appendChild(img);
       });
+
+      if (p.videoAfter) { leftCol.appendChild(makePanelEmbed(p.videoAfter)); }
 
       /* JS masonry for grid-layout projects (left-to-right shortest-column) */
       if (isMasonry) {
