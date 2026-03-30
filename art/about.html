@@ -170,12 +170,14 @@
     @keyframes badge-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
     @keyframes badge-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
+    .arr { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; display: inline-block; line-height: 0; vertical-align: -0.08em; }
+
     /* Mobile */
     @media (max-width: 700px) {
       .logo-sticky { top: auto; bottom: 20px; left: auto; right: 20px; }
       .logo-sticky img { width: 56px; }
       .proj-page { display: flex; flex-direction: column; padding: 20px 0 80px; }
-      .proj-logo-header { order: 0; padding: 12px 0 20px; }
+      .proj-logo-header { order: 0; padding: 12px 0 20px; text-align: right; }
       .proj-logo-header img {
         content: url('img/slogo_new_purple.png');
         width: clamp(52px, 14vw, 72px);
