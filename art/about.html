@@ -177,11 +177,12 @@
       .logo-sticky { top: auto; bottom: 20px; left: auto; right: 20px; }
       .logo-sticky img { width: 56px; }
       .proj-page { display: flex; flex-direction: column; padding: 20px 0 80px; }
-      .proj-logo-header { order: 0; padding: 12px 0 20px; }
+      .proj-logo-header { order: 0; padding: 12px 0 20px; overflow: hidden; }
+      .proj-logo-header a { float: right; }
       .proj-logo-header img {
         content: url('img/slogo_new_purple.png');
         width: clamp(52px, 14vw, 72px);
-        margin-left: auto;
+        display: block;
       }
       .proj-right { order: 1; }
       .proj-images { order: 2; padding-top: 32px; }
@@ -208,9 +209,8 @@
   </div>
 
   <div class="proj-page">
-
     <!-- Graf logo — spans both columns, triggers sticky on scroll-off -->
-    <div class="proj-logo-header" id="projLogoEl">
+    <div class="proj-logo-header" id="projLogoEl" style="display:flex;justify-content:flex-end;width:100%">
       <a href="index.html">
         <img src="img/seenalogo_graf new purple.png" alt="seena">
       </a>
