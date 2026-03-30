@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seena's Design Archive</title>
-    <link rel="icon" type="image/png" href="img/favicon_new.png">
+    <title>seena - design archive</title>
+    <link rel="icon" type="image/png" href="img/favicon_design.png">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/responsive.css">
     <style>
@@ -231,15 +231,22 @@
         /* Panel carousel images are clickable */
         .panel-carousel img { cursor: pointer; }
 
-        /* Nav hint below carousel */
+        /* Description + hint row */
+        .panel-desc-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 28px;
+        }
         .panel-nav-hint {
+            flex-shrink: 0;
             font-family: monospace;
             font-size: 0.7rem;
-            color: rgba(255,255,255,0.25);
+            color: rgba(255,255,255,0.75);
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            margin-bottom: 28px;
+            text-align: right;
             user-select: none;
+            white-space: nowrap;
         }
 
         /* Current page indicator */
@@ -409,8 +416,10 @@
             <div class="panel-carousel-wrap" id="panelCarouselWrap">
                 <div class="panel-carousel" id="panelCarousel"></div>
             </div>
-            <div class="panel-nav-hint">← → navigate &nbsp;·&nbsp; esc close</div>
-            <div class="panel-description" id="panelDescription"></div>
+            <div class="panel-desc-row">
+                <div class="panel-description" id="panelDescription"></div>
+                <div class="panel-nav-hint">← → navigate &nbsp;·&nbsp; esc close</div>
+            </div>
         </div>
     </div>
 
@@ -607,7 +616,13 @@
     backdrop.addEventListener('click', closePanel);
 
     document.querySelectorAll('.archive-card').forEach(card => {
-        card.addEventListener('click', () => openPanel(card.dataset.project));
+        card.addEventListener('click', () => {
+            if (card.dataset.project === 'poster') {
+                window.open('art/project_pages/project.html?id=postersflyers', '_blank');
+            } else {
+                openPanel(card.dataset.project);
+            }
+        });
     });
 
     // Panel carousel drag-scroll
