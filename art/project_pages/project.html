@@ -73,12 +73,11 @@
       display: flex; flex-direction: column; gap: 14px;
     }
     .proj-images.proj-images-masonry {
-      display: grid !important; grid-template-columns: repeat(3, 1fr);
-      align-content: start; gap: 10px;
+      position: relative; display: block;
     }
     .proj-images img {
-      display: block; max-width: 100%; height: auto;
-      max-height: 70vh; border-radius: 6px;
+      display: block; max-width: 88%; width: auto; height: auto;
+      margin: 0 auto; border-radius: 6px;
       cursor: zoom-in; transition: opacity .2s;
     }
     .proj-images img:hover { opacity: .88; }
@@ -167,13 +166,12 @@
       }
       .proj-right { order: 1; }
       .proj-images { order: 2; padding-top: 28px; }
-      .proj-images img { max-height: none; width: 100%; max-width: 100%; display: block; margin: 0 auto; }
+      .proj-images img { width: 100%; max-width: 100%; height: auto; margin: 0 auto; }
       .proj-title-text { font-size: clamp(36px, 9vw, 56px); }
       .proj-meta-text { font-size: 15px; }
       .proj-desc-text { font-size: 17px; }
       .proj-footer-hint { display: none; }
-      .proj-images.proj-images-masonry { grid-template-columns: repeat(3, 1fr); }
-      .lightbox-nav { display: none; }
+.lightbox-nav { display: none; }
       .lightbox-bottom-nav { display: flex; }
     }
   </style>
@@ -282,10 +280,6 @@
 
       /* Images */
       var imagesEl = document.getElementById('projImages');
-      if (project.layout === 'grid') {
-        imagesEl.classList.add('proj-images-masonry');
-      }
-
       var projectLbImages = project.images.map(function(src) {
         return { src: '../' + src, alt: project.title };
       });
@@ -299,14 +293,54 @@
         imagesEl.appendChild(fr);
       }
 
+      var isMasonry = project.layout === 'grid';
       project.images.forEach(function(src, i) {
         var img = document.createElement('img');
-        img.src = '../' + src; img.alt = project.title; img.loading = 'lazy';
+        img.src = '../' + src; img.alt = project.title;
+        if (!isMasonry) img.loading = 'lazy';
         img.addEventListener('click', (function(idx) {
           return function() { openLightbox(projectLbImages, idx); };
         })(i));
         imagesEl.appendChild(img);
       });
+
+      /* JS masonry for grid-layout projects */
+      if (isMasonry) {
+        var masonryImgs = Array.from(imagesEl.querySelectorAll('img'));
+        var masonryWrap = document.createElement('div');
+        masonryWrap.style.cssText = 'position: relative; width: 100%;';
+        masonryImgs.forEach(function(img) { masonryWrap.appendChild(img); });
+        imagesEl.appendChild(masonryWrap);
+
+        function runPageMasonry() {
+          var isMob = window.innerWidth <= 700;
+          var cols = isMob ? 2 : 3, gap = isMob ? 8 : 10;
+          var w = masonryWrap.offsetWidth;
+          if (!w) return;
+          var colW = (w - gap * (cols - 1)) / cols;
+          var tops = new Array(cols).fill(0);
+          masonryImgs.forEach(function(img) {
+            var col = tops.indexOf(Math.min.apply(null, tops));
+            img.style.position = 'absolute';
+            img.style.width = colW + 'px';
+            img.style.maxWidth = 'none';
+            img.style.margin = '0';
+            img.style.left = (col * (colW + gap)) + 'px';
+            img.style.top = tops[col] + 'px';
+            tops[col] += img.offsetHeight + gap;
+          });
+          masonryWrap.style.height = Math.max.apply(null, tops) + 'px';
+        }
+        var pageLoaded = 0;
+        function onPageImgLoad() { if (++pageLoaded >= masonryImgs.length) runPageMasonry(); }
+        masonryImgs.forEach(function(img) {
+          if (img.complete && img.naturalHeight > 0) { onPageImgLoad(); }
+          else { img.addEventListener('load', onPageImgLoad); img.addEventListener('error', onPageImgLoad); }
+        });
+        window.addEventListener('resize', function() {
+          pageLoaded = masonryImgs.length; runPageMasonry();
+        }, { passive: true });
+      }
 
       /* Prev / Next navigation */
       var projectIndex = PROJECTS.findIndex(function(p) { return p.id === id; });
