@@ -54,7 +54,6 @@
     .logo-sticky a { display: block; }
     .logo-sticky img {
       width: clamp(64px, 6vw, 90px); display: block;
-      filter: drop-shadow(0 2px 10px rgba(0,0,0,.6));
     }
 
     /* Page content */
@@ -63,7 +62,7 @@
     /* Hero */
     .hero { display: grid; grid-template-columns: 1fr 30%; align-items: start; gap: 48px; margin-bottom: 56px; }
     .hero-logo a { display: inline-block; }
-    .hero-logo img { width: clamp(220px, 48vw, 520px); display: block; filter: drop-shadow(0 4px 24px rgba(0,0,0,.55)); }
+    .hero-logo img { width: clamp(220px, 48vw, 520px); display: block; }
     .hero-text { display: flex; flex-direction: column; gap: 28px; }
     .hero-name { font-size: 1.05rem; font-weight: 700; color: rgba(240,236,224,.9); margin-bottom: 10px; }
     .hero-pronouns { font-weight: 400; color: rgba(240,236,224,.5); }
@@ -87,14 +86,9 @@
       color: rgba(240,236,224,.35); margin-bottom: 16px;
     }
 
-    /* Art grid — 4-col, row-by-row (date order) */
-    .art-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      align-items: start;
-    }
-    .art-card { cursor: pointer; position: relative; overflow: hidden; }
+    /* Art grid — masonry columns */
+    .art-grid { columns: 4; column-gap: 20px; }
+    .art-card { break-inside: avoid; margin-bottom: 20px; cursor: pointer; position: relative; overflow: hidden; }
     .art-card img { width: 100%; display: block; transition: opacity .2s, transform .28s ease; }
     .art-card:hover img { opacity: .82; transform: scale(1.025); }
     .card-label {
@@ -189,7 +183,7 @@
     /* Footer: centered view button + bottom-right hint */
     .panel-page-btn {
       display: block; width: fit-content;
-      padding: 9px 26px;
+      padding: 14px 28px;
       background: rgba(107,63,160,.07); border: 1.5px solid rgba(107,63,160,.28); border-radius: 50px;
       font-family: 'TypestarOCR', monospace; font-size: .82rem; letter-spacing: .06em;
       color: #6b3fa0; text-decoration: none; text-align: center;
@@ -244,17 +238,13 @@
     @media (max-width: 700px) {
       .page-content { width: 94%; }
       .hero { grid-template-columns: 1fr; gap: 24px; }
+      .hero-logo { display: flex; justify-content: center; }
       .hero-logo img { width: clamp(160px, 70vw, 300px); }
       .hero-text { gap: 20px; }
-      .art-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-      .project-panel { width: 100vw; height: 100vh; border-radius: 0; }
-      .panel-content { flex-direction: column; }
-      .panel-left { flex: none; max-height: 45vh; border-right: none; border-bottom: 1px solid rgba(26,10,46,.07); padding: 16px; }
-      .panel-left.panel-left-masonry { max-height: 50vh; grid-template-columns: repeat(3, 1fr); }
-      .panel-right-scroll { padding: 16px 18px 10px; }
-      .panel-right-footer { padding: 10px 18px 14px; }
-      .panel-nav { display: none; }
-      .logo-sticky { display: none; }
+      .art-grid { columns: 2; column-gap: 10px; }
+      .art-card { margin-bottom: 10px; }
+      .logo-sticky { top: auto; bottom: 20px; left: auto; right: 20px; }
+      .logo-sticky img { width: 56px; }
       .lightbox-nav { display: none; }
       .lightbox-bottom-nav { display: flex; }
     }
@@ -370,7 +360,15 @@
       card.innerHTML =
         '<img src="' + p.thumb + '" alt="' + p.title + '" loading="lazy">' +
         '<div class="card-label">' + p.title + (p.year ? ' \xb7 ' + p.year : '') + '</div>';
-      card.addEventListener('click', openPanel.bind(null, i));
+      card.addEventListener('click', (function(idx, proj) {
+        return function() {
+          if (window.innerWidth <= 700 && proj.pageUrl) {
+            window.location.href = proj.pageUrl;
+          } else {
+            openPanel(idx);
+          }
+        };
+      })(i, p));
       grid.appendChild(card);
     });
 
@@ -428,7 +426,7 @@
           (p.description ? '<div class="panel-desc-text">' + p.description + '</div>' : '') +
         '</div>' +
         '<div class="panel-right-footer">' +
-          (p.pageUrl ? '<a class="panel-page-btn" href="' + p.pageUrl + '" target="_blank">view project page &#8599;</a>' : '') +
+          (p.pageUrl ? '<a class="panel-page-btn" href="' + p.pageUrl + '">view project page &#8594;</a>' : '') +
           '<span class="panel-footer-hint">&#8592; &#8594; navigate &nbsp;&middot;&nbsp; click image to zoom &nbsp;&middot;&nbsp; esc close</span>' +
         '</div>';
 
