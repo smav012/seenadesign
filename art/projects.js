@@ -1,3 +1,4 @@
+// @ts-nocheck
 const PROJECTS = [
   {
     id: 'we-are-the-land',
@@ -91,7 +92,7 @@ const PROJECTS = [
     year: '2022',
     medium: 'Collage, Silkscreen & Acrylic',
     pageUrl: 'project_pages/project.html?id=lie-cheat-and-steal',
-    description: 'Infuriated, saddened, and filled with rage. Across the US, continued investment in the militarization of the police comes at the expense of access to food, education, childcare, and healthcare, of affordable and stable housing, of parks and public spaces, of transit and the free movement of people, of economic stability for the many. Concentrating resources in the hands of police serves to defend the extreme accumulation of wealth and power by corporations and the very rich.<br><br>The state will continue to militarize while killing our loved ones and our land, and we will not stop fighting against their efforts. True justice will never be found under this system.<br><br>Extending my utmost solidarity with the Welaunee Forest Defenders of Atlanta, and my infinite love to Manny "Tortugita" Teran\'s family and friends.<br><br>We are the land.<br><br><i>Excerpts from <a href="https://crimethinc.com/" target="_blank">CrimeThinc</a></i>',
+    description: ‘<i><b>Featured in:</b> Science for the People Magazine</i> (Winter 2022-2023, <i>"Killing in the Name Of"</i>)<br><b>Article:</b> <i>"Lie, Cheat, &amp; Steal: The CIA\’s Disastrous Scientific Legacy"</i><br><br>This illustration accompanied an investigative piece tracing the CIA\’s history of weaponizing pseudoscience and disinformation—from its Cold War origins to modern-day parallels in tech giants like Google and Meta. My visual translation distills the article\’s core themes: the agency\’s manipulation of scientific research and its enduring influence on Silicon Valley\’s ethics (or lack thereof). The piece serves as both critique and historical anchor, layering symbolism to reflect the entanglement of power, propaganda, and innovation.<br><br>The piece was designed for print, but is accompanied with a video animatic.<br><br><a href="https://simplecirc.com/subscribe/69146167" target="_blank">View the issue ↗</a>’,
     layout: 'side-by-side',
     thumb: 'img/liecheatsteal.gif',
     images: ['img/lie-cheat-and-steal-01.jpg'],
