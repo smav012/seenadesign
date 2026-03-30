@@ -3304,14 +3304,12 @@ textarea {
   border-radius: 6px !important;
 }
 
-/* Typography — Imbue for product names, page titles, store name */
+/* TypestarOCR for titles, product names, price, labels */
 h1, h2, h3,
 .page-title,
 .product-list-thumb-name,
 .product-title,
-.header-logo.text a { font-family: 'Imbue', Georgia, serif; }
-
-/* TypestarOCR for price, status labels */
+.header-logo.text a,
 .product-list-thumb-price,
 .product-list-thumb-status,
 .product-price,
