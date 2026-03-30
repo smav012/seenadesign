@@ -13,7 +13,14 @@
       "Bash(/usr/local/bin/node --version)",
       "Bash(/opt/homebrew/bin/node --version)",
       "Bash(git pull:*)",
-      "Bash(git stash:*)"
+      "Bash(git stash:*)",
+      "Bash(sed -i '' \"s/gtag\\(''js'', new Date\\(\\)\\);/gtag\\(\"\"js\"\", new Date\\(\\)\\);/\" /Users/seena/Documents/Personal/Seena/WEBSITE/seenadesign/index.html)",
+      "Bash(sed -i '' \"s/gtag\\(''config'', ''G-HY2PLLJWGS''\\);/gtag\\(\"\"config\"\", \"\"G-HY2PLLJWGS\"\"\\);/\" /Users/seena/Documents/Personal/Seena/WEBSITE/seenadesign/index.html)",
+      "Bash(for f:*)",
+      "Bash(do)",
+      "Bash(sed -i '' \"s/gtag\\(''js'', new Date\\(\\)\\);/gtag\\(\"\"js\"\", new Date\\(\\)\\);/\" \"$f\")",
+      "Bash(sed -i '' \"s/gtag\\(''config'', ''G-HY2PLLJWGS''\\);/gtag\\(\"\"config\"\", \"\"G-HY2PLLJWGS\"\"\\);/\" \"$f\")",
+      "Bash(done)"
     ],
     "additionalDirectories": [
       "/private/tmp",
