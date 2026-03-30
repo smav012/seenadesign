@@ -36,6 +36,16 @@
     @keyframes drift-3 { from { transform: translate(0,0) scale(1); } to { transform: translate(5vw,-5vh) scale(1.08); } }
     @keyframes drift-4 { from { transform: translate(0,0) scale(1); } to { transform: translate(7vw,4vh) scale(1.05); } }
 
+    /* Sticky slogo — appears when header logo scrolls off */
+    .logo-sticky {
+      position: fixed; top: 18px; left: 3vw;
+      z-index: 500; opacity: 0; pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .logo-sticky.visible { opacity: 1; pointer-events: all; }
+    .logo-sticky a { display: block; }
+    .logo-sticky img { width: clamp(52px, 5vw, 76px); display: block; }
+
     /* 4-cell grid: columns align header ↔ body — full page scroll */
     .proj-page {
       position: relative; z-index: 1;
@@ -45,34 +55,34 @@
       column-gap: 48px;
     }
 
-    /* Top-left: logo */
+    /* Top-left: logo (30% smaller than index) */
     .proj-logo { grid-column: 1; grid-row: 1; padding: 32px 0 24px; }
     .proj-logo a { display: inline-block; }
-    .proj-logo img { width: clamp(220px, 48vw, 520px); display: block; }
+    .proj-logo img { width: clamp(160px, 34vw, 364px); display: block; }
 
     /* Top-right: title + meta */
     .proj-header-meta {
       grid-column: 2; grid-row: 1;
       padding: 32px 0 24px;
-      display: flex; flex-direction: column; gap: 8px;
+      display: flex; flex-direction: column; gap: 10px;
       justify-content: flex-end;
     }
     .proj-title-text {
       font-family: 'Imbue', Georgia, serif; font-weight: 600;
-      font-size: clamp(22px, 3vw, 42px); color: #f0ecff;
-      line-height: 1.08; letter-spacing: -.02em;
+      font-size: clamp(36px, 4.5vw, 64px); color: #f0ecff;
+      line-height: 1.05; letter-spacing: -.02em;
     }
     .proj-subtitle-text {
       font-family: 'Imbue', Georgia, serif; font-weight: 500;
-      font-size: clamp(14px, 2vw, 26px); color: rgba(240,236,255,.7);
+      font-size: clamp(22px, 2.8vw, 40px); color: rgba(240,236,255,.7);
       line-height: 1.1;
     }
     .proj-meta-text {
-      font-family: 'TypestarOCR', monospace; font-size: 11px;
+      font-family: 'TypestarOCR', monospace; font-size: 14px;
       letter-spacing: .06em; color: rgba(240,236,224,.4);
     }
 
-    /* Bottom-left: images (single scroll with page) */
+    /* Bottom-left: images */
     .proj-images {
       grid-column: 1; grid-row: 2;
       display: flex; flex-direction: column; gap: 14px;
@@ -90,9 +100,9 @@
     .proj-video { width: 100%; aspect-ratio: 16/9; border-radius: 8px; border: none; }
 
     /* Bottom-right: description + nav */
-    .proj-right { grid-column: 2; grid-row: 2; padding-top: 8px; display: flex; flex-direction: column; gap: 20px; }
+    .proj-right { grid-column: 2; grid-row: 2; padding-top: 8px; display: flex; flex-direction: column; gap: 24px; }
 
-    .proj-desc-text { font-size: 15px; line-height: 1.8; color: rgba(240,236,224,.82); }
+    .proj-desc-text { font-size: 17px; line-height: 1.8; color: rgba(240,236,224,.82); }
     .proj-desc-text a { color: #c4a0ff; text-decoration: underline; text-underline-offset: 2px; }
     .proj-desc-text a:hover { color: #e0c4ff; }
     .proj-desc-text blockquote { border-left: 3px solid rgba(200,160,255,.3); margin: 12px 0; padding-left: 14px; color: rgba(240,236,224,.6); }
@@ -103,7 +113,7 @@
       gap: 12px; padding-top: 4px;
     }
     .proj-nav-link {
-      font-family: 'TypestarOCR', monospace; font-size: .78rem;
+      font-family: 'TypestarOCR', monospace; font-size: .88rem;
       letter-spacing: .04em; color: rgba(240,236,224,.45);
       text-decoration: none; transition: color .2s;
       max-width: 48%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
@@ -111,7 +121,7 @@
     .proj-nav-link:hover { color: #f0ecff; }
     .proj-nav-link.hidden { visibility: hidden; pointer-events: none; }
     .proj-footer-hint {
-      font-family: 'TypestarOCR', monospace; font-size: .58rem;
+      font-family: 'TypestarOCR', monospace; font-size: .6rem;
       letter-spacing: .1em; text-transform: uppercase;
       color: rgba(240,236,224,.35); user-select: none;
     }
@@ -142,15 +152,21 @@
     /* Not found */
     .proj-not-found { padding: 80px 40px; font-family: 'TypestarOCR', monospace; color: rgba(240,236,224,.4); }
 
-    /* Mobile: logo, title/meta, description+nav, then images */
+    /* Mobile: logo → title/meta → description+nav → images */
     @media (max-width: 700px) {
+      .logo-sticky { top: auto; bottom: 20px; left: auto; right: 20px; }
+      .logo-sticky img { width: 52px; }
       .proj-page { grid-template-columns: 1fr; column-gap: 0; padding-bottom: 60px; }
       .proj-logo { grid-column: 1; grid-row: 1; padding: 20px 0 16px; }
-      .proj-logo img { width: clamp(160px, 60vw, 280px); }
+      .proj-logo img { width: clamp(160px, 55vw, 260px); }
       .proj-header-meta { grid-column: 1; grid-row: 2; padding: 0 0 20px; justify-content: flex-start; }
+      .proj-title-text { font-size: clamp(36px, 9vw, 56px); }
+      .proj-meta-text { font-size: 15px; }
       .proj-right { grid-column: 1; grid-row: 3; }
-      .proj-images { grid-column: 1; grid-row: 4; padding-top: 24px; }
+      .proj-desc-text { font-size: 17px; }
+      .proj-images { grid-column: 1; grid-row: 4; padding-top: 28px; }
       .proj-images.proj-images-masonry { grid-template-columns: repeat(3, 1fr); }
+      .proj-footer-hint { display: none; }
       .lightbox-nav { display: none; }
       .lightbox-bottom-nav { display: flex; }
     }
@@ -165,9 +181,16 @@
     <div class="blob blob-4"></div>
   </div>
 
+  <!-- Scroll-triggered sticky slogo -->
+  <div class="logo-sticky" id="logoSticky">
+    <a href="../index.html">
+      <img src="../slogo_new purple.png" alt="seena">
+    </a>
+  </div>
+
   <div class="proj-page" id="projPage">
 
-    <div class="proj-logo">
+    <div class="proj-logo" id="projLogoEl">
       <a href="../index.html">
         <img src="../img/seenalogo_graf new purple.png" alt="seena">
       </a>
@@ -184,8 +207,8 @@
     <div class="proj-right">
       <div class="proj-desc-text" id="projDesc"></div>
       <div class="proj-footer-nav">
-        <a class="proj-nav-link hidden" id="projPrev" href="#">← prev</a>
-        <a class="proj-nav-link hidden" id="projNext" href="#">next →</a>
+        <a class="proj-nav-link hidden" id="projPrev" href="#">← last project</a>
+        <a class="proj-nav-link hidden" id="projNext" href="#">next project →</a>
       </div>
       <div class="proj-footer-hint">click image to zoom &nbsp;&middot;&nbsp; esc close</div>
     </div>
@@ -215,6 +238,17 @@
 
   <script src="../projects.js"></script>
   <script>
+    /* ── Sticky slogo ── */
+    var projLogoEl  = document.getElementById('projLogoEl');
+    var logoStickyEl = document.getElementById('logoSticky');
+    window.addEventListener('scroll', function() {
+      if (projLogoEl.getBoundingClientRect().bottom < 0) {
+        logoStickyEl.classList.add('visible');
+      } else {
+        logoStickyEl.classList.remove('visible');
+      }
+    }, { passive: true });
+
     /* ── Load project ── */
     var params  = new URLSearchParams(window.location.search);
     var id      = params.get('id');
@@ -273,17 +307,14 @@
       var prevP = projectIndex > 0 ? PROJECTS[projectIndex - 1] : null;
       var nextP = projectIndex < PROJECTS.length - 1 ? PROJECTS[projectIndex + 1] : null;
 
-      var prevLink = document.getElementById('projPrev');
-      var nextLink = document.getElementById('projNext');
-
       if (prevP) {
+        var prevLink = document.getElementById('projPrev');
         prevLink.href = 'project.html?id=' + prevP.id;
-        prevLink.textContent = '\u2190 ' + prevP.title;
         prevLink.classList.remove('hidden');
       }
       if (nextP) {
+        var nextLink = document.getElementById('projNext');
         nextLink.href = 'project.html?id=' + nextP.id;
-        nextLink.textContent = nextP.title + ' \u2192';
         nextLink.classList.remove('hidden');
       }
     }
