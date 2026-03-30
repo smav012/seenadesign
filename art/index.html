@@ -53,7 +53,7 @@
     .logo-sticky.visible { opacity: 1; pointer-events: all; }
     .logo-sticky a { display: block; }
     .logo-sticky img {
-      width: clamp(64px, 6vw, 90px); display: block;
+      width: 100px; display: block;
     }
 
     /* Page content */
@@ -262,7 +262,7 @@
   <!-- Scroll-triggered sticky logo -->
   <div class="logo-sticky" id="logoSticky">
     <a href="./">
-      <img src="slogo_new purple.png" alt="seena">
+      <img src="img/slogo_new_purple.png" alt="seena">
     </a>
   </div>
 
@@ -358,7 +358,7 @@
       card.className = 'art-card';
       card.setAttribute('data-id', p.id);
       card.innerHTML =
-        '<img src="' + p.thumb + '" alt="' + p.title + '" loading="lazy">' +
+        '<img src="' + p.thumb + '" alt="' + p.title + '">' +
         '<div class="card-label">' + p.title + (p.year ? ' \xb7 ' + p.year : '') + '</div>';
       card.addEventListener('click', (function(idx, proj) {
         return function() {
@@ -371,6 +371,42 @@
       })(i, p));
       grid.appendChild(card);
     });
+
+    /* ── JS Masonry grid ── */
+    function initMasonry() {
+      var isMob = window.innerWidth <= 700;
+      var cols  = isMob ? 2 : 4;
+      var gap   = isMob ? 10 : 20;
+      var w     = grid.offsetWidth;
+      if (!w) return;
+      var colW  = (w - gap * (cols - 1)) / cols;
+      var tops  = new Array(cols).fill(0);
+      grid.style.position = 'relative';
+      Array.from(grid.children).forEach(function(card) {
+        var col = tops.indexOf(Math.min.apply(null, tops));
+        card.style.position = 'absolute';
+        card.style.width    = colW + 'px';
+        card.style.left     = (col * (colW + gap)) + 'px';
+        card.style.top      = tops[col] + 'px';
+        card.style.margin   = '0';
+        tops[col] += card.offsetHeight + gap;
+      });
+      grid.style.height = Math.max.apply(null, tops) + 'px';
+    }
+    var masonryRaf;
+    function scheduleMasonry() {
+      cancelAnimationFrame(masonryRaf);
+      masonryRaf = requestAnimationFrame(initMasonry);
+    }
+    initMasonry();
+    Array.from(grid.querySelectorAll('img')).forEach(function(img) {
+      if (!img.complete) img.addEventListener('load', scheduleMasonry);
+    });
+    window.addEventListener('resize', scheduleMasonry, { passive: true });
+    if (window.ResizeObserver) {
+      var masonryRO = new ResizeObserver(scheduleMasonry);
+      Array.from(grid.children).forEach(function(c) { masonryRO.observe(c); });
+    }
 
     /* ── Open panel ── */
     function openPanel(index) {
