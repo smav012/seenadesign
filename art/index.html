@@ -146,8 +146,8 @@
     .panel-left::-webkit-scrollbar-thumb { background: rgba(26,10,46,.12); border-radius: 2px; }
     .panel-left img { width: 100%; display: block; border-radius: 6px; cursor: zoom-in; transition: opacity .2s; }
     .panel-left img:hover { opacity: .88; }
-    .panel-left.panel-left-masonry { display: grid !important; grid-template-columns: repeat(3, 1fr); align-content: start; gap: 8px; }
-    .panel-left.panel-left-masonry img { width: 100%; border-radius: 4px; cursor: zoom-in; }
+    .panel-left.panel-left-masonry { position: relative; display: block; }
+    .panel-left.panel-left-masonry img { border-radius: 4px; cursor: zoom-in; }
     .panel-video { width: 100%; aspect-ratio: 16/9; border-radius: 8px; border: none; }
 
     /* Right column — inner scroll + fixed footer */
@@ -159,9 +159,9 @@
     .panel-right-scroll::-webkit-scrollbar { width: 3px; }
     .panel-right-scroll::-webkit-scrollbar-thumb { background: rgba(26,10,46,.12); border-radius: 2px; }
     .panel-right-footer {
-      flex-shrink: 0; padding: 20px 32px 24px;
+      flex-shrink: 0; padding: 28px 32px 36px;
       border-top: 1px solid rgba(26,10,46,.07);
-      display: flex; flex-direction: column; align-items: center; gap: 16px;
+      display: flex; flex-direction: column; align-items: center; gap: 20px;
     }
 
     .panel-title-text {
@@ -261,7 +261,7 @@
 
   <!-- Scroll-triggered sticky logo -->
   <div class="logo-sticky" id="logoSticky">
-    <a href="./">
+    <a href="#">
       <img src="img/slogo_new_purple.png" alt="seena">
     </a>
   </div>
@@ -270,7 +270,7 @@
 
     <header class="hero">
       <div class="hero-logo" id="heroLogo">
-        <a href="./"><img src="img/seenalogo_graf new purple.png" alt="seena"></a>
+        <a href="#"><img src="img/seenalogo_graf new purple.png" alt="seena"></a>
       </div>
       <div class="hero-text">
         <div>
@@ -442,12 +442,45 @@
       var panelLbImages = p.images.map(function(src) { return { src: src, alt: p.title }; });
       p.images.forEach(function(src, imgIdx) {
         var img = document.createElement('img');
-        img.src = src; img.alt = p.title; img.loading = 'lazy';
+        img.src = src; img.alt = p.title;
+        if (!isMasonry) img.loading = 'lazy'; // masonry needs heights immediately
         img.addEventListener('click', (function(idx) {
           return function() { openLightbox(panelLbImages, idx); };
         })(imgIdx));
         leftCol.appendChild(img);
       });
+
+      /* JS masonry for grid-layout projects (left-to-right shortest-column) */
+      if (isMasonry) {
+        var masonryImgs = Array.from(leftCol.querySelectorAll('img'));
+        var masonryWrap = document.createElement('div');
+        masonryWrap.style.cssText = 'position: relative; width: 100%;';
+        masonryImgs.forEach(function(img) { masonryWrap.appendChild(img); });
+        leftCol.appendChild(masonryWrap);
+
+        function runPanelMasonry() {
+          var cols = 3, gap = 8;
+          var w = masonryWrap.offsetWidth;
+          if (!w) return;
+          var colW = (w - gap * (cols - 1)) / cols;
+          var tops = new Array(cols).fill(0);
+          masonryImgs.forEach(function(img) {
+            var col = tops.indexOf(Math.min.apply(null, tops));
+            img.style.position = 'absolute';
+            img.style.width = colW + 'px';
+            img.style.left = (col * (colW + gap)) + 'px';
+            img.style.top = tops[col] + 'px';
+            tops[col] += img.offsetHeight + gap;
+          });
+          masonryWrap.style.height = Math.max.apply(null, tops) + 'px';
+        }
+        var panelLoaded = 0;
+        function onPanelImgLoad() { if (++panelLoaded >= masonryImgs.length) runPanelMasonry(); }
+        masonryImgs.forEach(function(img) {
+          if (img.complete && img.naturalHeight > 0) { onPanelImgLoad(); }
+          else { img.addEventListener('load', onPanelImgLoad); img.addEventListener('error', onPanelImgLoad); }
+        });
+      }
 
       /* Right column — inner scroll + footer */
       var rightCol = document.createElement('div');
