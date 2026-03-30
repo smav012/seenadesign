@@ -328,13 +328,18 @@
         return { src: '../' + src, alt: project.title };
       });
 
-      if (project.video) {
+      function makeEmbed(src) {
         var fr = document.createElement('iframe');
-        fr.src = project.video;
+        fr.src = src;
         fr.className = 'proj-video';
-        fr.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        fr.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        fr.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
         fr.allowFullscreen = true;
-        imagesEl.appendChild(fr);
+        return fr;
+      }
+
+      if (project.video) {
+        imagesEl.appendChild(makeEmbed(project.video));
       }
 
       var isMasonry = project.layout === 'grid';
@@ -347,6 +352,10 @@
         })(i));
         imagesEl.appendChild(img);
       });
+
+      if (project.videoAfter) {
+        imagesEl.appendChild(makeEmbed(project.videoAfter));
+      }
 
       /* JS masonry for grid-layout projects */
       if (isMasonry) {
