@@ -36,50 +36,47 @@
     @keyframes drift-3 { from { transform: translate(0,0) scale(1); } to { transform: translate(5vw,-5vh) scale(1.08); } }
     @keyframes drift-4 { from { transform: translate(0,0) scale(1); } to { transform: translate(7vw,4vh) scale(1.05); } }
 
-    /* Sticky slogo */
-    .logo-sticky {
-      position: fixed; top: 18px; left: 3vw;
-      z-index: 500; opacity: 0; pointer-events: none;
-      transition: opacity 0.35s ease;
+    /* Fixed nav logo — top-right desktop, bottom-right mobile */
+    .proj-logo {
+      position: fixed; top: 24px; right: 5%;
+      z-index: 500;
     }
-    .logo-sticky.visible { opacity: 1; pointer-events: all; }
-    .logo-sticky a { display: block; }
-    .logo-sticky img { width: clamp(52px, 5vw, 76px); display: block; }
+    .proj-logo a { display: inline-block; }
+    .proj-logo img { width: 80px; display: block; }
 
-    /* 4-cell grid — same as project pages */
+    /* Two-column body: collage left, content right */
     .proj-page {
       position: relative; z-index: 1;
-      width: 90%; margin: 0 auto; padding-bottom: 80px;
+      width: 90%; margin: 0 auto;
+      padding: 56px 0 80px;
       display: grid;
       grid-template-columns: 1fr 36%;
       column-gap: 48px;
+      align-items: start;
     }
 
-    /* Top-left: logo (30% smaller than index) */
-    .proj-logo { grid-column: 1; grid-row: 1; padding: 32px 0 24px; }
-    .proj-logo a { display: inline-block; }
-    .proj-logo img { width: clamp(160px, 34vw, 364px); display: block; }
-
-    /* Top-right: "about me" title */
-    .proj-header-meta {
-      grid-column: 2; grid-row: 1;
-      padding: 32px 0 24px;
-      display: flex; flex-direction: column;
-      justify-content: flex-end;
+    /* Left column: collage */
+    .proj-images {
+      grid-column: 1;
     }
+    .about-collage {
+      display: block; max-width: 100%; height: auto;
+      max-height: 70vh; border-radius: 12px;
+    }
+
+    /* Right column: title, bio, shows */
+    .proj-right {
+      grid-column: 2;
+      display: flex; flex-direction: column; gap: 28px;
+      padding-top: 56px;
+    }
+
     .about-title {
       font-family: 'Imbue', Georgia, serif; font-weight: 700;
       font-size: clamp(36px, 4.5vw, 64px); color: #f0ecff;
       letter-spacing: -.02em; line-height: 1;
     }
     .about-star { color: rgba(240,236,255,.5); }
-
-    /* Bottom-left: collage */
-    .proj-images { grid-column: 1; grid-row: 2; padding-top: 8px; }
-    .about-collage { width: 100%; display: block; border-radius: 12px; }
-
-    /* Bottom-right: bio + shows */
-    .proj-right { grid-column: 2; grid-row: 2; padding-top: 8px; display: flex; flex-direction: column; gap: 28px; }
 
     .about-bio {
       font-size: 17px; line-height: 1.7;
@@ -115,18 +112,18 @@
     @keyframes badge-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
     @keyframes badge-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-    /* Mobile: logo → title → bio/shows → collage */
+    /* Mobile: logo fixed bottom-right; content before collage */
     @media (max-width: 700px) {
-      .logo-sticky { top: auto; bottom: 20px; left: auto; right: 20px; }
-      .logo-sticky img { width: 52px; }
-      .proj-page { grid-template-columns: 1fr; column-gap: 0; }
-      .proj-logo { grid-column: 1; grid-row: 1; padding: 20px 0 16px; }
-      .proj-logo img { width: clamp(160px, 55vw, 260px); }
-      .proj-header-meta { grid-column: 1; grid-row: 2; padding: 0 0 20px; justify-content: flex-start; }
+      .proj-logo { top: auto; bottom: 20px; right: 20px; }
+      .proj-logo img { width: 52px; }
+      .proj-page {
+        display: flex; flex-direction: column;
+        padding: 32px 0 80px;
+      }
+      .proj-right { order: 1; padding-top: 0; }
+      .proj-images { order: 2; padding-top: 32px; }
+      .about-collage { max-height: none; max-width: 320px; margin: 0 auto; }
       .about-title { font-size: clamp(36px, 9vw, 56px); }
-      .proj-right { grid-column: 1; grid-row: 3; }
-      .proj-images { grid-column: 1; grid-row: 4; padding-top: 32px; }
-      .about-collage { max-width: 320px; margin: 0 auto; }
       .about-bio { font-size: 17px; }
     }
   </style>
@@ -140,32 +137,21 @@
     <div class="blob blob-4"></div>
   </div>
 
-  <!-- Scroll-triggered sticky slogo -->
-  <div class="logo-sticky" id="logoSticky">
+  <!-- Fixed nav logo -->
+  <div class="proj-logo">
     <a href="index.html">
-      <img src="slogo_new purple.png" alt="seena">
+      <img src="img/slogo_new_purple.png" alt="seena">
     </a>
   </div>
 
   <div class="proj-page">
 
-    <div class="proj-logo" id="projLogoEl">
-      <a href="index.html">
-        <img src="img/seenalogo_graf new purple.png" alt="seena">
-      </a>
-    </div>
+    <!-- Right column first in DOM → appears first on mobile -->
+    <div class="proj-right">
 
-    <div class="proj-header-meta">
       <div class="about-title">
         <span class="about-star">★</span> about me <span class="about-star">★</span>
       </div>
-    </div>
-
-    <div class="proj-images">
-      <img src="../img/links-collage.png" alt="seena" class="about-collage">
-    </div>
-
-    <div class="proj-right">
 
       <p class="about-bio">Art, to me, is a tool for disruption, connection, and reimagination. My work exists at the intersection of printmaking, street art, and mixed media, combining traditional and digital techniques to explore themes of resistance, accessibility, and collective storytelling. I am drawn to art that challenges dominant narratives—art that is tactile, immediate, and communal.</p>
 
@@ -210,6 +196,11 @@
 
     </div>
 
+    <!-- Left column: collage — appears second on mobile (below content) -->
+    <div class="proj-images">
+      <img src="../img/links-collage.png" alt="seena" class="about-collage">
+    </div>
+
   </div>
 
   <a href="https://seena.design" class="badge-link" title="seena.design">
@@ -217,19 +208,6 @@
       <img src="img/designbutton.png" alt="seena.design">
     </div>
   </a>
-
-  <script>
-    /* ── Sticky slogo ── */
-    var projLogoEl   = document.getElementById('projLogoEl');
-    var logoStickyEl = document.getElementById('logoSticky');
-    window.addEventListener('scroll', function() {
-      if (projLogoEl.getBoundingClientRect().bottom < 0) {
-        logoStickyEl.classList.add('visible');
-      } else {
-        logoStickyEl.classList.remove('visible');
-      }
-    }, { passive: true });
-  </script>
 
 </body>
 </html>
