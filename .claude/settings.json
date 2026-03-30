@@ -11,10 +11,13 @@
       "Read(//private/tmp/**)",
       "Bash(node --check /Users/seena/Documents/Personal/Seena/WEBSITE/seenadesign/art/projects.js)",
       "Bash(/usr/local/bin/node --version)",
-      "Bash(/opt/homebrew/bin/node --version)"
+      "Bash(/opt/homebrew/bin/node --version)",
+      "Bash(git pull:*)",
+      "Bash(git stash:*)"
     ],
     "additionalDirectories": [
-      "/private/tmp"
+      "/private/tmp",
+      "/Users/seena/Documents/Personal/Seena/WEBSITE/seenadesign/img"
     ]
   }
 }
