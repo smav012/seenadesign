@@ -3,8 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Primary -->
+  <meta name="description" content="Art portfolio of Seena Mavaddat — Brooklyn-based artist working in printmaking, silkscreen, street art, and mixed media.">
+  <meta name="keywords" content="Seena Mavaddat, art, printmaking, silkscreen, screenprinting, street art, mixed media, Brooklyn artist, NYC artist, seena, mavaddat">
+  <meta name="author" content="Seena Mavaddat">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#3f3f9b">
+
+  <!-- Open Graph (title/image overridden by JS per project) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Seena Mavaddat">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="seena — art">
+  <meta property="og:description" content="Art portfolio of Seena Mavaddat — Brooklyn-based artist working in printmaking, silkscreen, street art, and mixed media.">
+  <meta property="og:url" content="https://seena.design/art/">
+  <meta property="og:image" content="https://seena.design/img/slogo_social_art.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="seena — art">
+
+  <!-- Twitter/X Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="seena — art">
+  <meta name="twitter:description" content="Art portfolio of Seena Mavaddat — Brooklyn-based artist working in printmaking, silkscreen, street art, and mixed media.">
+  <meta name="twitter:image" content="https://seena.design/img/slogo_social_art.png">
+  <meta name="twitter:image:alt" content="seena — art">
+
+  <!-- Google Analytics GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HY2PLLJWGS"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-HY2PLLJWGS');</script>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Seena Mavaddat","url":"https://seena.design","sameAs":["https://instagram.com/seena.d2a","https://seena.design/art/"]}</script>
+
   <title>seena — art</title>
-  <link rel="icon" type="image/png" href="../../img/favicon_new.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../img/favicon_new.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../img/slogo_ios.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Imbue:opsz,wght@10..100,100..900&display=swap" rel="stylesheet">
@@ -263,6 +299,14 @@
         '<div class="proj-not-found">project not found.</div>';
     } else {
       document.title = 'seena — ' + project.title;
+      var ogTitle = 'seena — ' + project.title;
+      document.querySelector('meta[property="og:title"]').setAttribute('content', ogTitle);
+      document.querySelector('meta[name="twitter:title"]').setAttribute('content', ogTitle);
+      if (project.thumb) {
+        var ogImg = 'https://seena.design/art/' + project.thumb;
+        document.querySelector('meta[property="og:image"]').setAttribute('content', ogImg);
+        document.querySelector('meta[name="twitter:image"]').setAttribute('content', ogImg);
+      }
       document.getElementById('projTitle').textContent = project.title;
 
       if (project.subtitle) {
