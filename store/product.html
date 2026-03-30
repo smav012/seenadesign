@@ -1,4 +1,30 @@
-<div class="page product_detail" data-bc-hook="product-container">
+{% assign product_status = '' %}
+{% case product.status %}
+  {% when 'active' %}
+    {% if product.on_sale %}
+      {% assign product_status = t['products.on_sale'] %}
+    {% endif %}
+  {% when 'sold-out' %}
+    {% assign product_status = t['products.sold_out'] %}
+  {% when 'coming-soon' %}
+    {% assign product_status = t['products.coming_soon'] %}
+{% endcase %}
+
+{% assign hide_price = false %}
+{% if product.status == 'sold-out' and theme.show_sold_out_product_prices == false %}
+  {% assign hide_price = true %}
+{% endif -%}
+{% if product.status == 'coming-soon' and theme.show_coming_soon_product_prices == false %}
+  {% assign hide_price = true %}
+{% endif %}
+
+{% if product.categories != blank %}
+  <nav class="product-breadcrumb" role="navigation" aria-label="breadcrumbs">
+    <a href="/products">{{ t['navigation.products'] }}</a> / {{ product.categories.first | link_to }}
+  </nav>
+{% endif %}
+
+<div class="product-container" data-bc-hook="product-container">
   <div class="product-images desktop-{{ theme.desktop_product_page_images }} mobile-{{ theme.mobile_product_page_images }}" data-total-images="{{ product.images.size }}">
     {% if product.images.size > 1 %}
       <div class="splide product-carousel" role="group" aria-label="{{ product.name | escape }} images">
@@ -101,41 +127,18 @@
       {% if theme.product_image_zoom %}</a>{% else %}</div>{% endif %}
     {% endif %}
   </div>
-  <div class="detail">
-    <h1>{{ product.name }}</h1>
-    {% for artist in product.artists %}
-      {% if forloop.first %}<div class="artists"> by {% endif %}
-      {% if forloop.last and forloop.length > 1 %} and {% endif %}
-      {{ artist.name }}
-      {% if forloop.length > 2 %}, {% endif %}
-      {% if forloop.last %}</div>{% endif %}
-    {% endfor %}
 
-    {% assign product_status = '' %}
-    {% case product.status %}
-      {% when 'active' %}
-        {% if product.on_sale %}
-          {% assign product_status = t['products.on_sale'] %}
-        {% endif %}
-      {% when 'sold-out' %}
-        {% assign product_status = t['products.sold_out'] %}
-      {% when 'coming-soon' %}
-        {% assign product_status = t['products.coming_soon'] %}
-    {% endcase %}
-
-    {% assign hide_price = false %}
-    {% if product.status == 'sold-out' and theme.show_sold_out_product_prices == false %}
-      {% assign hide_price = true %}
-    {% endif -%}
-    {% if product.status == 'coming-soon' and theme.show_coming_soon_product_prices == false %}
-      {% assign hide_price = true %}
-    {% endif %}
-
-    {% capture product_status_class %}{% if product.status == 'active' and product.on_sale %}status-primary{% else %}status-secondary{% endif %}{% endcapture %}
-    <div class="price">
+  <section class="product-detail">
+    <div class="product-detail__header">
+      {% capture product_pricing %}
+        {% unless hide_price %}
+          {{ product | product_price: theme.money_format }}
+        {% endunless %}
+      {% endcapture %}
+      {% capture status_class %}{% if product.status == 'active' and product.on_sale %}status-primary{% else %}status-secondary{% endif %}{% endcapture %}
+      <h1 class="page-title page-title--left product-detail__title">{{ product.name }}</h1>
+      <div class="product-detail__pricing">{{ product_pricing }} {% if product_status != blank %}<div class="product-detail__status  {{ status_class }} {% unless hide_price %}with-spacing{% endunless %}">{{ product_status }}</div>{% endif %}</div>
       {% unless hide_price %}
-        {{ product | product_price: theme.money_format }}
-
         {% if product.price_suffix != blank %}
           {% assign variable_price_shown = true %}
           {% if theme.product_variable_pricing_display_format == "min_only" or theme.product_variable_pricing_display_format == "max_only" %}
@@ -147,17 +150,11 @@
           {% else %}
             {% assign formatted_suffix = product.price_suffix %}
           {% endif %}
-          <span class="price-suffix">{{ formatted_suffix }}</span>
+          <div class="product-detail__price-suffix price-suffix">{{ formatted_suffix }}</div>
         {% endif %}
       {% endunless %}
-      {% if product.status == 'sold-out' %}
-        <span class="status {{ product_status_class }}">{% if hide_price %}{{ t['products.sold_out'] }}{% else %} {{ t['products.sold_out'] }}{% endif %}</span>
-      {% elsif product_status != blank %}
-        <span class="status {{ product_status_class }}">{{ product_status }}</span>
-      {% endif %}
     </div>
-
-    {% if product.status == 'active' and theme.show_bnpl_messaging %}
+    {% if product.status == "active" and theme.show_bnpl_messaging %}
       <div id="payment-processor-messaging">
         <div id="paypal-messaging-container" style="height: 0; overflow: hidden;">
           <div id="paypal-messaging-element"></div>
@@ -168,113 +165,67 @@
       </div>
     {% endif %}
     {% if product.status == 'active' %}
-      <form id="add-to-cart-form" method="post" class="add product-form {% if theme.show_sold_out_product_options %}show-sold-out{% else %}hide-sold-out{% endif %}" action="/cart" accept-charset="utf8" data-ajax-cart="true">
+      <form id="add-to-cart-form" method="post" class="product-form {% if theme.show_sold_out_product_options %}show-sold-out{% else %}hide-sold-out{% endif %}" action="/cart" accept-charset="utf8">
         <input type="hidden" name="utf8" value='✓'>
-        {{ product | product_quantity_input, 1, 'product-quantity' }}
         {% if product.has_default_option %}
           {{ product.option | hidden_option_input }}
         {% else %}
-          {% if product.has_option_groups %}
-            <div class="product_option_groups">
-              <input id="option" name="cart[add][id]" type="hidden" value="0">
-              {% for option_group in product.option_groups %}
-                <div class="select">
-                  <div class="select-wrapper">
+          <div class="product-selects">
+            {% if product.has_option_groups %}
+              <div class="product-option-groups">
+                <input id="option" name="cart[add][id]" type="hidden" value="0">
+                {% for option_group in product.option_groups %}
+                  <div class="select">
                     <select data-unavailable-text="(Unavailable)" data-sold-text="({{ t['products.sold_out'] }})" data-group-id="{{ option_group.id }}" data-group-name="{{ option_group.name | escape }}" class="product_option_group" name="option_group[{{ option_group.id }}]" aria-label="Select {{ option_group.name | escape }}" required>
                       <option value="" disabled="disabled" selected>{{ option_group.name }}</option>
                       {% for value in option_group.values %}
                         <option value="{{ value.id }}" data-name="{{ value.name | escape }}">{{ value.name }}</option>
                       {% endfor %}
                     </select>
-                    <svg aria-hidden="true" fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="14"><path d="M14 1h-1c0-1 0-1 0 0L7 6 1 1c0-1 0-1 0 0H0v1l7 6 7-6V1Z"></path></svg>
+                    <svg aria-hidden="true" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0.98 1.01 14.02 8.02"> <path d="M7.28125 8.71875L1.28125 2.71875C0.875 2.34375 0.875 1.6875 1.28125 1.3125C1.65625 0.90625 2.3125 0.90625 2.6875 1.3125L8 6.59375L13.2812 1.3125C13.6562 0.90625 14.3125 0.90625 14.6875 1.3125C15.0938 1.6875 15.0938 2.34375 14.6875 2.71875L8.6875 8.71875C8.3125 9.125 7.65625 9.125 7.28125 8.71875Z"></path> </svg>
                   </div>
-                </div>
-              {% endfor %}
-            </div>
-          {% else %}
-            <div class="select single-select">
-              <div class="select-wrapper">
-                <select class="product_option_select" id="option" name="cart[add][id]" aria-label="{{ t['products.select_variant'] }}" required>
+                {% endfor %}
+              </div>
+            {% else %}
+              <div class="select">
+                <select class="product-option-select" id="option" name="cart[add][id]" aria-label="{{ t['products.select_variant'] }}" required>
                   <option value="" disabled="disabled" selected>{{ t['products.select_variant'] }}</option>
                   {% for option in product.options %}
                     <option value="{{ option.id }}" data-price="{{ option.price }}"{% if option.sold_out %} disabled="disabled" disabled-type="sold-out"{% endif %}>{{ option.name }} {% if option.sold_out %} ({{ t['products.sold_out'] }}){% endif %}</option>
                   {% endfor %}
                 </select>
-                <svg aria-hidden="true" fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="14"><path d="M14 1h-1c0-1 0-1 0 0L7 6 1 1c0-1 0-1 0 0H0v1l7 6 7-6V1Z"></path></svg>
+                <svg aria-hidden="true" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0.98 1.01 14.02 8.02"> <path d="M7.28125 8.71875L1.28125 2.71875C0.875 2.34375 0.875 1.6875 1.28125 1.3125C1.65625 0.90625 2.3125 0.90625 2.6875 1.3125L8 6.59375L13.2812 1.3125C13.6562 0.90625 14.3125 0.90625 14.6875 1.3125C15.0938 1.6875 15.0938 2.34375 14.6875 2.71875L8.6875 8.71875C8.3125 9.125 7.65625 9.125 7.28125 8.71875Z"></path> </svg>
               </div>
-            </div>
-          {% endif %}
-        {% endif %}
-
-        <button id="add-to-cart-button" class="button add-to-cart-button" type="submit" data-adding-text="{{ t['products.adding'] }}" data-added-text="{{ t['products.added'] }}" data-add-title="{{ t['products.add_to_cart'] }}" data-sold-title="{{ t['products.sold_out'] }}">
-          <svg aria-hidden="true" class="loader" width="24" fill="currentColor" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><style>.spinner_P7sC{transform-origin:center;animation:spinner_svv2 2.5s infinite linear}@keyframes spinner_svv2{100%{transform:rotate(360deg)}}</style><path d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z" class="spinner_P7sC"/></svg>
-          <span class="button-text">{{ t['products.add_to_cart'] }}</span>
-        </button>
-
-        <div class="product-form-cart-linker">
-          <div class="product-form-cart-linker-slider">
-            <a class="product-form-cart-linker-link" href="/cart">
-              <span class="product-form-cart-link-text">{{ t['cart.view_cart'] }}</span>
-              <svg fill="currentColor" aria-hidden="true" class="arrow" width="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 7.12"><path d="M5.99798228 7.12260396L0 1.12462168 1.12462168 0l4.87565104 4.87529072L10.8753783 0 12 1.12462168 6.00201772 7.12260396l-.001745-.00212061z" fill-rule="evenodd"></path></svg>
-            </a>
+            {% endif %}
           </div>
-        </div>
-        {{ store | instant_checkout_button: 'dark', '48px' }}
-        <div class="inventory-status-message" data-inventory-message style="display:none;"></div>
-
+        {% endif %}
+        <button id="add-to-cart-button" class="button add-to-cart-button" type="submit" data-add-title="{{ t['products.add_to_cart'] }}" data-sold-title="{{ t['products.sold_out'] }}">{{ t['products.add_to_cart'] }}</button>
+        {{ store | instant_checkout_button: 'dark', '44px' }}
+        <div class="inventory-status-message" data-inventory-message></div>
         {% if product.has_option_groups %}
           <div class="reset-selection-button-container">
-            <button class="button minimal-button reset-selection-button" type="reset">{{ t['products.reset'] }}</button>
+            <button class="button button--minimal reset-selection-button" type="reset">{{ t['products.reset'] }}</button>
           </div>
         {% endif %}
       </form>
     {% endif %}
-
     {% if product.description != blank %}
-      <div class="product-description body-text">
-        {{ product.description | paragraphs }}
-      </div>
+      <div class="product-detail__description">{{ product.description | paragraphs }}</div>
     {% endif %}
-
-    {% if theme.show_inventory_bars %}
-      {% case product.status %}
-        {% when 'active' %}
-          <div class="availability">
-            <h2 class="availability-header">{{ t['products.inventory'] }}</h2>
-            <ul>
-              {% for option in product.options %}
-                <li>
-                  {% unless product.has_default_option %}
-                    {{ option.name }}
-                  {% endunless %}
-                  <span class="inventory-status">
-                    {% if option.sold_out %}
-                      {{ t['products.sold_out'] }}
-                    {% else %}
-                      {{ option.inventory }}%
-                    {% endif %}
-                  </span>
-                  <span class="inventory-level-background" style="width:{{ option.inventory }}%;"></span>
-                </li>
-              {% endfor %}
-            </ul>
-          </div>
-      {% endcase %}
-    {% endif %}
-  </div>
+  </section>
 </div>
 
 {% if theme.show_related_products %}
   {% assign related_products_header = t['products.related_products'] %}
   {% assign related_products_collection = product.related_products %}
-    
+
   {% if related_products_collection.size > 0 %}
-    <div class="related-products-container" data-num-products="{{ related_products_limit }}" role="complementary" aria-label="{{ related_products_header }}">
+    <aside class="related-products-container" data-num-products="{{ related_products_limit }}" role="complementary" aria-label="{{ related_products_header }}">
       <div class="related-products-header">
         <h2 class="related-products-title">{{ related_products_header }}</h2>
       </div>
       <div class="product-list-container">
-        <div class="related-product-list product-list product-image-{{ theme.product_grid_image_size }} {% if products.size < 2 %}product-list--center{% endif %}">
+        <div class="related-product-list product-list">
           {% for related_product in related_products_collection %}
             {% assign image_width = related_product.image.width | times: 1.0 %}
             {% assign image_height = related_product.image.height | times: 1.0 %}
@@ -300,8 +251,8 @@
                 image-square
               {% endif %}
             {% endcapture %}
-            <a class="prod-thumb {{ theme.show_overlay }} {{ theme.grid_image_style }}" href="{{ related_product.url }}" title="{{ related_product.name | escape }}">
-              <div class="prod-thumb-container">
+            <div class="product-list-thumb {{ matched_product.css_class }}">
+              <a class="product-list-link" href="{{ related_product.url }}" title="{{ related_product.name | escape }}">
                 <div class="product-list-image-container product-list-image-container-{{ theme.grid_image_style }}">
                   <img
                     alt=""
@@ -319,58 +270,53 @@
                     "
                     data-sizes="auto"
                   >
+                  {% if related_product_status != blank %}<div class="product-list-thumb-status {{ related_product_status_class }}">{{ related_product_status }}</div>{% endif %}
                 </div>
-                <div class="prod-thumb-info">
-                  <div class="prod-thumb-background"></div>
-                  <div class="prod-thumb-info-headers">
-                    <div class="prod-thumb-name">{{ related_product.name }}</div>
-                    <div class="prod-thumb-price">
-                      {% assign hide_price = false %}
-                      {% if related_product.status == 'sold-out' and theme.show_sold_out_product_prices == false %}
-                        {% assign hide_price = true %}
-                      {% endif %}
-                      {% if related_product.status == 'coming-soon' and theme.show_coming_soon_product_prices == false %}
-                        {% assign hide_price = true %}
-                      {% endif %}
-                      {% if related_product.has_password_protection and theme.show_password_protected_product_prices == false %}
-                        {% assign hide_price = true %}
-                      {% endif %}
+                <div class="product-list-thumb-info">
+                  <div class="product-list-thumb-name">{{ related_product.name }}</div>
+                  {% assign hide_price = false %}
+                  {% if related_product.status == 'sold-out' and theme.show_sold_out_product_prices == false %}
+                    {% assign hide_price = true %}
+                  {% endif %}
+                  {% if related_product.status == 'coming-soon' and theme.show_coming_soon_product_prices == false %}
+                    {% assign hide_price = true %}
+                  {% endif %}
+                  {% if related_product.has_password_protection and theme.show_password_protected_product_prices == false %}
+                    {% assign hide_price = true %}
+                  {% endif %}
 
-                      {% unless hide_price %}
-                        {{ related_product | product_price: theme.money_format, theme.product_variable_pricing_display_format }}
-
-                        {% if related_product.price_suffix != blank %}
-                          {% assign variable_price_shown = true %}
-                          {% if theme.product_variable_pricing_display_format == "min_only" or theme.product_variable_pricing_display_format == "max_only" %}
-                            {% assign variable_price_shown = false %}
-                          {% endif %}
-
-                          {% if related_product.variable_pricing and variable_price_shown %}
-                            {% assign formatted_suffix = '(' | append: related_product.price_suffix | append: ')' %}
-                          {% else %}
-                            {% assign formatted_suffix = related_product.price_suffix %}
-                          {% endif %}
-                          <span class="price-suffix">{{ formatted_suffix }}</span>
-                        {% endif %}
-                      {% endunless %}
-                    </div>
+                  <div class="product-list-thumb-price">
                     {% unless hide_price %}
-                      {% if related_product.options.size > 1 and theme.show_product_variant_count_in_grid %}
-                        <div class="product-list-thumb-options-description">
-                          {{ related_product.options.size }} {{ t['products.variants'] }}
-                        </div>
+                      {{ related_product | product_price: theme.money_format, theme.product_variable_pricing_display_format }}
+
+                      {% if related_product.price_suffix != blank %}
+                        {% assign variable_price_shown = true %}
+                        {% if theme.product_variable_pricing_display_format == "min_only" or theme.product_variable_pricing_display_format == "max_only" %}
+                          {% assign variable_price_shown = false %}
+                        {% endif %}
+
+                        {% if related_product.variable_pricing and variable_price_shown %}
+                          {% assign formatted_suffix = '(' | append: related_product.price_suffix | append: ')' %}
+                        {% else %}
+                          {% assign formatted_suffix = related_product.price_suffix %}
+                        {% endif %}
+                        <span class="price-suffix">{{ formatted_suffix }}</span>
                       {% endif %}
                     {% endunless %}
-                    {% if related_product_status != blank %}
-                      <div class="prod-thumb-status {{ related_product_status_class }}">{{ related_product_status }}</div>
-                    {% endif %}
                   </div>
+                  {% unless hide_price %}
+                    {% if related_product.options.size > 1 and theme.show_product_variant_count_in_grid %}
+                      <div class="product-list-thumb-options-description">
+                        {{ related_product.options.size }} {{ t['products.variants'] }}
+                      </div>
+                    {% endif %}
+                  {% endunless %}
                 </div>
-              </div>
-            </a>
+              </a>
+            </div>
           {% endfor %}
         </div>
       </div>
-    </div>
+    </aside>
   {% endif %}
 {% endif %}
