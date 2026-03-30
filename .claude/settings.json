@@ -20,7 +20,8 @@
       "Bash(do)",
       "Bash(sed -i '' \"s/gtag\\(''js'', new Date\\(\\)\\);/gtag\\(\"\"js\"\", new Date\\(\\)\\);/\" \"$f\")",
       "Bash(sed -i '' \"s/gtag\\(''config'', ''G-HY2PLLJWGS''\\);/gtag\\(\"\"config\"\", \"\"G-HY2PLLJWGS\"\"\\);/\" \"$f\")",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(find /Users/seena/Documents/Personal/Seena/WEBSITE/seenadesign -name *store* -o -name *bigcartel* -o -name *shop*)"
     ],
     "additionalDirectories": [
       "/private/tmp",
