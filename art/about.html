@@ -177,8 +177,8 @@
       .logo-sticky { top: auto; bottom: 20px; left: auto; right: 20px; }
       .logo-sticky img { width: 56px; }
       .proj-page { display: flex; flex-direction: column; padding: 20px 0 80px; }
-      .proj-logo-header { order: 0; padding: 12px 0 20px; overflow: hidden; }
-      .proj-logo-header a { float: right; }
+      .proj-logo-header { order: 0; padding: 12px 0 20px; display: flex; justify-content: flex-end; }
+      .proj-logo-header a { float: none; }
       .proj-logo-header img {
         content: url('img/slogo_new_purple.png');
         width: clamp(52px, 14vw, 72px);
@@ -210,7 +210,7 @@
 
   <div class="proj-page">
     <!-- Graf logo — spans both columns, triggers sticky on scroll-off -->
-    <div class="proj-logo-header" id="projLogoEl" style="display:flex;justify-content:flex-end;width:100%">
+    <div class="proj-logo-header" id="projLogoEl">
       <a href="index.html">
         <img src="img/seenalogo_graf new purple.png" alt="seena">
       </a>
@@ -273,9 +273,9 @@
 
   </div>
 
-  <div class="lightbox" id="lightbox">
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image lightbox">
     <div class="lightbox-content">
-      <button class="lightbox-close" id="lightboxClose">&#215;</button>
+      <button class="lightbox-close" id="lightboxClose" aria-label="Close lightbox">&#215;</button>
       <img class="lightbox-image" id="lightboxImage" src="" alt="seena collage">
     </div>
   </div>

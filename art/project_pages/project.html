@@ -198,8 +198,8 @@
       .logo-sticky { top: auto; bottom: 20px; left: auto; right: 20px; }
       .logo-sticky img { width: 56px; }
       .proj-page { display: flex; flex-direction: column; padding: 20px 0 80px; }
-      .proj-logo-header { order: 0; padding: 12px 0 20px; overflow: hidden; }
-      .proj-logo-header a { float: right; }
+      .proj-logo-header { order: 0; padding: 12px 0 20px; display: flex; justify-content: flex-end; }
+      .proj-logo-header a { float: none; }
       .proj-logo-header img {
         content: url('../img/slogo_new_purple.png');
         width: clamp(52px, 14vw, 72px);
@@ -267,10 +267,10 @@
   </a>
 
   <!-- Lightbox -->
-  <div class="lightbox" id="lightbox">
-    <button class="lightbox-nav lightbox-prev" id="lightboxPrev">&#8249;</button>
-    <button class="lightbox-nav lightbox-next" id="lightboxNext">&#8250;</button>
-    <button class="lightbox-close" id="lightboxClose">&#215;</button>
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image lightbox">
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous image">&#8249;</button>
+    <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next image">&#8250;</button>
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close lightbox">&#215;</button>
     <div class="lightbox-content">
       <img class="lightbox-image" id="lightboxImage" src="" alt="">
       <div class="lightbox-hint">&#8592; &#8594; navigate &nbsp;&middot;&nbsp; esc close</div>
