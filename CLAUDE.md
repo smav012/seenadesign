@@ -97,6 +97,7 @@ Two snap sections: intro (same layout as `index.html`) + archive grid.
 - Main branch: `main`
 - Domain registered on **Hover** — deployment method TBD (GitHub Pages requires public repo)
 - CNAME file present for `seena.design`
+- follow version naming (v.#.#.#.#)
 
 ## Cross-machine notes
 

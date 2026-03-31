@@ -683,12 +683,7 @@
     let isSectionScrolling = false;
     let currentSectionIndex = 0;
 
-    // Clear scroll lock when scrolling stops
-    let scrollEndTimer;
-    window.addEventListener('scroll', () => {
-        clearTimeout(scrollEndTimer);
-        scrollEndTimer = setTimeout(() => { isSectionScrolling = false; }, 80);
-    }, { passive: true });
+    let sectionScrollTimeout;
 
     function getCurrentSectionIndex() {
         return currentSectionIndex;
@@ -700,6 +695,8 @@
         currentSectionIndex = index;
         isSectionScrolling = true;
         window.scrollTo({ top: snapSections[index].offsetTop, behavior: 'smooth' });
+        clearTimeout(sectionScrollTimeout);
+        sectionScrollTimeout = setTimeout(() => { isSectionScrolling = false; }, 800);
 
 
         const siteFooter = document.getElementById('siteFooter');
@@ -718,12 +715,20 @@
         }
     }
 
+    let wheelEndTimer;
+
     function handleWheel(e) {
         if (lightbox.classList.contains('active') || panel.classList.contains('active')) return;
         e.preventDefault();
-        if (isSectionScrolling) return;
-        if (e.deltaY > 0) scrollToSection(currentSectionIndex + 1);
-        else scrollToSection(currentSectionIndex - 1);
+
+        if (!isSectionScrolling) {
+            if (e.deltaY > 0) scrollToSection(currentSectionIndex + 1);
+            else scrollToSection(currentSectionIndex - 1);
+        }
+
+        // Keep locked until wheel events stop for 400ms (absorbs trackpad momentum)
+        clearTimeout(wheelEndTimer);
+        wheelEndTimer = setTimeout(() => { isSectionScrolling = false; }, 400);
     }
 
     // Prevent native vertical scroll when snapping (allow inside panel/lightbox)

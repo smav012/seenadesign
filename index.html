@@ -107,7 +107,7 @@
                     </div>
             
             <div class="carousel-wrapper">
-                <div class="carousel-container">
+                <div class="carousel-container" aria-label="WNBA project images">
                     <div class="carousel">
                         <a href="img/wnba/Slide-1.jpg" target="_blank" class="carousel-image-link">
                             <img src="img/wnba/Slide-1.jpg" alt="WNBA 2024 Impact Report Cover Design" class="carousel-image">
@@ -156,7 +156,7 @@
                     </div>
             
             <div class="carousel-wrapper">
-                <div class="carousel-container">
+                <div class="carousel-container" aria-label="Mass Bail Fund project images">
                     <div class="carousel">
                         <a href="img/MBF portfolio mockups/FRAME1.png" target="_blank" class="carousel-image-link">
                             <img src="img/MBF portfolio mockups/FRAME1.png" alt="MBF Final Logo" class="carousel-image">
@@ -202,7 +202,7 @@
                     </div>
             
             <div class="carousel-wrapper">
-                <div class="carousel-container">
+                <div class="carousel-container" aria-label="Mike & Patty's project images">
                     <div class="carousel">
                         <a href="img/M&P Portfolio Mockups/Slide01.jpg" target="_blank" class="carousel-image-link">
                             <img src="img/M&P Portfolio Mockups/Slide01.jpg" alt="Mike & Patty's Logo" class="carousel-image">
@@ -267,7 +267,7 @@
                     </div>
             
             <div class="carousel-wrapper">
-                <div class="carousel-container">
+                <div class="carousel-container" aria-label="Take a Zine Leave a Zine project images">
                     <div class="carousel">
                         <a href="img/TAZLAZ mup/Mockup_0.jpg" target="_blank" class="carousel-image-link">
                             <img src="img/TAZLAZ mup/Mockup_0.jpg" alt="TAZLAZ Logo" class="carousel-image">
@@ -309,7 +309,7 @@
                     </div>
             
             <div class="carousel-wrapper">
-                <div class="carousel-container">
+                <div class="carousel-container" aria-label="CVR the Land project images">
                     <div class="carousel">
                         <a href="img/CVR mockups/Mockup_0.jpg" target="_blank" class="carousel-image-link">
                             <img src="img/CVR mockups/Mockup_0.jpg" alt="Poster/Exhibition Design" class="carousel-image">
@@ -353,10 +353,10 @@
                     </div>
             
             <div class="carousel-wrapper">
-                <div class="carousel-container">
+                <div class="carousel-container" aria-label="Allston Sign project images">
                     <div class="carousel">
                         <a href="img/allston mup/Allston_Mockup1.jpg" target="_blank" class="carousel-image-link">
-                            <img src="img/allston mup/Allston_Mockup1.jpg" alt="TAZLAZ Logo" class="carousel-image">
+                            <img src="img/allston mup/Allston_Mockup1.jpg" alt="Allston Signage Design" class="carousel-image">
                         </a>
                         <a href="img/allston mup/Allston_Mockup2.jpg" target="_blank" class="carousel-image-link">
                             <img src="img/allston mup/Allston_Mockup2.jpg" alt="cute neocities site mockups" class="carousel-image">
@@ -400,10 +400,10 @@
     </footer>
 
     <!-- Lightbox Modal -->
-    <div class="lightbox" id="lightbox">
-        <button class="lightbox-nav lightbox-prev" id="lightboxPrev">‹</button>
-        <button class="lightbox-nav lightbox-next" id="lightboxNext">›</button>
-        <button class="lightbox-close" id="lightboxClose">&times;</button>
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image lightbox">
+        <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous image">‹</button>
+        <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next image">›</button>
+        <button class="lightbox-close" id="lightboxClose" aria-label="Close lightbox">&times;</button>
         <div class="lightbox-content">
             <img class="lightbox-image" id="lightboxImage" src="" alt="">
             <div class="lightbox-caption" id="lightboxCaption"></div>
@@ -565,12 +565,7 @@
 
         const introCont = document.querySelector('.logo-container');
 
-        // Clear scroll lock when scrolling stops
-        let scrollEndTimer;
-        window.addEventListener('scroll', () => {
-            clearTimeout(scrollEndTimer);
-            scrollEndTimer = setTimeout(() => { isSectionScrolling = false; }, 80);
-        }, { passive: true });
+        let sectionScrollTimeout;
 
         function scrollToSection(index) {
             if (index < 0 || index >= snapSections.length) return;
@@ -578,6 +573,8 @@
             currentSectionIndex = index;
             isSectionScrolling = true;
             window.scrollTo({ top: snapSections[index].offsetTop, behavior: 'smooth' });
+            clearTimeout(sectionScrollTimeout);
+            sectionScrollTimeout = setTimeout(() => { isSectionScrolling = false; }, 800);
 
 
             const siteFooter = document.getElementById('siteFooter');
@@ -644,6 +641,8 @@
         }
 
         // Mouse wheel smooth section scrolling
+        let wheelEndTimer;
+
         function handleWheel(e) {
             if (lightbox.classList.contains('active')) {
                 e.preventDefault();
@@ -657,20 +656,24 @@
                 if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
                 e.preventDefault();
                 if (!isSectionScrolling) {
-                    if (e.deltaY > 0) scrollToSection(getCurrentSectionIndex() + 1);
-                    else scrollToSection(getCurrentSectionIndex() - 1);
+                    if (e.deltaY > 0) scrollToSection(currentSectionIndex + 1);
+                    else scrollToSection(currentSectionIndex - 1);
                 }
+                clearTimeout(wheelEndTimer);
+                wheelEndTimer = setTimeout(() => { isSectionScrolling = false; }, 400);
                 return;
             }
 
             e.preventDefault();
-            if (isSectionScrolling) return;
 
-            if (e.deltaY > 0) {
-                scrollToSection(getCurrentSectionIndex() + 1);
-            } else {
-                scrollToSection(getCurrentSectionIndex() - 1);
+            if (!isSectionScrolling) {
+                if (e.deltaY > 0) scrollToSection(currentSectionIndex + 1);
+                else scrollToSection(currentSectionIndex - 1);
             }
+
+            // Keep locked until wheel events stop for 400ms (absorbs trackpad momentum)
+            clearTimeout(wheelEndTimer);
+            wheelEndTimer = setTimeout(() => { isSectionScrolling = false; }, 400);
         }
         
         // Initialize lightbox + carousels
@@ -689,6 +692,23 @@
                 scrollIndicatorEl.addEventListener('click', () => scrollToSection(1));
             }
 
+
+            // Carousel drag-to-scroll
+            document.querySelectorAll('.carousel-container').forEach(container => {
+                let isDragging = false, dragStartX = 0, dragScrollLeft = 0;
+                container.addEventListener('mousedown', e => {
+                    isDragging = true;
+                    dragStartX = e.pageX - container.offsetLeft;
+                    dragScrollLeft = container.scrollLeft;
+                });
+                document.addEventListener('mouseup', () => { isDragging = false; });
+                container.addEventListener('mousemove', e => {
+                    if (!isDragging) return;
+                    e.preventDefault();
+                    container.scrollLeft = dragScrollLeft - (e.pageX - container.offsetLeft - dragStartX);
+                });
+                container.addEventListener('mouseleave', () => { isDragging = false; });
+            });
 
             // Lightbox: scope images to the clicked image's carousel
             document.querySelectorAll('.carousel-image-link').forEach(link => {

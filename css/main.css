@@ -354,7 +354,7 @@
         .carousel-container {
             width: 100%;
             margin: 0 auto;
-            overflow-x: auto;
+            overflow-x: scroll;
             overflow-y: hidden;
             scrollbar-width: thin;
             scrollbar-color: var(--yellow) var(--black);
@@ -394,8 +394,6 @@
             outline: none;
         }
 
-        .carousel-image-link:focus,
-        .carousel-image-link:active,
         #headerLogoLink:focus,
         #headerLogoLink:active {
             outline: none !important;
