@@ -164,7 +164,7 @@
                         <a href="img/MBF portfolio mockups/FRAME2.png" target="_blank" class="carousel-image-link">
                             <img src="img/MBF portfolio mockups/FRAME2.png" alt="Wordmark & Icon" class="carousel-image">
                         </a>
-                        <a href="img/MBF portfolio mockups/" target="_blank" class="carousel-image-link">
+                        <a href="img/MBF portfolio mockups/FRAME3.png" target="_blank" class="carousel-image-link">
                             <img src="img/MBF portfolio mockups/FRAME3.png" alt="Current Website" class="carousel-image">
                         </a>
                         <a href="img/MBF portfolio mockups/FRAME4.png" target="_blank" class="carousel-image-link">
@@ -211,7 +211,7 @@
                             <img src="img/M&P Portfolio Mockups/Slide02.jpg" alt="Wordmark & Icon" class="carousel-image">
                         </a>
                         <a href="img/M&P Portfolio Mockups/Slide03.jpg" target="_blank" class="carousel-image-link">
-                            <img src="img/M&P Portfolio Mockups/Slide03.jpg" alt="Current Website" class="carousel-image">
+                            <img src="img/M&P Portfolio Mockups/Slide03.jpg" alt="Menus" class="carousel-image">
                         </a>
                         <a href="img/M&P Portfolio Mockups/Slide04.jpg" target="_blank" class="carousel-image-link">
                             <img src="img/M&P Portfolio Mockups/Slide04.jpg" alt="Apparel" class="carousel-image">
@@ -276,7 +276,7 @@
                             <img src="img/TAZLAZ mup/Mockup_1.jpg" alt="cute neocities site mockups" class="carousel-image">
                         </a>
 						 <a href="img/TAZLAZ mup/Mockup_2.jpg" target="_blank" class="carousel-image-link">
-                            <img src="img/TAZLAZ mup/Mockup_2.jpg" alt="Flyers" class="carousel-image">
+                            <img src="img/TAZLAZ mup/Mockup_2.jpg" alt="site pages/map" class="carousel-image">
 						</a>
 						<a href="img/TAZLAZ mup/Mockup_3.jpg" target="_blank" class="carousel-image-link">
                             <img src="img/TAZLAZ mup/Mockup_3.jpg" alt="Flyers" class="carousel-image">
@@ -356,10 +356,10 @@
                 <div class="carousel-container" aria-label="Allston Sign project images">
                     <div class="carousel">
                         <a href="img/allston mup/Allston_Mockup1.jpg" target="_blank" class="carousel-image-link">
-                            <img src="img/allston mup/Allston_Mockup1.jpg" alt="Allston Signage Design" class="carousel-image">
+                            <img src="img/allston mup/Allston_Mockup1.jpg" alt="Allston Signage versions" class="carousel-image">
                         </a>
                         <a href="img/allston mup/Allston_Mockup2.jpg" target="_blank" class="carousel-image-link">
-                            <img src="img/allston mup/Allston_Mockup2.jpg" alt="cute neocities site mockups" class="carousel-image">
+                            <img src="img/allston mup/Allston_Mockup2.jpg" alt="Final version mockup" class="carousel-image">
                         </a>
                     </div>
                 </div>
@@ -696,6 +696,7 @@
             // Carousel drag-to-scroll
             document.querySelectorAll('.carousel-container').forEach(container => {
                 let isDragging = false, dragStartX = 0, dragScrollLeft = 0;
+                container.addEventListener('dragstart', e => e.preventDefault());
                 container.addEventListener('mousedown', e => {
                     isDragging = true;
                     dragStartX = e.pageX - container.offsetLeft;
