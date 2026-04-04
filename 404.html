@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="robots" content="noindex, nofollow">
+    <title>404 — seena</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon_design.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/slogo_ios.png">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/responsive.css">
+    <style>
+        body {
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+        .error-wrap {
+            padding: 2rem;
+            max-width: 480px;
+            width: 100%;
+        }
+        .error-code {
+            font-size: 7rem;
+            font-weight: 700;
+            line-height: 1;
+            color: var(--yellow, #FFF800);
+            margin: 0 0 0.25rem;
+            letter-spacing: -0.03em;
+        }
+        .error-msg {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.55);
+            margin: 0 0 2rem;
+        }
+        .error-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .error-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.15s;
+        }
+        .error-links a:hover {
+            color: var(--yellow, #FFF800);
+            text-decoration: underline;
+        }
+    </style>
+
+    <!-- Google Analytics GA4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HY2PLLJWGS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-HY2PLLJWGS');
+    </script>
+</head>
+<body>
+    <div class="error-wrap">
+        <div class="error-code">404</div>
+        <p class="error-msg">page not found</p>
+        <nav class="error-links">
+            <a href="/"><span class="arr">↗</span> Design Portfolio</a>
+            <a href="/art/"><span class="arr">↗</span> Art Portfolio</a>
+            <a href="/archive.html"><span class="arr">↗</span> Archive</a>
+        </nav>
+    </div>
+</body>
+</html>
