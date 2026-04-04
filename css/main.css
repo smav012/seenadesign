@@ -336,7 +336,7 @@
             position: fixed;
             bottom: 30px;
             right: 30px;
-            color: var(--gray);
+            color: #dfdada;
             font-family: monospace;
             font-size: 0.75rem;
             letter-spacing: 1px;
@@ -530,6 +530,13 @@
         /* Remove all background hover coloring */
         a:hover {
             background-color: transparent !important;
+        }
+
+        /* prevent image drag (interferes with carousel scroll) */
+        img {
+            -webkit-user-drag: none;
+            -webkit-user-select: none;
+            user-select: none;
         }
         
         /* Specific hover styles for different link types */
