@@ -7,5 +7,6 @@
 **/.DS_Store
 
 # Claude Code internals
+.claude
 .claude/worktrees/
 .claude/settings.local.json
