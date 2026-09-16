@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>event planning</title>
+    <title>movie day 1</title>
     <link rel="icon" type="image/png" href="../img/favicon_design.png">
     <style>
         @font-face {
@@ -61,7 +61,7 @@
         .blob-1 {
             width: 55vw;
             height: 55vw;
-            background: rgba(140, 38, 235, 0.582);
+            background: rgba(176, 149, 250, 0.582);
             top: -10%;
             left: -15%;
             animation: drift-1 16s ease-in-out infinite alternate;
@@ -85,7 +85,7 @@
         .blob-4 {
             width: 30vw;
             height: 30vw;
-            background: rgba(191, 38, 211, 0.532);
+            background: rgba(224, 209, 9, 0.532);
             top: 55%;
             left: -5%;
             animation: drift-4 21s ease-in-out infinite alternate;
@@ -120,8 +120,8 @@
 
         /* ── Card ── */
         .links-card {
-            background: #f8f9e7;
-            border: 8.5px solid #9d5ed1;
+            background: #d9e2f8;
+            border: 8.5px solid #073fb8;
             border-radius: 52px;
             padding: 22px;
             width: 100%;
@@ -142,114 +142,19 @@
         }
 
         .card-subtitle {
-            font-family: 'TypestarOCR', monospace;
+            font-family: 'arial', monospace;
             font-size: 14px;
             font-weight: 200;
             color: rgba(0, 0, 0, 0.85);
             margin-bottom: 20px;
             margin-top:10px;
             letter-spacing: -0.01em;
-            border-color: #9d5ed1;
+            border-color: #28b04a;
             border-style:dotted;
-            border-radius: 20%;
             background-color: aliceblue;
+            padding:4px;
         }
 
-        /* ── Collage image ── */
-        .collage-img {
-            width: 100%;
-            border-radius: 20px;
-            display: block;
-            margin-bottom: 14px;
-            flex: 1 1 0;
-            min-height: 0;
-            object-fit: cover;
-            object-position: top center;
-        }
-
-        /* ── Nav links ── */
-        .nav-links {
-            list-style: none;
-            margin: 4px 0 12px;
-        }
-
-        .nav-links hr {
-            border: none;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-            margin: 8.7px 0;
-        }
-
-        .nav-link-item a {
-            display: block;
-            font-family: 'TypestarNormal', 'Helvetica Neue', sans-serif;
-            font-size: 32px;
-            font-weight: 700;
-            color: rgba(0, 0, 0, 0.85);
-            letter-spacing: -0.01em;
-            text-decoration: none;
-            padding: 2px 0;
-            transition: opacity 0.15s;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .nav-link-item a:hover { opacity: 0.6; }
-
-        .link-icon {
-            display: inline-flex;
-            align-items: center;
-            margin-right: 8px;
-            vertical-align: middle;
-            position: relative;
-            top: -2px;
-        }
-        .link-icon svg {
-            width: 26px;
-            height: 26px;
-        }
-
-        /* ── Bird section ── */
-        .bird-section {
-            margin: 20px 0 4px;
-        }
-
-        .bird-label {
-            font-family: 'TypestarNormal', 'Helvetica Neue', sans-serif;
-            font-size: 17px;
-            font-weight: 700;
-            font-style: italic;
-            color: rgb(25, 82, 139);
-            display: block;
-            margin-bottom: 4px;
-            line-height: 1.3;
-        }
-
-        .bird-links {
-            font-family: 'TypestarNormal', 'Helvetica Neue', sans-serif;
-            font-size: 21px;
-            font-weight: 400;
-            color: rgba(0, 0, 0, 0.85);
-        }
-
-        .bird-links a {
-            color: rgba(0, 0, 0, 0.85);
-            text-decoration: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .bird-links a:hover { text-decoration: underline; }
-
-        .cloud-icon {
-            display: inline-flex;
-            align-items: center;
-            margin: 0 6px;
-            vertical-align: middle;
-            position: relative;
-            top: -1px;
-        }
-        .cloud-icon svg {
-            width: 22px;
-            height: 22px;
-        }
 
         /* ── Social row ── */
         .social-hr {
@@ -288,10 +193,10 @@
         /* ── Form: base ── */
         .event-form {
             /* gap between sections: name/email - days - movies */
-            --section-gap: 34px;
+            --section-gap: 54px;
             text-align: left;
             font-family: 'TypestarOCR', monospace;
-            margin-top: 4px;
+            margin-top: 15px;
         }
 
         .f-row { margin-bottom: 14px; }
@@ -301,7 +206,6 @@
             display: block;
             font-size: 12px;
             letter-spacing: 0.06em;
-            text-transform: uppercase;
             color: rgba(0, 0, 0, 0.55);
             margin-bottom: 5px;
         }
@@ -328,7 +232,7 @@
         }
 
         /* ── Form: date checkboxes (barebones) ── */
-        .f-check {
+        .f-check, .radio {
             display: flex;
             align-items: center;
             gap: 8px;
@@ -490,7 +394,7 @@
             margin-top: 4px;
             border: 1.5px solid rgba(0, 0, 0, 0.25);
             border-radius: 8px;
-            background: #fff;
+            background: #5ff80c;
             color: rgba(0, 0, 0, 0.85);
             cursor: pointer;
         }
@@ -506,6 +410,77 @@
         @media (prefers-reduced-motion: reduce) {
             .cover-art,
             .cover-art::after { transition: none; }
+        }
+
+
+        /* ── Form: notes under a legend ── */
+        .f-note {
+            font-family: inherit;
+            font-size: 11px;
+            letter-spacing: 0.04em;
+            color: rgba(0, 0, 0, 0.55);
+            margin-bottom: 8px;
+        }
+
+        /* ── Form: yes/no radios ── */
+        .radio {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.85);
+            padding: 3px 0;
+            cursor: pointer;
+        }
+
+        /* ── Form: failed state ── edit these ── */
+        .f-error {
+            display: none;
+            align-items: center;
+            gap: 9px;
+            font-family: inherit;
+            font-size: 12px;
+            letter-spacing: 0.04em;
+            color: #c3370c;
+            margin-top: 6px;
+        }
+
+        /* .is-invalid is added/removed by the validation script below */
+        .is-invalid .f-error { display: flex; }
+
+        .f-error-img {
+            width: 34px;
+            height: auto;
+            flex: none;
+        }
+
+        .is-invalid .f-error-img { animation: hamter-pop 0.32s ease-out; }
+
+        @keyframes hamter-pop {
+            0%   { transform: scale(0.4) rotate(-12deg); opacity: 0; }
+            70%  { transform: scale(1.08) rotate(3deg); }
+            100% { transform: scale(1) rotate(0); opacity: 1; }
+        }
+
+        .is-invalid .f-input {
+            border-color: #c3370c;
+            background: #fff6f3;
+        }
+
+        .is-invalid .f-label,
+        .is-invalid .f-legend { color: #c3370c; }
+
+        /* the movie radios are visually hidden, so the error shows on the
+           group instead of trying to point at a 1px invisible input */
+        .f-group[data-field="movie"].is-invalid .covers {
+            outline: 2px dashed #c3370c;
+            outline-offset: 8px;
+        }
+
+        .f-group[data-field="movie"].is-invalid .f-error { justify-content: center; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .is-invalid .f-error-img { animation: none; }
         }
 
         /* ── Desktop ── */
@@ -529,41 +504,76 @@
         <div class="links-card">
 
             <p class="card-header">hi lets watch a movie</p>
-            <div class="card-subtitle"><p> i cant plan for shit, so im sending this out to anyone interested in watching a movie together.
-            <br><br>i know some of you haven't seen either or both of these, and some of you may hate one or both of these. pick ur poison if u wanna hang
+            <div class="card-subtitle"><p> I cant plan for shit, so I'm sending this out to anyone interested in watching a movie together.
+            <br><br>I know some of you haven't seen either or both of these, and some of you may hate one or both of these. pick ur poison if u wanna hang
             </p></div>
 
-            <form class="event-form" id="event-form">
+            <form class="event-form" id="event-form" novalidate>
 
-                <div class="f-row">
+                <div class="f-row" data-field="fname">
                     <label class="f-label" for="fname">name</label>
                     <input class="f-input" type="text" id="fname" name="fname" required>
+                    <p class="f-error">
+                        <img class="f-error-img" src="img/dv_hamter.png" alt="" aria-hidden="true">
+                        <span class="f-error-msg"></span>
+                    </p>
                 </div>
 
-                <div class="f-row">
-                    <label class="f-label" for="email">email</label>
+                <div class="f-row" data-field="email">
+                    <label class="f-label" for="email">email so i can lyk</label>
                     <input class="f-input" type="email" id="email" name="email" required>
+                    <p class="f-error">
+                        <img class="f-error-img" src="img/dv_hamter.png" alt="" aria-hidden="true">
+                        <span class="f-error-msg"></span>
+                    </p>
                 </div>
 
-                <fieldset class="f-group">
-                    <legend class="f-legend">what days work</legend>
-                    <!-- TODO: swap in the real candidate dates -->
-                    <label class="f-check"><input type="checkbox" name="dates" value="Fri Oct 3"> wed oct 8</label>
-                    <label class="f-check"><input type="checkbox" name="dates" value="Sat Oct 4"> thurs oct 9</label>
-                    <label class="f-check"><input type="checkbox" name="dates" value="Sun Oct 5"> wed oct 14</label>
-                    <label class="f-check"><input type="checkbox" name="dates" value="Fri Oct 10"> thurs oct 15</label>
-                    <label class="f-check"><input type="checkbox" name="dates" value="Sat Oct 11"> sat oct 11</label>
+                <fieldset class="f-group" data-field="dates" role="group" aria-required="true">
+                    <legend class="f-legend">what days work (location tbd)</legend>
+                    <label class="f-check"><input type="checkbox" name="dates" value="Wed Oct 8"> wed oct 8</label>
+                    <label class="f-check"><input type="checkbox" name="dates" value="Thurs Oct 9"> thurs oct 9</label>
+                    <label class="f-check"><input type="checkbox" name="dates" value="Wed Oct 14"> wed oct 14</label>
+                    <label class="f-check"><input type="checkbox" name="dates" value="Thurs Oct 15"> thurs oct 15</label>
+                    <label class="f-check"><input type="checkbox" name="dates" value="Wed Oct 21"> wed oct 21</label>
+                    <label class="f-check"><input type="checkbox" name="dates" value="Thurs Oct 22"> thurs oct 22</label>
+                    <label class="f-check"><input type="checkbox" name="dates" value="Wed Oct 28"> wed oct 28 &#127875;</label>
+                    <p class="f-error">
+                        <img class="f-error-img" src="img/dv_hamter.png" alt="" aria-hidden="true">
+                        <span class="f-error-msg"></span>
+                    </p>
                 </fieldset>
 
-                <fieldset class="f-group">
-                    <legend class="f-legend" style="text-align: center;">pick ur poison</legend>
+                <fieldset class="f-group" data-field="money" role="radiogroup" aria-required="true">
+                    <legend class="f-legend">in case i cant host, would u be willing to pay for a ticket</legend>
+                    <p class="f-note" style="margin-bottom: 15px;">~$10-15ish</p>
+                    <label class="radio"><input type="radio" name="money" value="yeah"> yeah</label>
+                    <label class="radio"><input type="radio" name="money" value="nah"> nah</label>
+                    <p class="f-error">
+                        <img class="f-error-img" src="img/dv_hamter.png" alt="" aria-hidden="true">
+                        <span class="f-error-msg"></span>
+                    </p>
+                </fieldset>
+
+                <fieldset class="f-group" data-field="host" role="radiogroup" aria-required="true">
+                    <legend class="f-legend">in case i cant host, would u be willing to host? (cuz ur place is cool)</legend>
+                    <p class="f-note" style="margin-bottom: 15px; font-size: 8px;">paid in beer</p>
+                    <label class="radio"><input type="radio" name="host" value="yeah"> yeah</label>
+                    <label class="radio"><input type="radio" name="host" value="nah"> nah</label>
+                    <p class="f-error">
+                        <img class="f-error-img" src="img/dv_hamter.png" alt="" aria-hidden="true">
+                        <span class="f-error-msg"></span>
+                    </p>
+                </fieldset>
+
+                <fieldset class="f-group" data-field="movie" role="radiogroup" aria-required="true">
+                    <legend class="f-legend" style="text-align: center;">pick movie</legend>
                     <div class="covers">
 
                         <label class="cover">
                             <input type="radio" name="movie" value="hobv" required>
                             <span class="cover-title">hundreds of beavers</span>
                             <span class="cover-art">
-                                <img src="img/hobv.png" alt="">
+                                <img src="img/hobv.png" alt="beavers">
                             </span>
                         </label>
 
@@ -571,14 +581,18 @@
                             <input type="radio" name="movie" value="ntbtstm">
                             <span class="cover-title">nirvanna the band the show the movie</span>
                             <span class="cover-art cover-art--ntbtstm">
-                                <img src="img/ntbtstm.png" alt="">
+                                <img src="img/ntbtstm.png" alt="ntbtstm">
                             </span>
                         </label>
-
                     </div>
+                    <p class="f-note" style="text-align: center; font-size: 8px; margin-top: 10px;">its ok if the one you want loses, i'll prolly want to still watch it another time</p>
+                    <p class="f-error">
+                        <img class="f-error-img" src="img/dv_hamter.png" alt="" aria-hidden="true">
+                        <span class="f-error-msg"></span>
+                    </p>
                 </fieldset>
 
-                <button class="f-submit" type="submit">send it</button>
+                <button class="f-submit" type="submit">sbumit</button>
                 <p class="f-status" id="form-status" role="status"></p>
 
             </form>
@@ -587,6 +601,74 @@
 
         </div>
     </div>
+
+
+    <script>
+        (function () {
+            const form = document.getElementById('event-form');
+            const status = document.getElementById('form-status');
+            const nameEl = document.getElementById('fname');
+            const emailEl = document.getElementById('email');
+
+            const field = (name) => form.querySelector('[data-field="' + name + '"]');
+            const picked = (name) => !!form.querySelector('input[name="' + name + '"]:checked');
+
+            // edit the messages here
+            const checks = [
+                { group: field('fname'), msg: 'gonna need a name',
+                  ok: () => nameEl.value.trim() !== '' },
+                { group: field('email'), msg: 'gonna need a valid email',
+                  // type="email" still gives us format checking under novalidate
+                  ok: () => emailEl.value.trim() !== '' && emailEl.checkValidity() },
+                { group: field('dates'), msg: 'cmon pick at least one day',
+                  ok: () => form.querySelectorAll('input[name="dates"]:checked').length > 0 },
+                { group: field('money'), msg: 'yeah or nah ??',
+                  ok: () => picked('money') },
+                { group: field('host'), msg: 'yeah or nah ?',
+                  ok: () => picked('host') },
+                { group: field('movie'), msg: 'pick movieeeee',
+                  ok: () => picked('movie') }
+            ];
+
+            let attempted = false;
+
+            function validate() {
+                let valid = true;
+                checks.forEach((c) => {
+                    const good = c.ok();
+                    c.group.classList.toggle('is-invalid', !good);
+                    c.group.querySelector('.f-error-msg').textContent = good ? '' : c.msg;
+                    c.group.querySelectorAll('input').forEach((i) => {
+                        i.setAttribute('aria-invalid', good ? 'false' : 'true');
+                    });
+                    if (!good) valid = false;
+                });
+                return valid;
+            }
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                attempted = true;
+
+                if (!validate()) {
+                    const first = form.querySelector('.is-invalid');
+                    if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    return;
+                }
+
+                // TODO: POST to the Zapier catch hook once we have the URL,
+                // and only redirect once it resolves
+                window.location.href = 'submitted.html';
+            });
+
+            // once they've tried to submit, clear errors as they get fixed
+            ['input', 'change'].forEach((evt) => {
+                form.addEventListener(evt, function () {
+                    if (attempted) validate();
+                });
+            });
+        })();
+    </script>
 
 </body>
 </html>

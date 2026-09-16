@@ -1,0 +1,157 @@
+/* Shared shell for the event pages: fonts, blobs, card.
+   Page-specific styles stay inline in event.html / submitted.html.
+   Paths are relative to this file, which lives in events/. */
+
+@font-face {
+    font-family: 'TypestarOCR';
+    src: url('../fonts/Typestar-OCR.otf') format('opentype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'TypestarNormal';
+    src: url('../fonts/Typestar-Normal.otf') format('opentype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'AvenirNext';
+    src: url('../fonts/Avenir Next.ttc') format('truetype');
+    font-display: swap;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    min-height: 100%;
+    overflow-x: hidden;
+}
+
+body {
+            background: #3e3e70;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 24px 16px;
+            position: relative;
+        }
+
+        /* ── Ambient blob background ── */
+        .bg-blobs {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.85;
+        }
+
+        .blob-1 {
+            width: 55vw;
+            height: 55vw;
+            background: rgba(176, 149, 250, 0.582);
+            top: -10%;
+            left: -15%;
+            animation: drift-1 16s ease-in-out infinite alternate;
+        }
+        .blob-2 {
+            width: 45vw;
+            height: 45vw;
+            background: rgba(207, 94, 2, 0.702);
+            top: 30%;
+            right: -10%;
+            animation: drift-2 19s ease-in-out infinite alternate;
+        }
+        .blob-3 {
+            width: 40vw;
+            height: 40vw;
+            background: rgba(100, 200, 246, 0.862);
+            bottom: -5%;
+            left: 20%;
+            animation: drift-3 14s ease-in-out infinite alternate;
+        }
+        .blob-4 {
+            width: 30vw;
+            height: 30vw;
+            background: rgba(224, 209, 9, 0.532);
+            top: 55%;
+            left: -5%;
+            animation: drift-4 21s ease-in-out infinite alternate;
+        }
+
+        @keyframes drift-1 {
+            from { transform: translate(0, 0) scale(1); }
+            to   { transform: translate(8vw, 6vh) scale(1.1); }
+        }
+        @keyframes drift-2 {
+            from { transform: translate(0, 0) scale(1); }
+            to   { transform: translate(-6vw, -8vh) scale(0.95); }
+        }
+        @keyframes drift-3 {
+            from { transform: translate(0, 0) scale(1); }
+            to   { transform: translate(5vw, -5vh) scale(1.08); }
+        }
+        @keyframes drift-4 {
+            from { transform: translate(0, 0) scale(1); }
+            to   { transform: translate(7vw, 4vh) scale(1.05); }
+        }
+
+/* ── Card wrapper ── */
+.card-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* ── Card ── */
+.links-card {
+    background: #f8f9e7;
+    border: 8.5px solid #9d5ed1;
+    border-radius: 52px;
+    padding: 22px;
+    width: 100%;
+    max-width: 374px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Header ── */
+.card-header {
+    font-family: 'TypestarOCR', monospace;
+    font-size: 24px;
+    font-weight: 1000;
+    color: rgba(195, 55, 12, 0.85);
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
+}
+
+.card-subtitle {
+    font-family: 'TypestarOCR', monospace;
+    font-size: 14px;
+    font-weight: 200;
+    color: rgba(0, 0, 0, 0.85);
+    margin-bottom: 20px;
+    margin-top:10px;
+    letter-spacing: -0.01em;
+    border-color: #9d5ed1;
+    border-style:dotted;
+    border-radius: 20%;
+    background-color: aliceblue;
+}
+
+/* ── Desktop ── */
+        @media (min-width: 600px) {
+            body { padding: 37px 47px 40px; }
+        }
