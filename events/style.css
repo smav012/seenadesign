@@ -30,7 +30,7 @@ html, body {
 }
 
 body {
-            background: #3e3e70;
+            background: #2929c0;
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -116,7 +116,7 @@ body {
 
 /* ── Card ── */
 .links-card {
-    background: #f8f9e7;
+    background: #f5d1f2;
     border: 8.5px solid #9d5ed1;
     border-radius: 52px;
     padding: 22px;
