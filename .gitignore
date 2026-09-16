@@ -10,3 +10,7 @@
 .claude
 .claude/worktrees/
 .claude/settings.local.json
+
+# Adobe temp spill
+~ai-*.tmp
+*.tmp
