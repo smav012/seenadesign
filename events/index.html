@@ -52,10 +52,18 @@
         .f-check, .radio {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 14px;
+            gap: 11px;
+            font-size: 16px;
             color: rgba(0, 0, 0, 0.85);
-            padding: 3px 0;
+            padding: 7px 0;
+            cursor: pointer;
+        }
+
+        .f-check input, .radio input {
+            width: 21px;
+            height: 21px;
+            flex: none;
+            accent-color: #9d5ed1;
             cursor: pointer;
         }
 
@@ -235,17 +243,6 @@
             margin-bottom: 8px;
         }
 
-        /* ── Form: yes/no radios ── */
-        .radio {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            color: rgba(0, 0, 0, 0.85);
-            padding: 3px 0;
-            cursor: pointer;
-        }
-
         /* ── Form: failed state ── edit these ── */
         .f-error {
             display: none;
@@ -262,7 +259,7 @@
         .is-invalid .f-error { display: flex; }
 
         .f-error-img {
-            width: 34px;
+            width: 48px;
             height: auto;
             flex: none;
         }
@@ -497,6 +494,18 @@
                     movie_title: movieEl.parentElement.querySelector('.cover-title').textContent.trim(),
                     submitted_at: new Date().toISOString()
                 });
+
+                // one column per date - keys are derived from the checkbox
+                // values, so adding a date row here needs no code change
+                Array.prototype.forEach.call(
+                    form.querySelectorAll('input[name="dates"]'),
+                    function (i) {
+                        body.append(
+                            i.value.toLowerCase().replace(/\s+/g, '_'),
+                            i.checked ? 'yes' : ''
+                        );
+                    }
+                );
 
                 fetch(HOOK_URL, { method: 'POST', body: body })
                     .then(function (r) {
