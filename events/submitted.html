@@ -95,6 +95,24 @@
 
         .links-row img {
             height: 49px;
+            transform-origin: 50% 85%;
+            animation: peanut-wiggle 2.8s ease-in-out infinite;
+        }
+
+        /* pauses on hover so it holds still while you aim at it */
+        .links-row a:hover img { animation-play-state: paused; }
+
+        @keyframes peanut-wiggle {
+            0%, 62%, 100% { transform: rotate(0deg); }
+            68%  { transform: rotate(-9deg); }
+            74%  { transform: rotate(7deg); }
+            80%  { transform: rotate(-5deg); }
+            86%  { transform: rotate(3deg); }
+            92%  { transform: rotate(-1.5deg); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .links-row img { animation: none; }
         }
     </style>
 </head>
@@ -120,8 +138,7 @@
             <p class="card-header" style="color:rgb(3, 116, 3);">submitted!</p>
 
             <div class="sent-body">
-                <img class="sent-img" src="img/smile_hamter.png" alt="smile" style="height:140px; width:150px;">
-                <img class="sent-img" src="img/dfy.JPG" alt="dude, fuck yes" style="margin-top:30px">
+                <img class="sent-img" src="img/IMG_8831.GIF" alt="blink cat" style="margin-top:30px">
             </div>
 
             <div class="links-row">
