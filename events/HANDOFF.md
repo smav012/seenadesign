@@ -13,7 +13,7 @@ Live: https://www.seena.design/events/  →  submitted.html on success
   (in `index.html`, const `HOOK_URL`)
 - Posts form-encoded (avoids a CORS preflight). Fields:
   name, email, tues_oct_6 … wed_oct_28 (one per date, "yes"/""),
-  would_pay, would_host, movie, movie_title, dates, submitted_at
+  would_pay, would_host, movie, movie_title, suggestion, dates, submitted_at
 - Date column keys are derived from checkbox values at submit time, so
   adding a date row needs no code change — but the sheet header must match
   exactly (lowercase, underscores).

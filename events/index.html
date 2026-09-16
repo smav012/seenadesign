@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>movie night 1</title>
+
+    <!-- Google Analytics GA4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HY2PLLJWGS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-HY2PLLJWGS');
+    </script>
+
     <link rel="icon" type="image/png" href="../img/favicon_design.png">
     <link rel="stylesheet" href="style.css">
 
@@ -415,6 +425,12 @@
                     </p>
                 </fieldset>
 
+                <div class="f-row" data-field="suggestion">
+                    <label class="f-label" for="suggestion">ok lets say this goes well.. what movie would you want to see?</label>
+                    <p class="f-note" style="margin-bottom: 15px; font-size: 8px;">say surfs up</p>
+                    <input class="f-input" type="text" id="suggestion" name="suggestion">
+                </div>
+
                 <button class="f-submit" type="submit">sbumit</button>
                 <p class="f-status" id="form-status" role="status"></p>
 
@@ -508,6 +524,7 @@
                     would_host: form.querySelector('input[name="host"]:checked').value,
                     movie: movieEl.value,
                     movie_title: movieEl.parentElement.querySelector('.cover-title').textContent.trim(),
+                    suggestion: document.getElementById('suggestion').value.trim(),
                     submitted_at: new Date().toISOString()
                 });
 
