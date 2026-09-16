@@ -5,191 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>movie day 1</title>
     <link rel="icon" type="image/png" href="../img/favicon_design.png">
+    <link rel="stylesheet" href="style.css">
     <style>
-        @font-face {
-            font-family: 'TypestarOCR';
-            src: url('../fonts/Typestar-OCR.otf') format('opentype');
-            font-display: swap;
-        }
-        @font-face {
-            font-family: 'TypestarNormal';
-            src: url('../fonts/Typestar-Normal.otf') format('opentype');
-            font-display: swap;
-        }
-        @font-face {
-            font-family: 'AvenirNext';
-            src: url('../fonts/Avenir Next.ttc') format('truetype');
-            font-display: swap;
-        }
-
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html, body {
-            min-height: 100%;
-            overflow-x: hidden;
-        }
-
-        body {
-            background: #3e3e70;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 24px 16px;
-            position: relative;
-        }
-
-        /* ── Ambient blob background ── */
-        .bg-blobs {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            overflow: hidden;
-            pointer-events: none;
-        }
-
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.85;
-        }
-
-        .blob-1 {
-            width: 55vw;
-            height: 55vw;
-            background: rgba(176, 149, 250, 0.582);
-            top: -10%;
-            left: -15%;
-            animation: drift-1 16s ease-in-out infinite alternate;
-        }
-        .blob-2 {
-            width: 45vw;
-            height: 45vw;
-            background: rgba(207, 94, 2, 0.702);
-            top: 30%;
-            right: -10%;
-            animation: drift-2 19s ease-in-out infinite alternate;
-        }
-        .blob-3 {
-            width: 40vw;
-            height: 40vw;
-            background: rgba(100, 200, 246, 0.862);
-            bottom: -5%;
-            left: 20%;
-            animation: drift-3 14s ease-in-out infinite alternate;
-        }
-        .blob-4 {
-            width: 30vw;
-            height: 30vw;
-            background: rgba(224, 209, 9, 0.532);
-            top: 55%;
-            left: -5%;
-            animation: drift-4 21s ease-in-out infinite alternate;
-        }
-
-        @keyframes drift-1 {
-            from { transform: translate(0, 0) scale(1); }
-            to   { transform: translate(8vw, 6vh) scale(1.1); }
-        }
-        @keyframes drift-2 {
-            from { transform: translate(0, 0) scale(1); }
-            to   { transform: translate(-6vw, -8vh) scale(0.95); }
-        }
-        @keyframes drift-3 {
-            from { transform: translate(0, 0) scale(1); }
-            to   { transform: translate(5vw, -5vh) scale(1.08); }
-        }
-        @keyframes drift-4 {
-            from { transform: translate(0, 0) scale(1); }
-            to   { transform: translate(7vw, 4vh) scale(1.05); }
-        }
-
-        /* ── Card wrapper ── */
-        .card-wrapper {
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-        }
-
-        /* ── Card ── */
-        .links-card {
-            background: #d9e2f8;
-            border: 8.5px solid #073fb8;
-            border-radius: 52px;
-            padding: 22px;
-            width: 100%;
-            max-width: 374px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* ── Header ── */
-        .card-header {
-            font-family: 'TypestarOCR', monospace;
-            font-size: 24px;
-            font-weight: 1000;
-            color: rgba(195, 55, 12, 0.85);
-            margin-bottom: 14px;
-            letter-spacing: -0.01em;
-        }
-
-        .card-subtitle {
-            font-family: 'arial', monospace;
-            font-size: 14px;
-            font-weight: 200;
-            color: rgba(0, 0, 0, 0.85);
-            margin-bottom: 20px;
-            margin-top:10px;
-            letter-spacing: -0.01em;
-            border-color: #28b04a;
-            border-style:dotted;
-            background-color: aliceblue;
-            padding:4px;
-        }
-
-
-        /* ── Social row ── */
-        .social-hr {
-            border: none;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-            margin: 10px 0;
-        }
-
-        .social-row {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 28px;
-        }
-
-        .social-row a {
-            color: rgba(0, 0, 0, 0.85);
-            text-decoration: none;
-            transition: opacity 0.15s;
-            display: flex;
-            align-items: center;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .social-row a:hover { opacity: 0.6; }
-        .social-row a.lastfm-link:hover { opacity: 1; fill: #d51007; }
-        .social-row a.lastfm-link:hover svg { fill: #d51007; }
-
-        .social-row svg {
-            width: 29px;
-            height: 29px;
-            fill: rgba(0, 0, 0, 0.85);
-        }
-
-
         /* ── Form: base ── */
         .event-form {
             /* gap between sections: name/email - days - movies */
@@ -407,10 +224,6 @@
             color: rgba(0, 0, 0, 0.6);
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            .cover-art,
-            .cover-art::after { transition: none; }
-        }
 
 
         /* ── Form: notes under a legend ── */
@@ -480,12 +293,9 @@
         .f-group[data-field="movie"].is-invalid .f-error { justify-content: center; }
 
         @media (prefers-reduced-motion: reduce) {
+            .cover-art,
+            .cover-art::after { transition: none; }
             .is-invalid .f-error-img { animation: none; }
-        }
-
-        /* ── Desktop ── */
-        @media (min-width: 600px) {
-            body { padding: 37px 47px 40px; }
         }
     </style>
 </head>

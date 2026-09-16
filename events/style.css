@@ -1,5 +1,5 @@
 /* Shared shell for the event pages: fonts, blobs, card.
-   Page-specific styles stay inline in event.html / submitted.html.
+   Page-specific styles stay inline in index.html / submitted.html.
    Paths are relative to this file, which lives in events/. */
 
 @font-face {
