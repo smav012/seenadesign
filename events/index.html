@@ -415,6 +415,10 @@
 
     <script>
         (function () {
+            // Zapier Catch Hook. Empty string = skip the POST and just
+            // go to submitted.html (useful when testing the page offline).
+            const HOOK_URL = 'https://hooks.zapier.com/hooks/catch/26799192/4drdy7u/';
+
             const form = document.getElementById('event-form');
             const status = document.getElementById('form-status');
             const nameEl = document.getElementById('fname');
@@ -466,9 +470,43 @@
                     return;
                 }
 
-                // TODO: POST to the Zapier catch hook once we have the URL,
-                // and only redirect once it resolves
-                window.location.href = 'submitted.html';
+                if (!HOOK_URL) {
+                    window.location.href = 'submitted.html';
+                    return;
+                }
+
+                const btn = form.querySelector('.f-submit');
+                btn.disabled = true;
+                status.textContent = 'sending...';
+
+                const movieEl = form.querySelector('input[name="movie"]:checked');
+                const dates = Array.prototype.slice
+                    .call(form.querySelectorAll('input[name="dates"]:checked'))
+                    .map(function (i) { return i.value; })
+                    .join(', ');
+
+                // URLSearchParams posts as form-encoded, which is a "simple"
+                // request - no CORS preflight, and Zapier splits it into fields
+                const body = new URLSearchParams({
+                    name: nameEl.value.trim(),
+                    email: emailEl.value.trim(),
+                    dates: dates,
+                    would_pay: form.querySelector('input[name="money"]:checked').value,
+                    would_host: form.querySelector('input[name="host"]:checked').value,
+                    movie: movieEl.value,
+                    movie_title: movieEl.parentElement.querySelector('.cover-title').textContent.trim(),
+                    submitted_at: new Date().toISOString()
+                });
+
+                fetch(HOOK_URL, { method: 'POST', body: body })
+                    .then(function (r) {
+                        if (!r.ok) throw new Error('status ' + r.status);
+                        window.location.href = 'submitted.html';
+                    })
+                    .catch(function () {
+                        btn.disabled = false;
+                        status.textContent = 'didnt send - try again?';
+                    });
             });
 
             // once they've tried to submit, clear errors as they get fixed
