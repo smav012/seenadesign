@@ -4,21 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>event planning</title>
-    <link rel="icon" type="image/png" href="img/favicon_design.png">
+    <link rel="icon" type="image/png" href="../img/favicon_design.png">
     <style>
         @font-face {
             font-family: 'TypestarOCR';
-            src: url('fonts/Typestar-OCR.otf') format('opentype');
+            src: url('../fonts/Typestar-OCR.otf') format('opentype');
             font-display: swap;
         }
         @font-face {
             font-family: 'TypestarNormal';
-            src: url('fonts/Typestar-Normal.otf') format('opentype');
+            src: url('../fonts/Typestar-Normal.otf') format('opentype');
             font-display: swap;
         }
         @font-face {
             font-family: 'AvenirNext';
-            src: url('fonts/Avenir Next.ttc') format('truetype');
+            src: url('../fonts/Avenir Next.ttc') format('truetype');
             font-display: swap;
         }
 
@@ -29,15 +29,15 @@
         }
 
         html, body {
-            height: 100%;
-            overflow: hidden;
+            min-height: 100%;
+            overflow-x: hidden;
         }
 
         body {
             background: #3e3e70;
             display: flex;
             justify-content: center;
-            align-items: stretch;
+            align-items: flex-start;
             padding: 24px 16px;
             position: relative;
         }
@@ -115,7 +115,7 @@
             width: 100%;
             display: flex;
             justify-content: center;
-            align-items: stretch;
+            align-items: flex-start;
         }
 
         /* ── Card ── */
@@ -129,18 +129,30 @@
             text-align: center;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
-            flex: 1;
         }
 
         /* ── Header ── */
         .card-header {
-            font-family: 'TypestarOCR', 'Courier New', monospace;
-            font-size: 30px;
-            font-weight: 500;
-            color: rgba(0, 0, 0, 0.85);
+            font-family: 'TypestarOCR', monospace;
+            font-size: 24px;
+            font-weight: 1000;
+            color: rgba(195, 55, 12, 0.85);
             margin-bottom: 14px;
             letter-spacing: -0.01em;
+        }
+
+        .card-subtitle {
+            font-family: 'TypestarOCR', monospace;
+            font-size: 14px;
+            font-weight: 200;
+            color: rgba(0, 0, 0, 0.85);
+            margin-bottom: 20px;
+            margin-top:10px;
+            letter-spacing: -0.01em;
+            border-color: #9d5ed1;
+            border-style:dotted;
+            border-radius: 20%;
+            background-color: aliceblue;
         }
 
         /* ── Collage image ── */
@@ -272,6 +284,230 @@
             fill: rgba(0, 0, 0, 0.85);
         }
 
+
+        /* ── Form: base ── */
+        .event-form {
+            /* gap between sections: name/email - days - movies */
+            --section-gap: 34px;
+            text-align: left;
+            font-family: 'TypestarOCR', monospace;
+            margin-top: 4px;
+        }
+
+        .f-row { margin-bottom: 14px; }
+
+        .f-label,
+        .f-legend {
+            display: block;
+            font-size: 12px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: rgba(0, 0, 0, 0.55);
+            margin-bottom: 5px;
+        }
+
+        .f-input {
+            width: 100%;
+            font-family: inherit;
+            font-size: 15px;
+            padding: 8px 10px;
+            border: 1.5px solid rgba(0, 0, 0, 0.25);
+            border-radius: 8px;
+            background: #fff;
+            color: rgba(0, 0, 0, 0.85);
+        }
+
+        .f-input:focus-visible {
+            outline: 2px solid #9d5ed1;
+            outline-offset: 1px;
+        }
+
+        .f-group {
+            border: none;
+            margin: var(--section-gap) 0;
+        }
+
+        /* ── Form: date checkboxes (barebones) ── */
+        .f-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.85);
+            padding: 3px 0;
+            cursor: pointer;
+        }
+
+        /* ── Form: movie picker ── */
+        .covers {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .cover {
+            display: block;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* real radio, kept for a11y + keyboard, visually gone */
+        .cover input {
+            position: absolute;
+            opacity: 0;
+            width: 1px;
+            height: 1px;
+            pointer-events: none;
+        }
+
+        .cover-title {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            min-height: 3.4em;
+            font-family: 'arial';
+            font-size: 10px;
+            font-weight: 1000;
+            line-height: 1.25;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            text-align: center;
+            color: rgb(38, 37, 37);
+            margin-bottom: 6px;
+            transition: color 0.2s;
+        }
+
+        .cover-art {
+            position: relative;
+            display: block;
+            aspect-ratio: 492 / 804;
+            border-radius: 3px 9px 9px 3px;
+            overflow: hidden;
+            background: #000;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.28),
+                        0 8px 18px rgba(0, 0, 0, 0.18);
+            transition: transform 0.25s ease, box-shadow 0.25s ease,
+                        filter 0.25s ease, opacity 0.25s ease;
+        }
+
+        .cover-art img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* framing knobs: zoom creates the crop room that x/y shift into.
+               keep zoom high enough that the shift never exposes an edge. */
+            transform: scale(var(--img-zoom, 1))
+                       translate(var(--img-x, 0), var(--img-y, 0));
+        }
+
+        /* nudge nirvanna's framing right */
+        .cover-art--ntbtstm img {
+            --img-zoom: 1.14;
+            --img-x: 5%;
+        }
+
+        /* plastic case: left hinge/spine + permanent top gloss */
+        .cover-art::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            background:
+                linear-gradient(90deg,
+                    rgba(255, 255, 255, 0.38) 0px,
+                    rgba(255, 255, 255, 0.05) 3px,
+                    rgba(0, 0, 0, 0.22) 6px,
+                    rgba(0, 0, 0, 0.05) 9px,
+                    rgba(0, 0, 0, 0) 14px),
+                linear-gradient(160deg,
+                    rgba(255, 255, 255, 0.22) 0%,
+                    rgba(255, 255, 255, 0.04) 32%,
+                    rgba(255, 255, 255, 0) 55%);
+        }
+
+        /* the shine sweep */
+        .cover-art::after {
+            content: '';
+            position: absolute;
+            top: -60%;
+            bottom: -60%;
+            left: -40%;
+            width: 45%;
+            z-index: 3;
+            pointer-events: none;
+            transform: translateX(-260%) rotate(18deg);
+            background: linear-gradient(90deg,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.10) 35%,
+                rgba(255, 255, 255, 0.70) 50%,
+                rgba(255, 255, 255, 0.10) 65%,
+                rgba(255, 255, 255, 0) 100%);
+            transition: transform 0.75s cubic-bezier(0.25, 0.6, 0.3, 1);
+        }
+
+        .cover:hover .cover-art::after,
+        .cover input:focus-visible ~ .cover-art::after,
+        .cover input:checked ~ .cover-art::after {
+            transform: translateX(520%) rotate(18deg);
+        }
+
+        .cover:hover .cover-art {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.30),
+                        0 14px 26px rgba(0, 0, 0, 0.22);
+        }
+
+        .cover input:checked ~ .cover-art {
+            transform: translateY(-3px);
+            box-shadow: 0 0 0 3px #9d5ed1,
+                        0 4px 10px rgba(0, 0, 0, 0.30),
+                        0 14px 26px rgba(0, 0, 0, 0.20);
+        }
+
+        .cover input:checked ~ .cover-title {
+            color: rgba(195, 55, 12, 0.95);
+        }
+
+        .cover input:focus-visible ~ .cover-art {
+            outline: 2px solid #9d5ed1;
+            outline-offset: 3px;
+        }
+
+        /* dim the one you didn't pick */
+        .covers:has(input:checked) .cover:not(:has(input:checked)) .cover-art {
+            filter: saturate(0.55) brightness(0.82);
+            opacity: 0.75;
+        }
+
+        /* ── Form: submit ── */
+        .f-submit {
+            width: 100%;
+            font-family: inherit;
+            font-size: 15px;
+            padding: 10px;
+            margin-top: 4px;
+            border: 1.5px solid rgba(0, 0, 0, 0.25);
+            border-radius: 8px;
+            background: #fff;
+            color: rgba(0, 0, 0, 0.85);
+            cursor: pointer;
+        }
+
+        .f-status {
+            font-size: 13px;
+            text-align: center;
+            margin-top: 8px;
+            min-height: 1.2em;
+            color: rgba(0, 0, 0, 0.6);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .cover-art,
+            .cover-art::after { transition: none; }
+        }
+
         /* ── Desktop ── */
         @media (min-width: 600px) {
             body { padding: 37px 47px 40px; }
@@ -292,66 +528,62 @@
     <div class="card-wrapper">
         <div class="links-card">
 
-            <p class="card-header">hi im seena</p>
+            <p class="card-header">hi lets watch a movie</p>
+            <div class="card-subtitle"><p> i cant plan for shit, so im sending this out to anyone interested in watching a movie together.
+            <br><br>i know some of you haven't seen either or both of these, and some of you may hate one or both of these. pick ur poison if u wanna hang
+            </p></div>
 
-            <img src="img/links-collage.png" alt="seena" class="collage-img" loading="lazy">
+            <form class="event-form" id="event-form">
 
-            <ul class="nav-links">
-                <li class="nav-link-item">
-                    <a href="/index.html" target="_blank">
-                        <span class="link-icon">
-                            <svg viewBox="0 0 24 24" fill="rgb(37,37,34)" xmlns="http://www.w3.org/2000/svg"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
-                        </span>design
-                    </a>
-                </li>
-                <hr>
-                <li class="nav-link-item">
-                    <a href="/art/index.html" target="_blank">
-                        <span class="link-icon">
-                            <svg viewBox="0 0 24 24" fill="rgb(37,37,34)" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c1.1 0 2-.9 2-2 0-.57-.21-1.08-.54-1.48-.35-.41-.56-.95-.56-1.52 0-1.1.9-2 2-2h2.36c3.1 0 5.74-2.53 5.74-5.64C22.99 6.01 17.95 2 12 2zm-5 9c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm2-4c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm2 4c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>
-                        </span>art
-                    </a>
-                </li>
-                <hr>
-                <li class="nav-link-item">
-                    <a href="/store.html" target="_blank">
-                        <span class="link-icon">
-                            <svg viewBox="0 0 24 24" fill="rgb(37,37,34)" xmlns="http://www.w3.org/2000/svg"><path d="M18 6h-2c0-2.21-1.79-4-4-4S8 3.79 8 6H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-8 4c0 .55-.45 1-1 1s-1-.45-1-1V8h2v2zm2-6c1.1 0 2 .9 2 2h-4c0-1.1.9-2 2-2zm4 6c0 .55-.45 1-1 1s-1-.45-1-1V8h2v2z"/></svg>
-                        </span>shop
-                    </a>
-                </li>
-                <hr>
-            </ul>
-
-            <div class="bird-section">
-                <span class="bird-label">Check out some of my bird photos:</span>
-                <div class="bird-links">
-                    <a href="https://media.ebird.org/catalog?unconfirmed=incl&mediaType=photo&userId=USER3040926" target="_blank">eBird</a>
-                    <span class="cloud-icon">
-                        <svg viewBox="0 0 24 24" fill="rgb(142,224,95)" xmlns="http://www.w3.org/2000/svg"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
-                    </span>
-                    <a href="https://www.inaturalist.org/people/cnamav" target="_blank">iNaturalist</a>
+                <div class="f-row">
+                    <label class="f-label" for="fname">name</label>
+                    <input class="f-input" type="text" id="fname" name="fname" required>
                 </div>
-            </div>
 
-            <hr class="social-hr">
-            <div class="social-row">
-                <a href="mailto:other@seena.design?subject=Contact Req from Site" title="Email">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
-                    </svg>
-                </a>
-                <a href="https://www.last.fm/user/cnamav" target="_blank" title="Last.fm" class="lastfm-link">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="rgba(0,0,0,0.85)">
-                        <path d="M10.599 18.241l-.881-2.393s-1.43 1.596-3.572 1.596c-1.896 0-3.244-1.65-3.244-4.293 0-3.381 1.704-4.596 3.381-4.596 2.417 0 3.189 1.567 3.849 3.574l.881 2.669c.881 2.75 2.529 4.955 7.289 4.955 3.408 0 5.741-1.044 5.741-3.796 0-2.225-1.265-3.381-3.629-3.933l-1.757-.385c-1.21-.275-1.566-.77-1.566-1.595 0-.935.742-1.485 1.952-1.485 1.32 0 2.034.494 2.144 1.677l2.748-.33C23.697 7.596 22.211 6.33 19.16 6.33c-3.024 0-4.893 1.43-4.893 3.793 0 1.814.879 2.97 3.079 3.519l1.866.44c1.375.33 1.98.88 1.98 1.87 0 1.1-.99 1.54-2.858 1.54-2.75 0-3.908-1.456-4.573-3.463l-.908-2.696C12.111 8.22 10.432 6.33 6.88 6.33 2.86 6.33.5 8.834.5 13.261c0 4.267 2.2 6.44 5.907 6.44 3.052 0 4.192-1.46 4.192-1.46z"/>
-                    </svg>
-                </a>
-                <a href="https://instagram.com/seena.d2a" target="_blank" title="Instagram">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-                    </svg>
-                </a>
-            </div>
+                <div class="f-row">
+                    <label class="f-label" for="email">email</label>
+                    <input class="f-input" type="email" id="email" name="email" required>
+                </div>
+
+                <fieldset class="f-group">
+                    <legend class="f-legend">what days work</legend>
+                    <!-- TODO: swap in the real candidate dates -->
+                    <label class="f-check"><input type="checkbox" name="dates" value="Fri Oct 3"> wed oct 8</label>
+                    <label class="f-check"><input type="checkbox" name="dates" value="Sat Oct 4"> thurs oct 9</label>
+                    <label class="f-check"><input type="checkbox" name="dates" value="Sun Oct 5"> wed oct 14</label>
+                    <label class="f-check"><input type="checkbox" name="dates" value="Fri Oct 10"> thurs oct 15</label>
+                    <label class="f-check"><input type="checkbox" name="dates" value="Sat Oct 11"> sat oct 11</label>
+                </fieldset>
+
+                <fieldset class="f-group">
+                    <legend class="f-legend" style="text-align: center;">pick ur poison</legend>
+                    <div class="covers">
+
+                        <label class="cover">
+                            <input type="radio" name="movie" value="hobv" required>
+                            <span class="cover-title">hundreds of beavers</span>
+                            <span class="cover-art">
+                                <img src="img/hobv.png" alt="">
+                            </span>
+                        </label>
+
+                        <label class="cover">
+                            <input type="radio" name="movie" value="ntbtstm">
+                            <span class="cover-title">nirvanna the band the show the movie</span>
+                            <span class="cover-art cover-art--ntbtstm">
+                                <img src="img/ntbtstm.png" alt="">
+                            </span>
+                        </label>
+
+                    </div>
+                </fieldset>
+
+                <button class="f-submit" type="submit">send it</button>
+                <p class="f-status" id="form-status" role="status"></p>
+
+            </form>
+
+            
 
         </div>
     </div>
