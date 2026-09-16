@@ -12,7 +12,7 @@ Live: https://www.seena.design/events/  →  submitted.html on success
 - Catch Hook: `https://hooks.zapier.com/hooks/catch/26799192/4drdy7u/`
   (in `index.html`, const `HOOK_URL`)
 - Posts form-encoded (avoids a CORS preflight). Fields:
-  name, email, wed_oct_8 … wed_oct_28 (one per date, "yes"/""),
+  name, email, tues_oct_6 … wed_oct_28 (one per date, "yes"/""),
   would_pay, would_host, movie, movie_title, dates, submitted_at
 - Date column keys are derived from checkbox values at submit time, so
   adding a date row needs no code change — but the sheet header must match
